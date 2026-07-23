@@ -1,0 +1,11 @@
+{
+  "Id": "ReplayTestMod",
+  "DisplayName": "ReplayTestMod",
+  "Author": "Guru",
+  "Version": "1.0.0",
+  "ManagerVersion": "0.22.5.0",
+  "Requirements": [],
+  "LoadAfter": [],
+  "AssemblyName": "ReplayTestMod.dll",
+  "EntryMethod": "ReplayTestMod.Main.Load"
+}
