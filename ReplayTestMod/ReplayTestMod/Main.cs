@@ -42,6 +42,7 @@ namespace ReplayTestMod
         }
         private static void OnGUI(UnityModManager.ModEntry modEntry)
         {
+            /*
             GUILayout.BeginHorizontal();
             {
                 GUILayout.BeginVertical(GUILayout.MaxWidth(256));
@@ -84,6 +85,7 @@ namespace ReplayTestMod
                 GUILayout.EndVertical();
             }
             GUILayout.EndHorizontal();
+            */
         }
         private static void OnSaveGUI(UnityModManager.ModEntry modEntry)
         {
