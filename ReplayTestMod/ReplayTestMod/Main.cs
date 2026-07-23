@@ -19,6 +19,8 @@ namespace ReplayTestMod
         public static Settings settings;
         public static GameObject ScriptManager;
         public static CamNoiseController camNoiseController;
+        public static InputListener inputListener;
+        public static UIController uiController;
 
         public static bool Load(UnityModManager.ModEntry modEntry)
         {
@@ -42,6 +44,23 @@ namespace ReplayTestMod
         }
         private static void OnGUI(UnityModManager.ModEntry modEntry)
         {
+            GUILayout.BeginVertical(GUILayout.Width(284));
+            if (RGUI.Button(inputListener.changeHotKey, "Change HotKey"))
+            {
+                inputListener.changeHotKey = !inputListener.changeHotKey;
+            }
+            if (inputListener.changeHotKey)
+            {
+                GUILayout.Label("<b>Press any Key to change Noise HotKey</b>");
+                GUILayout.Box("<b>Current Noise HotKey: </b>" + settings.noiseHotkey.keyCode.ToString(""), GUILayout.Height(25f));
+                if (inputListener.GetCurrentKeyDown() != null)
+                {
+                    settings.noiseHotkey = new KeyBinding { keyCode = (KeyCode)inputListener.GetCurrentKeyDown() };
+                    Logger.Log("Noise Hot Key Changed to:" + settings.noiseHotkey.keyCode.ToString(""));
+                }
+            }
+            GUILayout.EndVertical();
+
             /*
             GUILayout.BeginHorizontal();
             {
@@ -107,6 +126,8 @@ namespace ReplayTestMod
 
                     ScriptManager = new GameObject("ReplayTestMod");
                     camNoiseController = ScriptManager.AddComponent<CamNoiseController>();
+                    inputListener = ScriptManager.AddComponent<InputListener>();
+                    uiController = ScriptManager.AddComponent<UIController>();
                     Object.DontDestroyOnLoad(ScriptManager);
 
                     AssetLoader.LoadBundles();

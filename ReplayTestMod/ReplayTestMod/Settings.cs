@@ -1,11 +1,16 @@
 ﻿using System;
 using UnityModManagerNet;
+using UnityEngine;
 
 namespace ReplayTestMod
 {
     [Serializable]
     public class Settings : UnityModManager.ModSettings
     {
+        public bool IsNoiseEnabled = true;
+
+        public KeyBinding noiseHotkey = new KeyBinding { keyCode = KeyCode.R };
+
         public float amplitude = 1.0f;
         public float frequency = 1.0f;
 

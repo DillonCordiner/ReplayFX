@@ -50,6 +50,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Desktop\XLrefernceDLLs\1.2.2.8\modio.UnityPlugin.dll</HintPath>
     </Reference>
+    <Reference Include="Rewired_Core">
+      <HintPath>..\..\..\..\Desktop\XLrefernceDLLs\1.2.2.8\Rewired_Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Rewired_Windows">
+      <HintPath>..\..\..\..\Desktop\XLrefernceDLLs\1.2.2.8\Rewired_Windows.dll</HintPath>
+    </Reference>
     <Reference Include="SkaterXL.Core">
       <HintPath>..\..\..\..\Desktop\XLrefernceDLLs\1.2.2.8\SkaterXL.Core.dll</HintPath>
     </Reference>
@@ -143,6 +149,7 @@
     <Compile Include="ReplayTestMod.Utils\KeyFrames\ImpulseKeyFrame.cs" />
     <Compile Include="ReplayTestMod.Utils\ResourceExtractor.cs" />
     <Compile Include="ReplayTestMod.Utils\UIExtentions.cs" />
+    <Compile Include="ReplayTestMod\InputListener.cs" />
     <Compile Include="ReplayTestMod\UIController.cs" />
     <Compile Include="ReplayTestMod\CamNoiseController.cs" />
     <Compile Include="ReplayTestMod\Settings.cs" />

@@ -153,5 +153,11 @@ namespace ReplayTestMod
         {
             noise.ReSeed();
         }
+
+        public void ToggleNoise(bool enabled)
+        {
+            noise.enabled = enabled;
+            Main.settings.IsNoiseEnabled = enabled;
+        }
     }
 }
