@@ -7,7 +7,7 @@ namespace ReplayTestMod
     [Serializable]
     public class Settings : UnityModManager.ModSettings
     {
-        public bool IsNoiseEnabled = true;
+        public bool enableNoise = true;
 
         public KeyBinding noiseHotkey = new KeyBinding { keyCode = KeyCode.R };
 

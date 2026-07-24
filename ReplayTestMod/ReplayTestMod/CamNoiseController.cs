@@ -19,7 +19,9 @@ namespace ReplayTestMod
 
         NoiseSettings blankProfile = new NoiseSettings();
 
-        public string targetProfile = "None";
+        private const string empty = "None";
+        public string targetProfile = empty;
+        private string currentProfile = empty;
 
         public string[] ProfileOptions = new string[] {
             "None",
@@ -44,6 +46,9 @@ namespace ReplayTestMod
 
         private void Update()
         {
+            if (noise == null)
+                return;
+
             UpdateProfile();
             UpdateValues();
             UpdatePivotOffset();
@@ -96,7 +101,7 @@ namespace ReplayTestMod
         }
         private NoiseSettings GetCurrentProfile()
         {
-            if (targetProfile == "None")
+            if (targetProfile == empty)
             {
                 if (noise.m_NoiseProfile != blankProfile)
                 {
@@ -114,18 +119,17 @@ namespace ReplayTestMod
         }
         private void UpdateProfile()
         {
-            if (noise.m_NoiseProfile != null && noise.m_NoiseProfile.name == targetProfile)
-            {
+            if (currentProfile == targetProfile)
                 return;
-            }
 
             NoiseSettings profile = GetCurrentProfile();
             LoadNoiseProfile(profile);
+            currentProfile = targetProfile;
             //SetImpulseListenerNoise(profile);
         }    
         private void UpdateValues()
         {
-            if (noise == null || targetProfile == "None")
+            if (noise.m_NoiseProfile.name == empty)
                 return;
 
             if (noise.m_AmplitudeGain != Main.settings.amplitude)
@@ -139,7 +143,7 @@ namespace ReplayTestMod
         }
         public void UpdatePivotOffset()
         {
-            if (noise == null || targetProfile == "None")
+            if (noise.m_NoiseProfile.name == empty)
                 return;
 
             if (noise.m_PivotOffset.x != Main.settings.offset_x ||
@@ -154,10 +158,9 @@ namespace ReplayTestMod
             noise.ReSeed();
         }
 
-        public void ToggleNoise(bool enabled)
+        public void ToggleNoise()
         {
-            noise.enabled = enabled;
-            Main.settings.IsNoiseEnabled = enabled;
+            noise.enabled = Main.settings.enableNoise;
         }
     }
 }

@@ -5,6 +5,7 @@ namespace ReplayTestMod.Utils
 {
     public static class NoiseUtils
     {
+        /*
         public static NoiseSettings CreateCustomNoiseProfile()
         {
             var noise = ScriptableObject.CreateInstance<NoiseSettings>();
@@ -51,5 +52,6 @@ namespace ReplayTestMod.Utils
 
             return noise;
         }
+        */
     }
 }
