@@ -22,6 +22,7 @@ namespace ReplayTestMod
         private const string empty = "None";
         public string targetProfile = empty;
         private string currentProfile = "";
+        private string storedProfile = empty;
 
         public string[] ProfileOptions = new string[] {
             "None",
@@ -37,6 +38,7 @@ namespace ReplayTestMod
 
         private void Start()
         {
+            blankProfile.name = empty;
             Vcam = GetVirtualCamera();
             AddNoiseToCamera();
             AddCameraExtensions();
@@ -101,12 +103,12 @@ namespace ReplayTestMod
         }
         private NoiseSettings GetCurrentProfile()
         {
+            if(noise == null)
+                return null;
+
             if (targetProfile == empty)
             {
-                if (noise.m_NoiseProfile != blankProfile)
-                {
-                    return blankProfile;
-                }
+                return blankProfile;
             }
             foreach (NoiseSettings profile in AssetLoader.noiseSettings)
             {
@@ -119,6 +121,12 @@ namespace ReplayTestMod
         }
         private void UpdateProfile()
         {
+            if (!Main.settings.enableNoise && targetProfile != empty)
+            {
+                targetProfile = empty;
+                return;
+            }
+
             if (currentProfile == targetProfile)
                 return;
 
@@ -160,7 +168,24 @@ namespace ReplayTestMod
 
         public void ToggleNoise()
         {
-            noise.enabled = Main.settings.enableNoise;
+            //noise.enabled = Main.settings.enableNoise;
+            Main.settings.enableNoise = !Main.settings.enableNoise;
+
+            switch (Main.settings.enableNoise)
+            {
+                case true:
+                    if (targetProfile != storedProfile)
+                    {
+                        targetProfile = storedProfile;
+                    }
+                    break;
+
+                case false:
+                    storedProfile = GetCurrentProfile().name;
+                    targetProfile = empty;
+                    break;
+
+            }
         }
     }
 }

@@ -48,12 +48,10 @@ namespace ReplayTestMod
         {
             if (Input.GetKeyDown(Main.settings.noiseHotkey.keyCode))
             {
-                Main.settings.enableNoise = !Main.settings.enableNoise;
                 Main.camNoiseController.ToggleNoise();
             }
             else if (PlayerController.Instance.inputController.player.GetButtonShortPressDown("LB") && PlayerController.Instance.inputController.player.GetButtonShortPressDown("RB"))
             {
-                Main.settings.enableNoise = !Main.settings.enableNoise;
                 Main.camNoiseController.ToggleNoise();
             }
         }

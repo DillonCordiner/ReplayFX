@@ -120,12 +120,13 @@ namespace ReplayTestMod
             GUILayout.Label($"ReplayTestMod");
             GUILayout.Space(8f);
         }
-
+        /*
         private void CameraShakeButton()
         {
             Main.settings.enableNoise = !Main.settings.enableNoise;
             Main.camNoiseController.ToggleNoise();
         }
+        */
         private void CameraUI()
         {
             Tabs(Camera_Tab, UIextensions.TabColorSwitch(Camera_Tab));
@@ -137,11 +138,18 @@ namespace ReplayTestMod
                 GUILayout.BeginVertical();
                 {
                     GUILayout.Label("Camera Shake");
-                    UIextensions.FlexableButton(Main.settings.enableNoise ? "<b> Enabled </b>" : "<b><color=#171717> Disabled </color></b>", CameraShakeButton, Color.white);
+                    UIextensions.FlexableButton(Main.settings.enableNoise ? "<b> Enabled </b>" : "<b><color=#171717> Disabled </color></b>", Main.camNoiseController.ToggleNoise, Color.white);
 
                     GUILayout.Space(6f);
                     GUILayout.Label("Camera Profile");
-                    Main.camNoiseController.targetProfile = RGUI.SelectionPopup(Main.camNoiseController.targetProfile, Main.camNoiseController.ProfileOptions);
+                    if (Main.settings.enableNoise)
+                    {
+                        Main.camNoiseController.targetProfile = RGUI.SelectionPopup(Main.camNoiseController.targetProfile, Main.camNoiseController.ProfileOptions);
+                    }
+                    else
+                    {
+                        GUILayout.Label("<b><color=#171717> Disabled </color></b>");
+                    }
                     GUILayout.Space(6f);
                     Main.settings.amplitude = RGUI.SliderFloat(Main.settings.amplitude, 0.0f, 10.0f, 1.0f, 82, "Amplitude");
                     GUILayout.Space(4f);
