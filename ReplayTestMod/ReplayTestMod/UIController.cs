@@ -66,7 +66,7 @@ namespace ReplayTestMod
 
         private void InputSwitch()
         {
-            if ((Input.GetKey(KeyCode.LeftControl) | Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.R))
+            if ((Input.GetKey(KeyCode.LeftControl) | Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(Main.settings.noiseHotkey.keyCode))
             {
                 ToggleUI();
             }

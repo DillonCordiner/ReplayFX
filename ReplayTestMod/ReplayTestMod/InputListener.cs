@@ -3,6 +3,8 @@ using UnityModManagerNet;
 using UnityEngine;
 using Rewired;
 using System.Linq;
+using GameManagement;
+using MapEditor;
 
 namespace ReplayTestMod
 {
@@ -46,13 +48,21 @@ namespace ReplayTestMod
 
         public void Update()
         {
-            if (Input.GetKeyDown(Main.settings.noiseHotkey.keyCode))
+            GameState currentState = GameStateMachine.Instance.CurrentState;
+
+            if ((currentState is ReplayState) || (currentState is PlayState))
             {
-                Main.camNoiseController.ToggleNoise();
+                if (Input.GetKeyDown(Main.settings.noiseHotkey.keyCode))
+                {
+                    Main.camNoiseController.ToggleNoise();
+                }
             }
-            else if (PlayerController.Instance.inputController.player.GetButtonShortPressDown("LB") && PlayerController.Instance.inputController.player.GetButtonShortPressDown("RB"))
+            if ((currentState is ReplayState))
             {
-                Main.camNoiseController.ToggleNoise();
+                if (RewiredInput.PrimaryPlayer.GetButtonSinglePressHold("Left Stick Button"))
+                {
+                    Main.camNoiseController.ToggleNoise();
+                }
             }
         }
     }

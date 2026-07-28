@@ -121,11 +121,13 @@ namespace ReplayTestMod
         }
         private void UpdateProfile()
         {
+            /*
             if (!Main.settings.enableNoise && targetProfile != empty)
             {
                 targetProfile = empty;
                 return;
             }
+            */
 
             if (currentProfile == targetProfile)
                 return;
