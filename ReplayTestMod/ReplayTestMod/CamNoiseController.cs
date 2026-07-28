@@ -21,7 +21,7 @@ namespace ReplayTestMod
 
         private const string empty = "None";
         public string targetProfile = empty;
-        private string currentProfile = empty;
+        private string currentProfile = "";
 
         public string[] ProfileOptions = new string[] {
             "None",
