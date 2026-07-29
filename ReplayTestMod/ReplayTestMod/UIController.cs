@@ -185,6 +185,8 @@ namespace ReplayTestMod
                     UIextensions.CenteredLabel("Impluse KeyFrames");
                     GUILayout.Space(6f);
                     UIextensions.FlexableButton("Create Impluse KeyFrame", KeyFrameHelper.AddImpluseKeyFrame, Color.white);
+                    GUILayout.Space(6f);
+                    UIextensions.FlexableButton("Test Impulse", Main.camNoiseController.GenerateImpluse, Color.white);
 
                     GUILayout.Space(8f);
 

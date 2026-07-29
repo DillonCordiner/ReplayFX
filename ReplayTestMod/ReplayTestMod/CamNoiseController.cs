@@ -44,6 +44,7 @@ namespace ReplayTestMod
             AddCameraExtensions();
 
             impulseSource = gameObject.AddComponent<CinemachineImpulseSource>();
+            SetUpImpulseSourse(impulseSource);
         }
 
         private void Update()
@@ -79,9 +80,10 @@ namespace ReplayTestMod
                 Main.Logger.Log("CinemachineVirtualCamera is missing.");
                 return;
             }
-            //Vcam.AddExtension(impulseListener);
+            Vcam.AddExtension(impulseListener);
             impulseListener = Vcam.gameObject.AddComponent<CinemachineImpulseListener>();
-            SetImpulseListenerNoise(AssetLoader.noiseSettings[1]);
+            impulseListener.m_Gain = 1f;
+            impulseListener.m_ChannelMask = 1;
         }
         private void AddNoiseToCamera()
         {
@@ -93,9 +95,17 @@ namespace ReplayTestMod
 
             noise = Vcam.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         }
-        private void SetImpulseListenerNoise(NoiseSettings noise)
+        private void SetUpImpulseSourse(CinemachineImpulseSource source)
         {
-            FieldUtil.SetPrivateField(impulseListener, "m_SecondaryNoise", noise);
+            NoiseSettings generated6DShake = NoiseUtils.Create6DShakeProfile();
+            source.m_ImpulseDefinition.m_RawSignal = generated6DShake;
+            source.m_ImpulseDefinition.m_AmplitudeGain = 2f;
+            source.m_ImpulseDefinition.m_FrequencyGain = 2f;
+            source.m_ImpulseDefinition.m_ImpactRadius = 100f;
+            source.m_ImpulseDefinition.m_TimeEnvelope.m_AttackTime = 0.1f;
+            source.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime = 0.2f;
+            source.m_ImpulseDefinition.m_ImpulseChannel = 1;
+            source.m_ImpulseDefinition.m_PropagationSpeed = 50000f;
         }
         public void LoadNoiseProfile(NoiseSettings noiseProfile)
         {
@@ -121,21 +131,13 @@ namespace ReplayTestMod
         }
         private void UpdateProfile()
         {
-            /*
-            if (!Main.settings.enableNoise && targetProfile != empty)
-            {
-                targetProfile = empty;
-                return;
-            }
-            */
-
             if (currentProfile == targetProfile)
                 return;
 
             NoiseSettings profile = GetCurrentProfile();
             LoadNoiseProfile(profile);
             currentProfile = targetProfile;
-            //SetImpulseListenerNoise(profile);
+
         }    
         private void UpdateValues()
         {
@@ -188,6 +190,10 @@ namespace ReplayTestMod
                     break;
 
             }
+        }
+        public void GenerateImpluse()
+        {
+            impulseSource.GenerateImpulse(Vector3.down);
         }
     }
 }

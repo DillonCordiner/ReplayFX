@@ -22,7 +22,7 @@ namespace ReplayTestMod.Utils
         public override void ApplyTo(CinemachineVirtualCamera camera)
         {
             //camera.GetComponent<CinemachineImpulseSource>().GenerateImpulse();
-            impulseSource.GenerateImpulse();
+            impulseSource.GenerateImpulse(Vector3.down);
 
             Main.Logger.Log("ImpulseKeyFrame: Apply To Called");
         }
@@ -37,9 +37,9 @@ namespace ReplayTestMod.Utils
 
         public override void Update(Transform cameraTransform, float t)
         {
-            impulseSource.GenerateImpulse();
+            //impulseSource.GenerateImpulse();
 
-            Main.Logger.Log("ImpulseKeyFrame: Update Called");
+            //Main.Logger.Log("ImpulseKeyFrame: Update Called");
         }
     }
 }
