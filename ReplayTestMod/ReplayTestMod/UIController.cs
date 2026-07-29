@@ -186,6 +186,8 @@ namespace ReplayTestMod
                     GUILayout.Space(6f);
                     UIextensions.FlexableButton("Create Impluse KeyFrame", KeyFrameHelper.AddImpluseKeyFrame, Color.white);
                     GUILayout.Space(6f);
+                    Main.settings.impulseForce = RGUI.SliderFloat(Main.settings.impulseForce, 0.0f, 10.0f, 1.0f, 72, "Impulse Force");
+                    GUILayout.Space(8f);
                     UIextensions.FlexableButton("Test Impulse", Main.camNoiseController.GenerateImpluse, Color.white);
 
                     GUILayout.Space(8f);

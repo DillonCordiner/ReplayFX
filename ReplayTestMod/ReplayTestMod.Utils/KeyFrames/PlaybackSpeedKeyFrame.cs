@@ -41,8 +41,7 @@ namespace ReplayTestMod.Utils
 
         public override void Update(Transform cameraTransform, float t)
         {
-            Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(this.playbackSpeed);
-
+            //Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(this.playbackSpeed);
             Main.Logger.Log("PlayBackSpeedKeyFrame: Update");
         }
     }

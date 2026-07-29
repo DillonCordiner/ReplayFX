@@ -21,6 +21,7 @@ namespace ReplayTestMod
         public static CamNoiseController camNoiseController;
         public static InputListener inputListener;
         public static UIController uiController;
+        public static TimelineManager timelineManager;
 
         public static bool Load(UnityModManager.ModEntry modEntry)
         {
@@ -128,6 +129,7 @@ namespace ReplayTestMod
                     camNoiseController = ScriptManager.AddComponent<CamNoiseController>();
                     inputListener = ScriptManager.AddComponent<InputListener>();
                     uiController = ScriptManager.AddComponent<UIController>();
+                    timelineManager = ScriptManager.AddComponent<TimelineManager>();
                     Object.DontDestroyOnLoad(ScriptManager);
 
                     AssetLoader.LoadBundles();

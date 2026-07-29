@@ -153,6 +153,7 @@
     <Compile Include="ReplayTestMod.Utils\ResourceExtractor.cs" />
     <Compile Include="ReplayTestMod.Utils\UIExtentions.cs" />
     <Compile Include="ReplayTestMod\InputListener.cs" />
+    <Compile Include="ReplayTestMod\TimeLineManager.cs" />
     <Compile Include="ReplayTestMod\UIController.cs" />
     <Compile Include="ReplayTestMod\CamNoiseController.cs" />
     <Compile Include="ReplayTestMod\Settings.cs" />

@@ -42,9 +42,7 @@ namespace ReplayTestMod
             Vcam = GetVirtualCamera();
             AddNoiseToCamera();
             AddCameraExtensions();
-
-            impulseSource = gameObject.AddComponent<CinemachineImpulseSource>();
-            SetUpImpulseSourse(impulseSource);
+            AddImpulseSource();
         }
 
         private void Update()
@@ -95,17 +93,28 @@ namespace ReplayTestMod
 
             noise = Vcam.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         }
+        private void AddImpulseSource()
+        {
+            if (Vcam != null)
+            {
+                impulseSource = Vcam.gameObject.AddComponent<CinemachineImpulseSource>();
+                if (impulseSource != null)
+                {
+                    SetUpImpulseSourse(impulseSource);
+                }
+            }
+        }
         private void SetUpImpulseSourse(CinemachineImpulseSource source)
         {
             NoiseSettings generated6DShake = NoiseUtils.Create6DShakeProfile();
             source.m_ImpulseDefinition.m_RawSignal = generated6DShake;
             source.m_ImpulseDefinition.m_AmplitudeGain = 2f;
-            source.m_ImpulseDefinition.m_FrequencyGain = 2f;
+            source.m_ImpulseDefinition.m_FrequencyGain = 3f;
             source.m_ImpulseDefinition.m_ImpactRadius = 100f;
-            source.m_ImpulseDefinition.m_TimeEnvelope.m_AttackTime = 0.1f;
+            source.m_ImpulseDefinition.m_TimeEnvelope.m_AttackTime = 0.0f;
             source.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime = 0.2f;
             source.m_ImpulseDefinition.m_ImpulseChannel = 1;
-            source.m_ImpulseDefinition.m_PropagationSpeed = 50000f;
+            source.m_ImpulseDefinition.m_PropagationSpeed = float.MaxValue;
         }
         public void LoadNoiseProfile(NoiseSettings noiseProfile)
         {
@@ -193,7 +202,7 @@ namespace ReplayTestMod
         }
         public void GenerateImpluse()
         {
-            impulseSource.GenerateImpulse(Vector3.down);
+            impulseSource.GenerateImpulse(Main.settings.impulseForce);
         }
     }
 }

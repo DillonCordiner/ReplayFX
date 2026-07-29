@@ -12,34 +12,39 @@ namespace ReplayTestMod.Utils
     public class ImpulseKeyFrame : KeyFrame
     {
         private CinemachineImpulseSource impulseSource;
+        private float force;
 
-        public ImpulseKeyFrame(CinemachineImpulseSource newimpulseSource, float currenttime)
+        public ImpulseKeyFrame(CinemachineImpulseSource newimpulseSource, float impulseForce ,float currenttime)
         {
             impulseSource = newimpulseSource;
             time = currenttime;
+            force = impulseForce;
         }
-
+        public void TriggerImpulse()
+        {
+            if (impulseSource != null)
+            {
+                impulseSource.GenerateImpulse(force);
+                Main.Logger.Log($"Impulse triggered at time: {time}");
+            }
+        }
         public override void ApplyTo(CinemachineVirtualCamera camera)
         {
-            //camera.GetComponent<CinemachineImpulseSource>().GenerateImpulse();
-            impulseSource.GenerateImpulse(Vector3.down);
-
-            Main.Logger.Log("ImpulseKeyFrame: Apply To Called");
+            TriggerImpulse();
+            Main.Logger.Log("ImpulseKeyFrame: ApplyTo Called");
         }
-       
+
         public override void AddKeyframes(CameraCurve cameraCurve)
         {
-            //cameraCurve.freeCamCurve.InsertCurveKey(1.0f, this.time);
-            cameraCurve.CalculateCurveControlPoints();
-
+            // Leave empty. An impulse shouldn't change the camera's X/Y/Z spline path.
+            //cameraCurve.CalculateCurveControlPoints();
             Main.Logger.Log("ImpulseKeyFrame: Add Key Frame Called");
         }
 
         public override void Update(Transform cameraTransform, float t)
         {
-            //impulseSource.GenerateImpulse();
-
-            //Main.Logger.Log("ImpulseKeyFrame: Update Called");
+            //impulseSource.GenerateImpulse(Vector3.down);
+            Main.Logger.Log("ImpulseKeyFrame: Update Called");
         }
     }
 }

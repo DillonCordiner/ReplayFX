@@ -49,13 +49,22 @@ namespace ReplayTestMod.Utils
             KeyFrame keyFrame;
 
             //keyFrame = new FreeCameraKeyFrame(copy.transform, Main.settings.keyframe_fov, time);
-            keyFrame = new ImpulseKeyFrame(impulseSource, time);
-            keyFrame.AddKeyframes(ReplayEditorController.Instance.cameraController.cameraCurve);
+            keyFrame = new ImpulseKeyFrame(impulseSource, Main.settings.impulseForce, time);
+            //keyFrame.AddKeyframes(ReplayEditorController.Instance.cameraController.cameraCurve);
+            keyFrame.ApplyTo(ReplayEditorController.Instance.cameraController.VirtualCamera);
+            //keyFrame.Update(ReplayEditorController.Instance.cameraController.VirtualCamera.transform, time);
             ReplayEditorController.Instance.cameraController.keyFrames.Insert(index, keyFrame);
 
             Main.Logger.Log("Impulse KeyFrame added at: " + time);
         }
+        private static int FindKeyFrameInsertIndex(float time)
+        {
+            var keyFrames = ReplayEditorController.Instance.cameraController.keyFrames;
+            int index = keyFrames.FindIndex(k => k.time > time);
+            return index == -1 ? keyFrames.Count : index;
+        }
 
+        /*
         private static int FindKeyFrameInsertIndex(float time)
         {
             if (ReplayEditorController.Instance.cameraController.keyFrames.Count == 0)
@@ -79,5 +88,6 @@ namespace ReplayTestMod.Utils
             }
             return ReplayEditorController.Instance.cameraController.keyFrames.Count;
         }
+        */
     }
 }
