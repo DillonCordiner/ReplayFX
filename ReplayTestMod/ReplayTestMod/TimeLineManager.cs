@@ -102,19 +102,13 @@ namespace ReplayTestMod
         private bool HasPlayBackKeys()
         {
             bool hasPlaybackKeys = false;
-            foreach (var keyframe in ReplayEditorController.Instance.cameraController.keyFrames)
+            if (CurveUtil.playbackSpeedCurve.Keys.Count > 0)
             {
-                if (keyframe is PlaybackSpeedKeyFrame)
-                {
-                    hasPlaybackKeys = true;
-                    return hasPlaybackKeys;
-                }
-                //if (keyframe.GetType() == typeof(PlaybackSpeedKeyFrame))
-                //{
-                //    return hasPlaybackKeys;
-                //}
+                hasPlaybackKeys = true;
+                return hasPlaybackKeys;
             }
             return hasPlaybackKeys;
+            
         }
         private void UpdatePlayBackKeys(float currentTime)
         {
