@@ -144,8 +144,8 @@
     <Compile Include="RapidGUI\Utilities\WarningLabelNoStyle.cs" />
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
     <Compile Include="ReplayTestMod.Utils\AssetLoader.cs" />
-    <Compile Include="ReplayTestMod.Utils\KeyFrames\CustomCameraCurve.cs" />
-    <Compile Include="ReplayTestMod.Utils\FieldUtil.cs" />
+    <Compile Include="ReplayTestMod.Utils\CurveUtil.cs" />
+    <Compile Include="ReplayTestMod.Utils\PrivateFieldUtil.cs" />
     <Compile Include="ReplayTestMod.Utils\NoiseUtils.cs" />
     <Compile Include="ReplayTestMod.Utils\KeyFrames\PlaybackSpeedKeyFrame.cs" />
     <Compile Include="ReplayTestMod.Utils\KeyFrames\KeyFrameHelper.cs" />

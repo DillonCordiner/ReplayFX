@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using RapidGUI;
 using ReplayEditor;
 using ReplayTestMod;
 using ReplayTestMod.Utils;
@@ -34,8 +35,8 @@ namespace ReplayTestMod.Utils
             KeyFrame keyFrame;
 
             keyFrame = new PlaybackSpeedKeyFrame(playbackspeed, time);
-            //keyFrame.AddKeyframes(ReplayEditorController.Instance.cameraController.cameraCurve);
-            keyFrame.AddKeyframes(Main.camNoiseController.customCurve);
+            keyFrame.AddKeyframes(ReplayEditorController.Instance.cameraController.cameraCurve);
+            //keyFrame.AddKeyframes(Main.camNoiseController.customCurve);
             ReplayEditorController.Instance.cameraController.keyFrames.Insert(index, keyFrame);
 
             Main.Logger.Log("PlayBack KeyFrame added at: " + time);

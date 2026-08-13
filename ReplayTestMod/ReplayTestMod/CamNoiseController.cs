@@ -15,7 +15,7 @@ namespace ReplayTestMod
         CinemachineBasicMultiChannelPerlin noise;
         CinemachineImpulseListener impulseListener;
         public CinemachineImpulseSource impulseSource;
-        public CustomCameraCurve customCurve = new CustomCameraCurve();
+        //public CustomCameraCurve customCurve = new CustomCameraCurve();
 
         NoiseSettings blankProfile = new NoiseSettings();
 

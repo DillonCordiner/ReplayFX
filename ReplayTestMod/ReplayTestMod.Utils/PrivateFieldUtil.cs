@@ -2,7 +2,7 @@
 
 namespace ReplayTestMod.Utils
 {
-    public static class FieldUtil
+    public static class PrivateFieldUtil
     {
         public static void SetPrivateField(object target, string fieldName, object value)
         {

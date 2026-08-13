@@ -1,13 +1,33 @@
 ﻿using ReplayEditor;
 using UnityEngine;
 using ReplayTestMod.Utils;
+using System.Reflection;
+using HarmonyLib;
+using GameManagement;
 
 namespace ReplayTestMod
 {
+    [DefaultExecutionOrder(9999)]
     public class TimelineManager : MonoBehaviour
     {
         private float lastPlaybackTime = -1f;
 
+        //private FieldInfo playbackSpeedField;
+
+        private bool PlaybackOverwritten = false;
+
+        private void Start()
+        {
+            /*
+            playbackSpeedField = typeof(ReplayEditorController).GetField("playbackSpeed", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+
+            if (playbackSpeedField == null)
+            {
+                Main.Logger.Log("Error: Could not find the private playback speed field via Reflection.");
+            }
+            */
+        }
+        /*
         void Update()
         {
             ReplayEditorController replayEditor = ReplayEditorController.Instance;
@@ -23,6 +43,34 @@ namespace ReplayTestMod
 
             float currentTime = replayEditor.PlaybackTime;
 
+            Updatekeys(replayEditor, currentTime);
+            //UpdatePlayBackSpeedKeys(replayEditor, currentTime);
+
+        }
+        */
+        void LateUpdate()
+        {
+            ReplayEditorController replayEditor = ReplayEditorController.Instance;
+
+            if (replayEditor == null || replayEditor.cameraController == null)
+                return;
+
+            if (!replayEditor.cameraController.CamFollowKeyFrames)
+            {
+                lastPlaybackTime = replayEditor.PlaybackTime;
+                return;
+            }
+
+            float currentTime = replayEditor.PlaybackTime;
+
+            Updatekeys(replayEditor, currentTime);
+            UpdatePlayBackKeys(currentTime); // curently not working
+            //SetPlayBackSpeed(currentTime);
+        }
+
+
+        private void Updatekeys(ReplayEditorController replayEditor, float currentTime)
+        {
             if (Mathf.Abs(currentTime - lastPlaybackTime) > 0.5f)
             {
                 lastPlaybackTime = currentTime;
@@ -35,11 +83,65 @@ namespace ReplayTestMod
                 {
                     if (lastPlaybackTime <= impulseKey.time && currentTime > impulseKey.time)
                     {
-                        impulseKey.TriggerImpulse();
+                        impulseKey.TriggerKeyFrame();
                     }
                 }
+                /*
+                else if (keyframe is PlaybackSpeedKeyFrame playbackspeedKey)
+                {
+                    if (lastPlaybackTime <= playbackspeedKey.time && currentTime > playbackspeedKey.time)
+                    {
+                        playbackspeedKey.TriggerKeyFrame();
+                    }
+                }
+                */
             }
             lastPlaybackTime = currentTime;
+        }
+        
+        private bool HasPlayBackKeys()
+        {
+            bool hasPlaybackKeys = false;
+            foreach (var keyframe in ReplayEditorController.Instance.cameraController.keyFrames)
+            {
+                if (keyframe is PlaybackSpeedKeyFrame)
+                {
+                    hasPlaybackKeys = true;
+                    return hasPlaybackKeys;
+                }
+                //if (keyframe.GetType() == typeof(PlaybackSpeedKeyFrame))
+                //{
+                //    return hasPlaybackKeys;
+                //}
+            }
+            return hasPlaybackKeys;
+        }
+        private void UpdatePlayBackKeys(float currentTime)
+        {
+            if (HasPlayBackKeys())
+            {
+                SetPlayBackSpeed(currentTime);
+                PlaybackOverwritten = true;
+            }
+            else
+            {
+                if (PlaybackOverwritten)
+                {
+                    //Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(1.0f);
+                    //ReplayEditorController.Instance.cameraController.cameraCurve.Refresh(ReplayEditorController.Instance.cameraController.keyFrames); // Refresh original curves
+                    //CurveUtil.playbackSpeedCurve.Clear();
+                    PlaybackOverwritten = false;
+                }
+            }
+        }
+
+        private void SetPlayBackSpeed(float currentTime)
+        {
+            if (CurveUtil.playbackSpeedCurve != null)
+            {
+                float interpolatedSpeed = CurveUtil.playbackSpeedCurve.Evaluate(currentTime);
+                Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(interpolatedSpeed);
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ namespace ReplayTestMod.Utils
             time = currenttime;
             force = impulseForce;
         }
-        public void TriggerImpulse()
+        public void TriggerKeyFrame()
         {
             if (impulseSource != null)
             {
@@ -30,7 +30,7 @@ namespace ReplayTestMod.Utils
         }
         public override void ApplyTo(CinemachineVirtualCamera camera)
         {
-            TriggerImpulse();
+            TriggerKeyFrame();
             Main.Logger.Log("ImpulseKeyFrame: ApplyTo Called");
         }
 
