@@ -117,6 +117,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ReplayTestMod.Patches\XXLModReplayPatch.cs" />
     <Compile Include="ReplayTestMod.Patches\CameraCurvePatch.cs" />
     <Compile Include="RapidGUI\Button.cs" />
     <Compile Include="RapidGUI\Field.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
     <Compile Include="ReplayTestMod.Utils\AssetLoader.cs" />
     <Compile Include="ReplayTestMod.Utils\CurveUtil.cs" />
+    <Compile Include="ReplayTestMod.Utils\ModCheckUtil.cs" />
     <Compile Include="ReplayTestMod.Utils\PrivateFieldUtil.cs" />
     <Compile Include="ReplayTestMod.Utils\NoiseUtils.cs" />
     <Compile Include="ReplayTestMod.Utils\KeyFrames\PlaybackSpeedKeyFrame.cs" />

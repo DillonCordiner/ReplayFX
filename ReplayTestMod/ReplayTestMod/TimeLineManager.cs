@@ -11,21 +11,11 @@ namespace ReplayTestMod
     public class TimelineManager : MonoBehaviour
     {
         private float lastPlaybackTime = -1f;
-
-        //private FieldInfo playbackSpeedField;
-
         private bool PlaybackOverwritten = false;
 
         private void Start()
         {
-            /*
-            playbackSpeedField = typeof(ReplayEditorController).GetField("playbackSpeed", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
-
-            if (playbackSpeedField == null)
-            {
-                Main.Logger.Log("Error: Could not find the private playback speed field via Reflection.");
-            }
-            */
+            ModCheckUtil.CheckForXXLMod();
         }
         /*
         void Update()
