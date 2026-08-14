@@ -36,7 +36,8 @@ namespace ReplayTestMod.Patches
         static void Postfix(CameraCurve __instance, int i, bool refreshDirectly)
         {
             CurveUtil.playbackSpeedCurve.DeleteCurveKey(i, refreshDirectly);
-            CurveUtil.ClearCurveKeys();
+            CurveUtil.Refresh();
+
         }
     }
 }
