@@ -171,6 +171,10 @@ namespace ReplayTestMod
             }
             GUILayout.EndHorizontal();
         }
+        public static void DeletePlaybackKeys()
+        {
+            CurveUtil.ClearCurveKeys();
+        }
         private void KeyFrameUI()
         {
             Tabs(KeyFrame_Tab, UIextensions.TabColorSwitch(KeyFrame_Tab));
@@ -184,23 +188,31 @@ namespace ReplayTestMod
                     UIextensions.FlexableButton("Refresh Timeline", CurveUtil.Refresh, Color.white);
                     GUILayout.Space(8f);
 
-                    UIextensions.CenteredLabel("Impluse KeyFrames");
-                    GUILayout.Space(6f);
-                    UIextensions.FlexableButton("Create Impluse KeyFrame", KeyFrameHelper.AddImpluseKeyFrame, Color.white);
-                    GUILayout.Space(6f);
-                    Main.settings.impulseForce = RGUI.SliderFloat(Main.settings.impulseForce, 0.0f, 10.0f, 1.0f, 72, "Impulse Force");
-                    GUILayout.Space(8f);
-                    UIextensions.FlexableButton("Test Impulse", Main.camNoiseController.GenerateImpluse, Color.white);
+                    GUILayout.BeginVertical("Box");
+                    {
+                        UIextensions.CenteredLabel("Impluse KeyFrames");
+                        GUILayout.Space(6f);
+                        UIextensions.FlexableButton("Create Impluse KeyFrame", KeyFrameHelper.AddImpluseKeyFrame, Color.white);
+                        GUILayout.Space(6f);
+                        Main.settings.impulseForce = RGUI.SliderFloat(Main.settings.impulseForce, 0.0f, 10.0f, 1.0f, 72, "Impulse Force");
+                        GUILayout.Space(8f);
+                        UIextensions.FlexableButton("Test Impulse", Main.camNoiseController.GenerateImpluse, Color.white);
+                    }
+                    GUILayout.EndVertical();
 
                     GUILayout.Space(8f);
 
-                    UIextensions.CenteredLabel("PlayBack KeyFrames");
-                    GUILayout.Space(6f);
-                    UIextensions.FlexableButton("Create PlayBack KeyFrame", KeyFrameHelper.AddPlayBackKeyFrame, Color.white);
-                    GUILayout.Space(4f);
-                    Main.settings.playBackSpeed = RGUI.SliderFloat(Main.settings.playBackSpeed, 0.0f, 2.0f, 1.0f, 72, "PlayBack Speed");
-                    GUILayout.Space(6f);
-                    UIextensions.FlexableButton("Delete All PlayBack Speed Keys", KeyFrameHelper.DeleteAllPlaybackKeys, Color.white);
+                    GUILayout.BeginVertical("Box");
+                    {
+                        UIextensions.CenteredLabel("PlayBack KeyFrames");
+                        GUILayout.Space(6f);
+                        UIextensions.FlexableButton("Create PlayBack KeyFrame", KeyFrameHelper.AddPlayBackKeyFrame, Color.white);
+                        GUILayout.Space(4f);
+                        Main.settings.playBackSpeed = RGUI.SliderFloat(Main.settings.playBackSpeed, 0.0f, 2.0f, 1.0f, 72, "PlayBack Speed");
+                        GUILayout.Space(6f);
+                        UIextensions.FlexableButton("Delete All PlayBack Speed Keys", DeletePlaybackKeys, Color.white);
+                    }
+                    GUILayout.EndVertical();
                 }
                 GUILayout.EndVertical();
             }

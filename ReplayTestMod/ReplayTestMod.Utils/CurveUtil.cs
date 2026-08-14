@@ -18,14 +18,7 @@ namespace ReplayTestMod.Utils
         public static void ClearCurveKeys()
         {
             playbackSpeedCurve.Clear();
-            foreach (var keyframe in ReplayEditorController.Instance.cameraController.keyFrames)
-            {
-                if (keyframe is PlaybackSpeedKeyFrame)
-                {
-                    ReplayEditorController.Instance.cameraController.keyFrames.Remove(keyframe);
-                }
-            }
-            playbackSpeedCurve.Clear();
+            KeyFrameHelper.RemovePlayBackKeyFrames();
             Refresh();
         }
         public static void Refresh()

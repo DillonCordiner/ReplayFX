@@ -7,6 +7,7 @@ using ReplayTestMod.Utils;
 
 namespace ReplayTestMod.Patches
 {
+    /*
     [HarmonyPatch(typeof(CameraCurve), "CalculateCurveControlPoints")]
     public static class CameraCurveControlPointPatch
     {
@@ -26,6 +27,7 @@ namespace ReplayTestMod.Patches
             //CurveUtil.playbackSpeedCurve.Clear();
         }
     }
+    */
 
     [HarmonyPatch(typeof(CameraCurve), "DeleteCurveKeys")]
     public static class CameraCurveDeleteCurvePatch
@@ -33,19 +35,8 @@ namespace ReplayTestMod.Patches
         [HarmonyPostfix]
         static void Postfix(CameraCurve __instance, int i, bool refreshDirectly)
         {
-            //CurveUtil.playbackSpeedCurve.DeleteCurveKey(i, refreshDirectly);
             CurveUtil.playbackSpeedCurve.DeleteCurveKey(i, refreshDirectly);
             CurveUtil.ClearCurveKeys();
-            /*
-            if (!Main.timelineManager.HasPlayBackKeys())
-            {
-                CurveUtil.playbackSpeedCurve.Clear();
-            }
-            else
-            {
-                //CurveUtil.playbackSpeedCurve.CalculateCurveControlPoints();
-            }
-            */
         }
     }
 }

@@ -16,13 +16,13 @@ namespace ReplayTestMod
 
         private void Start()
         {
-            /*
+            
             ModCheckUtil.CheckForXXLMod();
             if (ModCheckUtil.IsXXLModInstalled)
             {
                 XXLModExtention.GetXXLModSettings();
             }
-            */
+            
         }
         /*
         void Update()
@@ -117,7 +117,14 @@ namespace ReplayTestMod
             {
                 if (PlaybackOverwritten)
                 {
-                    Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(1.0f);
+                    if (ModCheckUtil.IsXXLModInstalled)
+                    {
+                        XXLModExtention.RestoreOriginalSpeed();
+                    }
+                    else
+                    {
+                        Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(1.0f);
+                    }
                     CurveUtil.ClearCurveKeys();
                     //ReplayEditorController.Instance.cameraController.cameraCurve.Refresh(ReplayEditorController.Instance.cameraController.keyFrames); // Refresh original curves
                     //CurveUtil.playbackSpeedCurve.Clear();
@@ -130,9 +137,17 @@ namespace ReplayTestMod
         {
             if (CurveUtil.playbackSpeedCurve != null)
             {
-                float interpolatedSpeed = CurveUtil.playbackSpeedCurve.Evaluate(currentTime);
-                //float interpolatedSpeed = CurveUtil.EvaluatePlaybackSpeed(currentTime);
-                Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(interpolatedSpeed);
+                //float interpolatedSpeed = CurveUtil.playbackSpeedCurve.Evaluate(currentTime);
+                float interpolatedSpeed = CurveUtil.EvaluatePlaybackSpeed(currentTime);
+
+                if (ModCheckUtil.IsXXLModInstalled)
+                {
+                    XXLModExtention.SetXXLSpeed(interpolatedSpeed);
+                }
+                else
+                {
+                    Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(interpolatedSpeed);
+                }
             }
         }
     }
