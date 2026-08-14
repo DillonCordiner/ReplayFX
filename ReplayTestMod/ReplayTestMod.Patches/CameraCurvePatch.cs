@@ -29,6 +29,19 @@ namespace ReplayTestMod.Patches
     }
     */
 
+    [HarmonyPatch(typeof(CameraCurve), "Refresh")]
+    public static class CameraCurveRefreshPatch
+    {
+        static void Prefix()
+        {
+            // Wipe the stale data so we have a clean slate for the surviving keyframes
+            if (CurveUtil.playbackSpeedCurve != null)
+            {
+                CurveUtil.playbackSpeedCurve.Clear();
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(CameraCurve), "DeleteCurveKeys")]
     public static class CameraCurveDeleteCurvePatch
     {
