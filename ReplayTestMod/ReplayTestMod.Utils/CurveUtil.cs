@@ -15,11 +15,23 @@ namespace ReplayTestMod.Utils
             }
             return playbackSpeedCurve.Evaluate(time);
         }
-
-        public static void CustomRefresh()
+        public static void ClearCurveKeys()
+        {
+            playbackSpeedCurve.Clear();
+            foreach (var keyframe in ReplayEditorController.Instance.cameraController.keyFrames)
+            {
+                if (keyframe is PlaybackSpeedKeyFrame)
+                {
+                    ReplayEditorController.Instance.cameraController.keyFrames.Remove(keyframe);
+                }
+            }
+            playbackSpeedCurve.Clear();
+            Refresh();
+        }
+        public static void Refresh()
         {
             ReplayEditorController.Instance.cameraController.cameraCurve.Refresh(ReplayEditorController.Instance.cameraController.keyFrames); // Refresh original curves
-            playbackSpeedCurve.Clear();
+            ReplayEditorController.Instance.cameraController.keyframeUI.UpdateKeyframes(ReplayEditorController.Instance.cameraController.keyFrames);
         }
     }
 }

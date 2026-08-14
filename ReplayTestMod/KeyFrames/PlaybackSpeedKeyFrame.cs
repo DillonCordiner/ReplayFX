@@ -39,7 +39,7 @@ namespace ReplayTestMod.Utils
         public override void AddKeyframes(CameraCurve cameraCurve)
         {
             CurveUtil.playbackSpeedCurve.InsertCurveKey(targetSpeed, time);
-            CurveUtil.playbackSpeedCurve.CalculateCurveControlPoints();
+            //CurveUtil.playbackSpeedCurve.CalculateCurveControlPoints();
             Main.Logger.Log("PlayBackSpeedKeyFrame: AddKeyFrame");
         }
 

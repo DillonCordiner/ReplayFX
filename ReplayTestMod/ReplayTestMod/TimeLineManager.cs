@@ -7,15 +7,22 @@ using GameManagement;
 
 namespace ReplayTestMod
 {
-    [DefaultExecutionOrder(9999)]
     public class TimelineManager : MonoBehaviour
     {
         private float lastPlaybackTime = -1f;
         private bool PlaybackOverwritten = false;
 
+       //public CustomCameraCurve customCurve = new CustomCameraCurve();
+
         private void Start()
         {
+            /*
             ModCheckUtil.CheckForXXLMod();
+            if (ModCheckUtil.IsXXLModInstalled)
+            {
+                XXLModExtention.GetXXLModSettings();
+            }
+            */
         }
         /*
         void Update()
@@ -54,8 +61,7 @@ namespace ReplayTestMod
             float currentTime = replayEditor.PlaybackTime;
 
             Updatekeys(replayEditor, currentTime);
-            UpdatePlayBackKeys(currentTime); // curently not working
-            //SetPlayBackSpeed(currentTime);
+            UpdatePlayBackKeys(currentTime);
         }
 
 
@@ -89,7 +95,7 @@ namespace ReplayTestMod
             lastPlaybackTime = currentTime;
         }
         
-        private bool HasPlayBackKeys()
+        public bool HasPlayBackKeys()
         {
             bool hasPlaybackKeys = false;
             if (CurveUtil.playbackSpeedCurve.Keys.Count > 0)
@@ -111,7 +117,8 @@ namespace ReplayTestMod
             {
                 if (PlaybackOverwritten)
                 {
-                    //Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(1.0f);
+                    Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(1.0f);
+                    CurveUtil.ClearCurveKeys();
                     //ReplayEditorController.Instance.cameraController.cameraCurve.Refresh(ReplayEditorController.Instance.cameraController.keyFrames); // Refresh original curves
                     //CurveUtil.playbackSpeedCurve.Clear();
                     PlaybackOverwritten = false;
@@ -119,11 +126,12 @@ namespace ReplayTestMod
             }
         }
 
-        private void SetPlayBackSpeed(float currentTime)
+        public void SetPlayBackSpeed(float currentTime)
         {
             if (CurveUtil.playbackSpeedCurve != null)
             {
                 float interpolatedSpeed = CurveUtil.playbackSpeedCurve.Evaluate(currentTime);
+                //float interpolatedSpeed = CurveUtil.EvaluatePlaybackSpeed(currentTime);
                 Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(interpolatedSpeed);
             }
         }

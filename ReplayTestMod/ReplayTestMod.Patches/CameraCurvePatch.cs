@@ -13,7 +13,7 @@ namespace ReplayTestMod.Patches
         [HarmonyPostfix]
         static void Postfix(CameraCurve __instance)
         {
-            CurveUtil.playbackSpeedCurve.CalculateCurveControlPoints();
+            //CurveUtil.playbackSpeedCurve.CalculateCurveControlPoints();
         }
     }
 
@@ -23,7 +23,7 @@ namespace ReplayTestMod.Patches
         [HarmonyPostfix]
         static void Postfix(CameraCurve __instance)
         {
-            CurveUtil.playbackSpeedCurve.Clear();
+            //CurveUtil.playbackSpeedCurve.Clear();
         }
     }
 
@@ -33,7 +33,19 @@ namespace ReplayTestMod.Patches
         [HarmonyPostfix]
         static void Postfix(CameraCurve __instance, int i, bool refreshDirectly)
         {
+            //CurveUtil.playbackSpeedCurve.DeleteCurveKey(i, refreshDirectly);
             CurveUtil.playbackSpeedCurve.DeleteCurveKey(i, refreshDirectly);
+            CurveUtil.ClearCurveKeys();
+            /*
+            if (!Main.timelineManager.HasPlayBackKeys())
+            {
+                CurveUtil.playbackSpeedCurve.Clear();
+            }
+            else
+            {
+                //CurveUtil.playbackSpeedCurve.CalculateCurveControlPoints();
+            }
+            */
         }
     }
 }

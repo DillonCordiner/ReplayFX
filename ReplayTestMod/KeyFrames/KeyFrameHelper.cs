@@ -26,7 +26,10 @@ namespace ReplayTestMod.Utils
             CreatePlaybackKeyFrame(Main.settings.playBackSpeed, ReplayEditorController.Instance.playbackController.CurrentTime);
             ReplayEditorController.Instance.cameraController.keyframeUI.UpdateKeyframes(ReplayEditorController.Instance.cameraController.keyFrames);
         }
-
+        public static void DeleteAllPlaybackKeys()
+        {
+            CurveUtil.ClearCurveKeys();
+        }
         public static void CreatePlaybackKeyFrame(float playbackspeed, float time)
         {
             //time = time + Main.settings.time_offset; // time offset if needed

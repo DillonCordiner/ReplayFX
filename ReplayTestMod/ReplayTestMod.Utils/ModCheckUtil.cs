@@ -13,7 +13,6 @@ namespace ReplayTestMod.Utils
             if (ModEntry != null && ModEntry.Info.Id == XXLmodID && ModEntry.Active)
             {
                 IsXXLModInstalled = true;
-                XXLModExtentions.GetXXLModSettings();
                 Main.Logger.Log("XXL Mod is Installed and Active");
             }
             else

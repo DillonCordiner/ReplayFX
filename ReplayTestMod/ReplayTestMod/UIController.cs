@@ -171,7 +171,6 @@ namespace ReplayTestMod
             }
             GUILayout.EndHorizontal();
         }
-
         private void KeyFrameUI()
         {
             Tabs(KeyFrame_Tab, UIextensions.TabColorSwitch(KeyFrame_Tab));
@@ -182,6 +181,9 @@ namespace ReplayTestMod
             {
                 GUILayout.BeginVertical();
                 {
+                    UIextensions.FlexableButton("Refresh Timeline", CurveUtil.Refresh, Color.white);
+                    GUILayout.Space(8f);
+
                     UIextensions.CenteredLabel("Impluse KeyFrames");
                     GUILayout.Space(6f);
                     UIextensions.FlexableButton("Create Impluse KeyFrame", KeyFrameHelper.AddImpluseKeyFrame, Color.white);
@@ -197,6 +199,8 @@ namespace ReplayTestMod
                     UIextensions.FlexableButton("Create PlayBack KeyFrame", KeyFrameHelper.AddPlayBackKeyFrame, Color.white);
                     GUILayout.Space(4f);
                     Main.settings.playBackSpeed = RGUI.SliderFloat(Main.settings.playBackSpeed, 0.0f, 2.0f, 1.0f, 72, "PlayBack Speed");
+                    GUILayout.Space(6f);
+                    UIextensions.FlexableButton("Delete All PlayBack Speed Keys", KeyFrameHelper.DeleteAllPlaybackKeys, Color.white);
                 }
                 GUILayout.EndVertical();
             }
