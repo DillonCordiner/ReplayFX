@@ -9,6 +9,7 @@ using System.Collections.Generic;
 
 namespace ReplayTestMod.Patches
 {
+    /*
 
     [HarmonyPatch(typeof(KeyframeUIController), nameof(KeyframeUIController.UpdateKeyframes))]
     public static class KeyframeColorPatch
@@ -56,4 +57,5 @@ namespace ReplayTestMod.Patches
             }
         }
     }
+    */
 }

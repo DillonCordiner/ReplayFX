@@ -4,15 +4,20 @@ using ReplayTestMod.Utils;
 using System.Reflection;
 using HarmonyLib;
 using GameManagement;
+using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace ReplayTestMod
 {
+    [DefaultExecutionOrder(99999)]
     public class TimelineManager : MonoBehaviour
     {
         private float lastPlaybackTime = -1f;
         private bool PlaybackOverwritten = false;
+        private Color PlaybackHandleColor = Color.cyan;
+        private Color ImpulseHandleColor = Color.magenta;
 
-       //public CustomCameraCurve customCurve = new CustomCameraCurve();
+        //public CustomCameraCurve customCurve = new CustomCameraCurve();
 
         private void Start()
         {
@@ -52,6 +57,8 @@ namespace ReplayTestMod
             if (replayEditor == null || replayEditor.cameraController == null)
                 return;
 
+            UpdateHandleColor(replayEditor);
+
             if (!replayEditor.cameraController.CamFollowKeyFrames)
             {
                 lastPlaybackTime = replayEditor.PlaybackTime;
@@ -73,7 +80,7 @@ namespace ReplayTestMod
                 return;
             }
 
-            foreach (var keyframe in replayEditor.cameraController.keyFrames)
+            foreach (KeyFrame keyframe in replayEditor.cameraController.keyFrames)
             {
                 if (keyframe is ImpulseKeyFrame impulseKey)
                 {
@@ -147,6 +154,48 @@ namespace ReplayTestMod
                 else
                 {
                     Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(interpolatedSpeed);
+                }
+            }
+        }
+
+        private void UpdateHandleColor(ReplayEditorController replayEditor)
+        {
+            var keyframes = replayEditor.cameraController.keyFrames;
+            var sliders = replayEditor.cameraController.keyframeUI.keyframeSliders;
+
+            if (keyframes.Count <= 0 || sliders.Count <= 0)
+            {
+                return;
+            }
+
+            int count = Mathf.Min(keyframes.Count, sliders.Count);
+
+            for (int i = 0; i < count; i++)
+            {
+                if (keyframes[i] is PlaybackSpeedKeyFrame)
+                {
+                    SetHandleColor(i, sliders, PlaybackHandleColor);
+                }
+                else if (keyframes[i] is ImpulseKeyFrame)
+                {
+                    SetHandleColor(i, sliders, ImpulseHandleColor);
+                }
+
+            }
+        }
+        private void SetHandleColor(int i, List<Slider> sliders, Color handleColor)
+        {
+            Slider slider = sliders[i];
+            if (slider != null)
+            {
+                Image handleImage = null;
+                if (slider.handleRect != null)
+                {
+                    handleImage = slider.handleRect.GetComponent<Image>();
+                }
+                if (handleImage != null)
+                {
+                    handleImage.color = handleColor;
                 }
             }
         }
