@@ -7,9 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using HarmonyLib;
-using ReplayTestMod.Utils;
 
-namespace ReplayTestMod.Keyframes
+namespace ReplayTestMod.Utils
 {
     public class PlaybackSpeedKeyFrame : KeyFrame
     {

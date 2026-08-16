@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace ReplayTestMod.Keyframes
+namespace ReplayTestMod.Utils
 {
     public static class KeyFrameHelper
     {
@@ -25,7 +25,7 @@ namespace ReplayTestMod.Keyframes
 
         public static void AddPlayBackKeyFrame()
         {
-            CreatePlaybackKeyFrame(Main.settings.replayplayback_speed, ReplayEditorController.Instance.playbackController.CurrentTime);
+            CreatePlaybackKeyFrame(Main.settings.playBackSpeed, ReplayEditorController.Instance.playbackController.CurrentTime);
             //CurveUtil.Refresh();
             //ReplayEditorController.Instance.cameraController.keyframeUI.UpdateKeyframes(ReplayEditorController.Instance.cameraController.keyFrames);
         }
@@ -76,7 +76,7 @@ namespace ReplayTestMod.Keyframes
             KeyFrame keyFrame;
 
             //keyFrame = new FreeCameraKeyFrame(copy.transform, Main.settings.keyframe_fov, time);
-            keyFrame = new ImpulseKeyFrame(impulseSource, Main.settings.impulse_force, time);
+            keyFrame = new ImpulseKeyFrame(impulseSource, Main.settings.impulseForce, time);
             //keyFrame.AddKeyframes(ReplayEditorController.Instance.cameraController.cameraCurve);
             keyFrame.ApplyTo(ReplayEditorController.Instance.cameraController.VirtualCamera);
             //keyFrame.Update(ReplayEditorController.Instance.cameraController.VirtualCamera.transform, time);

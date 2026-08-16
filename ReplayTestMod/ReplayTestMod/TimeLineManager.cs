@@ -1,7 +1,6 @@
 ﻿using ReplayEditor;
 using UnityEngine;
 using ReplayTestMod.Utils;
-using ReplayTestMod.Keyframes;
 using System.Reflection;
 using HarmonyLib;
 using GameManagement;
@@ -10,14 +9,16 @@ using System.Collections.Generic;
 
 namespace ReplayTestMod
 {
-    [DefaultExecutionOrder(9999)]
+    [DefaultExecutionOrder(99999)]
     public class TimelineManager : MonoBehaviour
     {
         private int LastKeyframeCount = -1;
         private float lastPlaybackTime = -1f;
         private bool PlaybackOverwritten = false;
         private Color PlaybackHandleColor = Color.cyan;
-        private Color ImpulseHandleColor = Color.white;
+        private Color ImpulseHandleColor = Color.magenta;
+
+        //public CustomCameraCurve customCurve = new CustomCameraCurve();
 
         private void Start()
         {
@@ -67,6 +68,9 @@ namespace ReplayTestMod
                 LastKeyframeCount = currentCount;
             }
         }
+
+
+
         private void UpdateImpulsekeys(ReplayEditorController replayEditor, float currentTime)
         {
             if (Mathf.Abs(currentTime - lastPlaybackTime) > 0.5f)
@@ -87,6 +91,7 @@ namespace ReplayTestMod
             }
             lastPlaybackTime = currentTime;
         }
+
         private void UpdatePlayBackSpeed(float currentTime)
         {
             if (CurveUtil.HasPlayBackKeys())
@@ -116,6 +121,7 @@ namespace ReplayTestMod
                 PlaybackOverwritten = false;
             }
         }
+
         public void SetPlayBackSpeed(float currentTime)
         {
             if (CurveUtil.playbackSpeedCurve != null)

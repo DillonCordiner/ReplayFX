@@ -50,10 +50,9 @@ namespace ReplayTestMod
             if (noise == null)
                 return;
 
-            UpdateNoiseProfile();
-            UpdateNoiseProfileValues();
+            UpdateProfile();
+            UpdateValues();
             UpdatePivotOffset();
-            UpdateImpulseValues();
         }
         private CinemachineVirtualCamera GetVirtualCamera()
         {
@@ -81,7 +80,7 @@ namespace ReplayTestMod
             }
             Vcam.AddExtension(impulseListener);
             impulseListener = Vcam.gameObject.AddComponent<CinemachineImpulseListener>();
-            impulseListener.m_Gain = 2.0f;
+            impulseListener.m_Gain = 1f;
             impulseListener.m_ChannelMask = 1;
         }
         private void AddNoiseToCamera()
@@ -107,15 +106,13 @@ namespace ReplayTestMod
         }
         private void SetUpImpulseSourse(CinemachineImpulseSource source)
         {
-            //NoiseSettings generated6DShake = NoiseUtils.Create6DShakeProfile();
-            NoiseSettings generated6DShake = NoiseUtils.Create6DShakeCustomProfile();
+            NoiseSettings generated6DShake = NoiseUtils.Create6DShakeProfile();
             source.m_ImpulseDefinition.m_RawSignal = generated6DShake;
-            source.m_ImpulseDefinition.m_AmplitudeGain = 2.0f;
-            source.m_ImpulseDefinition.m_FrequencyGain = 1.0f;
-            source.m_ImpulseDefinition.m_ImpactRadius = 100.0f;
+            source.m_ImpulseDefinition.m_AmplitudeGain = 2f;
+            source.m_ImpulseDefinition.m_FrequencyGain = 3f;
+            source.m_ImpulseDefinition.m_ImpactRadius = 100f;
             source.m_ImpulseDefinition.m_TimeEnvelope.m_AttackTime = 0.0f;
             source.m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime = 0.2f;
-            source.m_ImpulseDefinition.m_TimeEnvelope.m_DecayTime = 0.5f;
             source.m_ImpulseDefinition.m_ImpulseChannel = 1;
             source.m_ImpulseDefinition.m_PropagationSpeed = float.MaxValue;
         }
@@ -141,7 +138,7 @@ namespace ReplayTestMod
             }
             return null;
         }
-        private void UpdateNoiseProfile()
+        private void UpdateProfile()
         {
             if (currentProfile == targetProfile)
                 return;
@@ -151,18 +148,18 @@ namespace ReplayTestMod
             currentProfile = targetProfile;
 
         }    
-        private void UpdateNoiseProfileValues()
+        private void UpdateValues()
         {
             if (noise.m_NoiseProfile.name == empty)
                 return;
 
-            if (noise.m_AmplitudeGain != Main.settings.noise_amplitude)
+            if (noise.m_AmplitudeGain != Main.settings.amplitude)
             {
-                noise.m_AmplitudeGain = Main.settings.noise_amplitude;
+                noise.m_AmplitudeGain = Main.settings.amplitude;
             }
-            else if (noise.m_FrequencyGain != Main.settings.noise_frequency)
+            if (noise.m_FrequencyGain != Main.settings.frequency)
             {
-                noise.m_FrequencyGain = Main.settings.noise_frequency;
+                noise.m_FrequencyGain = Main.settings.frequency;
             }
         }
         public void UpdatePivotOffset()
@@ -170,11 +167,11 @@ namespace ReplayTestMod
             if (noise.m_NoiseProfile.name == empty)
                 return;
 
-            if (noise.m_PivotOffset.x != Main.settings.noise_offset_x ||
-                noise.m_PivotOffset.y != Main.settings.noise_offset_y ||
-                noise.m_PivotOffset.z != Main.settings.noise_offset_z)
+            if (noise.m_PivotOffset.x != Main.settings.offset_x ||
+                noise.m_PivotOffset.y != Main.settings.offset_y ||
+                noise.m_PivotOffset.z != Main.settings.offset_z)
             {
-                noise.m_PivotOffset.Set(Main.settings.noise_offset_x, Main.settings.noise_offset_y, Main.settings.noise_offset_z);
+                noise.m_PivotOffset.Set(Main.settings.offset_x, Main.settings.offset_y, Main.settings.offset_z);
             }
         }
         public void GenerateNewSeed()
@@ -205,30 +202,7 @@ namespace ReplayTestMod
         }
         public void GenerateImpluse()
         {
-            impulseSource.GenerateImpulse(Main.settings.impulse_force);
-        }
-
-        public void UpdateImpulseValues()
-        {
-            if (impulseSource == null || impulseListener == null)
-                return;
-
-            if (impulseListener.m_Gain != Main.settings.impulse_listener_gain)
-            {
-                impulseListener.m_Gain = Main.settings.impulse_listener_gain;
-            }
-            else if (impulseSource.m_ImpulseDefinition.m_AmplitudeGain != Main.settings.impulse_source_amplitude)
-            {
-                impulseSource.m_ImpulseDefinition.m_AmplitudeGain = Main.settings.impulse_source_amplitude;
-            }
-            else if (impulseSource.m_ImpulseDefinition.m_FrequencyGain != Main.settings.impulse_source_frequency)
-            {
-                impulseSource.m_ImpulseDefinition.m_FrequencyGain = Main.settings.impulse_source_frequency;
-            }
-            else if (impulseSource.m_ImpulseDefinition.m_TimeEnvelope.m_DecayTime != Main.settings.impulse_source_decaytime)
-            {
-                impulseSource.m_ImpulseDefinition.m_TimeEnvelope.m_DecayTime = Main.settings.impulse_source_decaytime;
-            }
+            impulseSource.GenerateImpulse(Main.settings.impulseForce);
         }
     }
 }
