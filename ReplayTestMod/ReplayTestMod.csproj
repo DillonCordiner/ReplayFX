@@ -148,9 +148,9 @@
     <Compile Include="ReplayTestMod.Utils\XXLModExtention.cs" />
     <Compile Include="ReplayTestMod.Utils\ModCheckUtil.cs" />
     <Compile Include="ReplayTestMod.Utils\NoiseUtils.cs" />
-    <Compile Include="KeyFrames\PlaybackSpeedKeyFrame.cs" />
-    <Compile Include="KeyFrames\KeyFrameHelper.cs" />
-    <Compile Include="KeyFrames\ImpulseKeyFrame.cs" />
+    <Compile Include="ReplayTestMod.Keyframes\PlaybackSpeedKeyFrame.cs" />
+    <Compile Include="ReplayTestMod.Keyframes\KeyFrameHelper.cs" />
+    <Compile Include="ReplayTestMod.Keyframes\ImpulseKeyFrame.cs" />
     <Compile Include="ReplayTestMod.Utils\ResourceExtractor.cs" />
     <Compile Include="ReplayTestMod.Utils\UIExtentions.cs" />
     <Compile Include="ReplayTestMod\InputListener.cs" />

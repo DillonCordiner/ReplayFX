@@ -6,17 +6,18 @@ using HarmonyLib;
 using GameManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using ReplayTestMod.Keyframes;
 
 namespace ReplayTestMod
 {
-    [DefaultExecutionOrder(99999)]
+    [DefaultExecutionOrder(9999)]
     public class TimelineManager : MonoBehaviour
     {
         private int LastKeyframeCount = -1;
         private float lastPlaybackTime = -1f;
         private bool PlaybackOverwritten = false;
         private Color PlaybackHandleColor = Color.cyan;
-        private Color ImpulseHandleColor = Color.magenta;
+        private Color ImpulseHandleColor = Color.white;
 
         //public CustomCameraCurve customCurve = new CustomCameraCurve();
 

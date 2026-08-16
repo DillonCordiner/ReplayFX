@@ -11,17 +11,20 @@ namespace ReplayTestMod
 
         public KeyBinding noiseHotkey = new KeyBinding { keyCode = KeyCode.R };
 
-        public float amplitude = 1.0f;
-        public float frequency = 1.0f;
+        public float noise_amplitude = 1.0f;
+        public float noise_frequency = 1.0f;
 
-        public float offset_x = 0.0f;
-        public float offset_y = 0.0f;
-        public float offset_z = 0.0f;
+        public float noise_offset_x = 0.0f;
+        public float noise_offset_y = 0.0f;
+        public float noise_offset_z = 0.0f;
 
-        public float impulseForce = 1.0f;
+        public float impulse_force = 1.0f;
+        public float impulse_listener_gain = 2.0f;
+        public float impulse_source_amplitude = 2.0f;
+        public float impulse_source_frequency = 1.0f;
+        public float impulse_source_decaytime = 0.5f;
 
-        public float playBackSpeed = 1.0f;
-        public float savedXXLmodreplaySpeed = 1.0f;
+        public float replayplayback_speed = 1.0f;
 
         public override void Save(UnityModManager.ModEntry modEntry)
         {

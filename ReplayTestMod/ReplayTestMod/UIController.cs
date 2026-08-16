@@ -2,6 +2,7 @@
 using ReplayTestMod.Utils;
 using System.Collections;
 using RapidGUI;
+using ReplayTestMod.Keyframes;
 
 namespace ReplayTestMod
 {
@@ -132,11 +133,11 @@ namespace ReplayTestMod
         {
             if (ModCheckUtil.IsXXLModInstalled)
             {
-                XXLModExtention.SetXXLSpeed(Main.settings.playBackSpeed);
+                XXLModExtention.SetXXLSpeed(Main.settings.replayplayback_speed);
             }
             else
             {
-                PlayBackUtil.SetPlayBackSpeedValue(Main.settings.playBackSpeed);
+                PlayBackUtil.SetPlayBackSpeedValue(Main.settings.replayplayback_speed);
             }
         }
         private void CameraUI()
@@ -163,9 +164,9 @@ namespace ReplayTestMod
                         GUILayout.Label("<b><color=#171717> Disabled </color></b>");
                     }
                     GUILayout.Space(6f);
-                    Main.settings.amplitude = RGUI.SliderFloat(Main.settings.amplitude, 0.0f, 10.0f, 1.0f, 82, "Amplitude");
+                    Main.settings.noise_amplitude = RGUI.SliderFloat(Main.settings.noise_amplitude, 0.0f, 10.0f, 1.0f, 82, "Amplitude");
                     GUILayout.Space(4f);
-                    Main.settings.frequency = RGUI.SliderFloat(Main.settings.frequency, 0.0f, 10.0f, 1.0f, 82, "Frequency");
+                    Main.settings.noise_frequency = RGUI.SliderFloat(Main.settings.noise_frequency, 0.0f, 10.0f, 1.0f, 82, "Frequency");
                     GUILayout.Space(4f);
                     UIextensions.FlexableButton("Generate new seed", Main.camNoiseController.GenerateNewSeed, Color.white);
 
@@ -173,11 +174,11 @@ namespace ReplayTestMod
 
                     UIextensions.CenteredLabel("Pivot Offset");
                     GUILayout.Space(6f);
-                    Main.settings.offset_x = RGUI.SliderFloat(Main.settings.offset_x, 0.0f, 10.0f, 0.0f, 72, "X Pivot");
+                    Main.settings.noise_offset_x = RGUI.SliderFloat(Main.settings.noise_offset_x, 0.0f, 10.0f, 0.0f, 72, "X Pivot");
                     GUILayout.Space(4f);
-                    Main.settings.offset_y = RGUI.SliderFloat(Main.settings.offset_y, 0.0f, 10.0f, 0.0f, 72, "Y Pivot");
+                    Main.settings.noise_offset_y = RGUI.SliderFloat(Main.settings.noise_offset_y, 0.0f, 10.0f, 0.0f, 72, "Y Pivot");
                     GUILayout.Space(4f);
-                    Main.settings.offset_z = RGUI.SliderFloat(Main.settings.offset_z, 0.0f, 10.0f, 0.0f, 72, "Z Pivot");
+                    Main.settings.noise_offset_z = RGUI.SliderFloat(Main.settings.noise_offset_z, 0.0f, 10.0f, 0.0f, 72, "Z Pivot");
                 }
                 GUILayout.EndVertical();
             }
@@ -203,10 +204,18 @@ namespace ReplayTestMod
                         GUILayout.Space(6f);
                         UIextensions.FlexableButton("Create Impluse KeyFrame", KeyFrameHelper.AddImpluseKeyFrame, Color.white);
                         GUILayout.Space(4f);
-                        Main.settings.impulseForce = RGUI.SliderFloat(Main.settings.impulseForce, 0.0f, 10.0f, 1.0f, 92, "Impulse Force");
+                        Main.settings.impulse_force = RGUI.SliderFloat(Main.settings.impulse_force, 0.0f, 10.0f, 1.0f, 90, "Impulse Force");
+                        GUILayout.Space(4f);
+                        Main.settings.impulse_listener_gain = RGUI.SliderFloat(Main.settings.impulse_listener_gain, 0.0f, 10.0f, 2.0f, 90, "Gain");
+                        GUILayout.Space(4f);
+                        Main.settings.impulse_source_amplitude = RGUI.SliderFloat(Main.settings.impulse_source_amplitude, 0.0f, 10.0f, 2.0f, 90, "Amplitude");
+                        GUILayout.Space(4f);
+                        Main.settings.impulse_source_frequency = RGUI.SliderFloat(Main.settings.impulse_source_frequency, 0.0f, 10.0f, 1.0f, 90, "Frequency");
+                        GUILayout.Space(4f);
+                        Main.settings.impulse_source_decaytime = RGUI.SliderFloat(Main.settings.impulse_source_decaytime, 0.0f, 2.0f, 0.5f, 90, "Decay");
                         GUILayout.Space(8f);
                         UIextensions.FlexableButton("Test Impulse", Main.camNoiseController.GenerateImpluse, Color.white);
-                        GUILayout.Space(6f);
+                        GUILayout.Space(4f);
                         UIextensions.FlexableButton("Delete All Keys", KeyFrameHelper.RemoveAllImpulseKeys, Color.white);
                     }
                     GUILayout.EndVertical();
@@ -219,10 +228,10 @@ namespace ReplayTestMod
                         GUILayout.Space(6f);
                         UIextensions.FlexableButton("Create PlayBack KeyFrame", KeyFrameHelper.AddPlayBackKeyFrame, Color.white);
                         GUILayout.Space(4f);
-                        Main.settings.playBackSpeed = RGUI.SliderFloat(Main.settings.playBackSpeed, 0.0f, 2.0f, 1.0f, 92, "PlayBack Speed");
+                        Main.settings.replayplayback_speed = RGUI.SliderFloat(Main.settings.replayplayback_speed, 0.0f, 2.0f, 1.0f, 92, "Replay Speed");
                         GUILayout.Space(8f);
                         UIextensions.FlexableButton("Set Speed to Slider Value", SetPlayBackSpeedButton, Color.white);
-                        GUILayout.Space(6f);
+                        GUILayout.Space(4f);
                         UIextensions.FlexableButton("Delete All Keys", KeyFrameHelper.RemoveAllPlaybackKeys, Color.white);
                     }
                     GUILayout.EndVertical();

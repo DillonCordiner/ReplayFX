@@ -1,18 +1,8 @@
 ﻿using Cinemachine;
-using GameManagement;
-using RapidGUI;
 using ReplayEditor;
-using ReplayTestMod;
-using ReplayTestMod.Utils;
-using SmoothKeyframeCurves;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 
-namespace ReplayTestMod.Utils
+namespace ReplayTestMod.Keyframes
 {
     public static class KeyFrameHelper
     {
@@ -25,7 +15,7 @@ namespace ReplayTestMod.Utils
 
         public static void AddPlayBackKeyFrame()
         {
-            CreatePlaybackKeyFrame(Main.settings.playBackSpeed, ReplayEditorController.Instance.playbackController.CurrentTime);
+            CreatePlaybackKeyFrame(Main.settings.replayplayback_speed, ReplayEditorController.Instance.playbackController.CurrentTime);
             //CurveUtil.Refresh();
             //ReplayEditorController.Instance.cameraController.keyframeUI.UpdateKeyframes(ReplayEditorController.Instance.cameraController.keyFrames);
         }
@@ -76,7 +66,7 @@ namespace ReplayTestMod.Utils
             KeyFrame keyFrame;
 
             //keyFrame = new FreeCameraKeyFrame(copy.transform, Main.settings.keyframe_fov, time);
-            keyFrame = new ImpulseKeyFrame(impulseSource, Main.settings.impulseForce, time);
+            keyFrame = new ImpulseKeyFrame(impulseSource, Main.settings.impulse_force, time);
             //keyFrame.AddKeyframes(ReplayEditorController.Instance.cameraController.cameraCurve);
             keyFrame.ApplyTo(ReplayEditorController.Instance.cameraController.VirtualCamera);
             //keyFrame.Update(ReplayEditorController.Instance.cameraController.VirtualCamera.transform, time);

@@ -1,14 +1,10 @@
 ﻿using Cinemachine;
 using ReplayEditor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using HarmonyLib;
+using ReplayTestMod.Utils;
 
-namespace ReplayTestMod.Utils
+namespace ReplayTestMod.Keyframes
 {
     public class PlaybackSpeedKeyFrame : KeyFrame
     {
