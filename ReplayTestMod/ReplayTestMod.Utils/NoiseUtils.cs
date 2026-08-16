@@ -5,6 +5,7 @@ namespace ReplayTestMod.Utils
 {
     public static class NoiseUtils
     {
+        /*
         public static NoiseSettings Create6DShakeProfile()
         {
             NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
@@ -38,6 +39,111 @@ namespace ReplayTestMod.Utils
                 X = new NoiseSettings.NoiseParams { Frequency = 12.0f, Amplitude = 0.3f },
                 Y = new NoiseSettings.NoiseParams { Frequency = 10.5f, Amplitude = 0.3f },
                 Z = new NoiseSettings.NoiseParams { Frequency = 11.0f, Amplitude = 0.3f }
+            }
+            };
+
+            return profile;
+        }
+        */
+
+        public static NoiseSettings Create6DShakeProfile()
+        {
+            NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
+            profile.name = "6D Shake";
+
+            profile.PositionNoise = new NoiseSettings.TransformNoiseParams[]
+            {
+            new NoiseSettings.TransformNoiseParams
+            {
+                X = new NoiseSettings.NoiseParams { Frequency = 3.2f, Amplitude = 0.011f },
+                Y = new NoiseSettings.NoiseParams { Frequency = 7.7f, Amplitude = 0.009f },
+                Z = new NoiseSettings.NoiseParams { Frequency = 51.51f, Amplitude = 0.002f }
+            },
+            new NoiseSettings.TransformNoiseParams
+            {
+                X = new NoiseSettings.NoiseParams { Frequency = 1.9f, Amplitude = 0.059f },
+                Y = new NoiseSettings.NoiseParams { Frequency = 9.1f, Amplitude = 0.04f },
+                Z = new NoiseSettings.NoiseParams { Frequency = 55.54f, Amplitude = 0.05f }
+            },
+            new NoiseSettings.TransformNoiseParams
+            {
+                X = new NoiseSettings.NoiseParams { Frequency = 3.33f, Amplitude = 0.059f },
+                Y = new NoiseSettings.NoiseParams { Frequency = 9.22f, Amplitude = 0.04f },
+                Z = new NoiseSettings.NoiseParams { Frequency = 58.55f, Amplitude = 0.05f }
+            }
+            };
+
+            profile.OrientationNoise = new NoiseSettings.TransformNoiseParams[]
+            {
+            new NoiseSettings.TransformNoiseParams
+            {
+                X = new NoiseSettings.NoiseParams { Frequency = 5.83f, Amplitude = 0.09f },
+                Y = new NoiseSettings.NoiseParams { Frequency = 9.17f, Amplitude = 0.14f },
+                Z = new NoiseSettings.NoiseParams { Frequency = 57.17f, Amplitude = 0.15f }
+            },
+            new NoiseSettings.TransformNoiseParams
+            {
+                X = new NoiseSettings.NoiseParams { Frequency = 1.8f, Amplitude = 0.059f },
+                Y = new NoiseSettings.NoiseParams { Frequency = 11.35f, Amplitude = 0.041f },
+                Z = new NoiseSettings.NoiseParams { Frequency = 54.17f, Amplitude = 0.048f }
+            },
+            new NoiseSettings.TransformNoiseParams
+            {
+                X = new NoiseSettings.NoiseParams { Frequency = 2.38f, Amplitude = 0.017f },
+                Y = new NoiseSettings.NoiseParams { Frequency = 10.52f, Amplitude = 0.009f },
+                Z = new NoiseSettings.NoiseParams { Frequency = 63.76f, Amplitude = 0.016f }
+            }
+            };
+
+            return profile;
+        }
+
+        public static NoiseSettings Create6DShakeCustomProfile()
+        {
+            NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
+            profile.name = "Custom 6D Shake";
+
+            profile.PositionNoise = new NoiseSettings.TransformNoiseParams[]
+            {
+            new NoiseSettings.TransformNoiseParams
+            {
+                X = new NoiseSettings.NoiseParams { Frequency = 4.2f, Amplitude = 0.011f },
+                Y = new NoiseSettings.NoiseParams { Frequency = 12.7f, Amplitude = 0.021f },
+                Z = new NoiseSettings.NoiseParams { Frequency = 31.51f, Amplitude = 0.002f }
+            },
+            new NoiseSettings.TransformNoiseParams
+            {
+                X = new NoiseSettings.NoiseParams { Frequency = 1.9f, Amplitude = 0.059f },
+                Y = new NoiseSettings.NoiseParams { Frequency = 14.1f, Amplitude = 0.06f },
+                Z = new NoiseSettings.NoiseParams { Frequency = 25.54f, Amplitude = 0.05f }
+            },
+            new NoiseSettings.TransformNoiseParams
+            {
+                X = new NoiseSettings.NoiseParams { Frequency = 5.33f, Amplitude = 0.059f },
+                Y = new NoiseSettings.NoiseParams { Frequency = 13.22f, Amplitude = 0.06f },
+                Z = new NoiseSettings.NoiseParams { Frequency = 28.55f, Amplitude = 0.05f }
+            }
+            };
+
+            profile.OrientationNoise = new NoiseSettings.TransformNoiseParams[]
+            {
+            new NoiseSettings.TransformNoiseParams
+            {
+                X = new NoiseSettings.NoiseParams { Frequency = 7.83f, Amplitude = 0.09f },
+                Y = new NoiseSettings.NoiseParams { Frequency = 16.17f, Amplitude = 0.22f },
+                Z = new NoiseSettings.NoiseParams { Frequency = 43.17f, Amplitude = 0.15f }
+            },
+            new NoiseSettings.TransformNoiseParams
+            {
+                X = new NoiseSettings.NoiseParams { Frequency = 2.8f, Amplitude = 0.059f },
+                Y = new NoiseSettings.NoiseParams { Frequency = 14.35f, Amplitude = 0.082f },
+                Z = new NoiseSettings.NoiseParams { Frequency = 34.17f, Amplitude = 0.048f }
+            },
+            new NoiseSettings.TransformNoiseParams
+            {
+                X = new NoiseSettings.NoiseParams { Frequency = 3.38f, Amplitude = 0.017f },
+                Y = new NoiseSettings.NoiseParams { Frequency = 11.52f, Amplitude = 0.018f },
+                Z = new NoiseSettings.NoiseParams { Frequency = 33.76f, Amplitude = 0.016f }
             }
             };
 
