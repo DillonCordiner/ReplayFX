@@ -21,6 +21,7 @@ namespace ReplayTestMod
         public float impulseForce = 1.0f;
 
         public float playBackSpeed = 1.0f;
+        public float savedXXLmodreplaySpeed = 1.0f;
 
         public override void Save(UnityModManager.ModEntry modEntry)
         {

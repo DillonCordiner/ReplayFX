@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using GameManagement;
 using RapidGUI;
 using ReplayEditor;
 using ReplayTestMod;
@@ -18,21 +19,37 @@ namespace ReplayTestMod.Utils
         public static void AddImpluseKeyFrame()
         {
             CreateImpluseKeyFrame(Main.camNoiseController.impulseSource, ReplayEditorController.Instance.playbackController.CurrentTime);
-            ReplayEditorController.Instance.cameraController.keyframeUI.UpdateKeyframes(ReplayEditorController.Instance.cameraController.keyFrames);
+            //CurveUtil.Refresh();
+            //ReplayEditorController.Instance.cameraController.keyframeUI.UpdateKeyframes(ReplayEditorController.Instance.cameraController.keyFrames);
         }
 
         public static void AddPlayBackKeyFrame()
         {
             CreatePlaybackKeyFrame(Main.settings.playBackSpeed, ReplayEditorController.Instance.playbackController.CurrentTime);
-            ReplayEditorController.Instance.cameraController.keyframeUI.UpdateKeyframes(ReplayEditorController.Instance.cameraController.keyFrames);
+            //CurveUtil.Refresh();
+            //ReplayEditorController.Instance.cameraController.keyframeUI.UpdateKeyframes(ReplayEditorController.Instance.cameraController.keyFrames);
         }
-        public static void RemovePlayBackKeyFrames() 
+        public static void RemoveAllImpulseKeys()
         {
-            foreach (var keyframe in ReplayEditorController.Instance.cameraController.keyFrames)
+            RemoveKeyFramesOfType(typeof(ImpulseKeyFrame));
+            //CurveUtil.Refresh();
+        }
+        public static void RemoveAllPlaybackKeys()
+        {
+            //CurveUtil.playbackSpeedCurve.Clear();
+            RemoveKeyFramesOfType(typeof(PlaybackSpeedKeyFrame));
+            //CurveUtil.Refresh();
+        }
+        private static void RemoveKeyFramesOfType(Type keyframeType)
+        {
+            var keyframes = ReplayEditorController.Instance.cameraController.keyFrames;
+
+            // Loop backwards so removing an item doesn't mess up the index of the next item
+            for (int i = keyframes.Count - 1; i >= 0; i--)
             {
-                if (keyframe is PlaybackSpeedKeyFrame)
+                if (keyframes[i].GetType() == keyframeType)
                 {
-                    ReplayEditorController.Instance.cameraController.keyFrames.Remove(keyframe);
+                    ReplayEditorController.Instance.cameraController.keyFrames.Remove(keyframes[i]);
                 }
             }
         }

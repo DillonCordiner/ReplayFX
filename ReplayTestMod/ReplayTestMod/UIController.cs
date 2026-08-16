@@ -127,6 +127,18 @@ namespace ReplayTestMod
             Main.camNoiseController.ToggleNoise();
         }
         */
+        
+        private void SetPlayBackSpeedButton()
+        {
+            if (ModCheckUtil.IsXXLModInstalled)
+            {
+                XXLModExtention.SetXXLSpeed(Main.settings.playBackSpeed);
+            }
+            else
+            {
+                PlayBackUtil.SetPlayBackSpeedValue(Main.settings.playBackSpeed);
+            }
+        }
         private void CameraUI()
         {
             Tabs(Camera_Tab, UIextensions.TabColorSwitch(Camera_Tab));
@@ -171,10 +183,6 @@ namespace ReplayTestMod
             }
             GUILayout.EndHorizontal();
         }
-        public static void DeletePlaybackKeys()
-        {
-            CurveUtil.ClearCurveKeys();
-        }
         private void KeyFrameUI()
         {
             Tabs(KeyFrame_Tab, UIextensions.TabColorSwitch(KeyFrame_Tab));
@@ -185,6 +193,7 @@ namespace ReplayTestMod
             {
                 GUILayout.BeginVertical();
                 {
+                    GUILayout.Space(10f);
                     UIextensions.FlexableButton("Refresh Timeline", CurveUtil.Refresh, Color.white);
                     GUILayout.Space(8f);
 
@@ -193,10 +202,12 @@ namespace ReplayTestMod
                         UIextensions.CenteredLabel("Impluse KeyFrames");
                         GUILayout.Space(6f);
                         UIextensions.FlexableButton("Create Impluse KeyFrame", KeyFrameHelper.AddImpluseKeyFrame, Color.white);
-                        GUILayout.Space(6f);
-                        Main.settings.impulseForce = RGUI.SliderFloat(Main.settings.impulseForce, 0.0f, 10.0f, 1.0f, 72, "Impulse Force");
+                        GUILayout.Space(4f);
+                        Main.settings.impulseForce = RGUI.SliderFloat(Main.settings.impulseForce, 0.0f, 10.0f, 1.0f, 92, "Impulse Force");
                         GUILayout.Space(8f);
                         UIextensions.FlexableButton("Test Impulse", Main.camNoiseController.GenerateImpluse, Color.white);
+                        GUILayout.Space(6f);
+                        UIextensions.FlexableButton("Delete All Keys", KeyFrameHelper.RemoveAllImpulseKeys, Color.white);
                     }
                     GUILayout.EndVertical();
 
@@ -208,9 +219,11 @@ namespace ReplayTestMod
                         GUILayout.Space(6f);
                         UIextensions.FlexableButton("Create PlayBack KeyFrame", KeyFrameHelper.AddPlayBackKeyFrame, Color.white);
                         GUILayout.Space(4f);
-                        Main.settings.playBackSpeed = RGUI.SliderFloat(Main.settings.playBackSpeed, 0.0f, 2.0f, 1.0f, 72, "PlayBack Speed");
+                        Main.settings.playBackSpeed = RGUI.SliderFloat(Main.settings.playBackSpeed, 0.0f, 2.0f, 1.0f, 92, "PlayBack Speed");
+                        GUILayout.Space(8f);
+                        UIextensions.FlexableButton("Set Speed to Slider Value", SetPlayBackSpeedButton, Color.white);
                         GUILayout.Space(6f);
-                        UIextensions.FlexableButton("Delete All PlayBack Speed Keys", DeletePlaybackKeys, Color.white);
+                        UIextensions.FlexableButton("Delete All Keys", KeyFrameHelper.RemoveAllPlaybackKeys, Color.white);
                     }
                     GUILayout.EndVertical();
                 }

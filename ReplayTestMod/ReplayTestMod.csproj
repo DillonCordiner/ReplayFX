@@ -118,7 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ReplayTestMod.Patches\ReplayCameraControllerPatch.cs" />
-    <Compile Include="ReplayTestMod.Patches\KeyframeColorPatch.cs" />
     <Compile Include="ReplayTestMod.Patches\CameraCurvePatch.cs" />
     <Compile Include="RapidGUI\Button.cs" />
     <Compile Include="RapidGUI\Field.cs" />
@@ -144,6 +143,7 @@
     <Compile Include="RapidGUI\Utilities\WarningLabelNoStyle.cs" />
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
     <Compile Include="ReplayTestMod.Utils\AssetLoader.cs" />
+    <Compile Include="ReplayTestMod.Utils\PlayBackUtil.cs" />
     <Compile Include="ReplayTestMod.Utils\CurveUtil.cs" />
     <Compile Include="ReplayTestMod.Utils\XXLModExtention.cs" />
     <Compile Include="ReplayTestMod.Utils\ModCheckUtil.cs" />

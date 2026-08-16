@@ -16,7 +16,6 @@ namespace ReplayTestMod.Utils
         {
             try
             {
-                // 1. Find XXLMod3's Main class
                 Type xxlMainType = Type.GetType("XXLMod3.Main, XXLMod3");
                 if (xxlMainType == null)
                 {
@@ -24,7 +23,6 @@ namespace ReplayTestMod.Utils
                     return;
                 }
 
-                // 2. Get the static 'settings' or 'Settings' field/property on XXLMod3.Main
                 object mainSettingsInstance = null;
                 FieldInfo mainSettingsField = xxlMainType.GetField("settings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
                                            ?? xxlMainType.GetField("Settings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
@@ -71,17 +69,17 @@ namespace ReplayTestMod.Utils
                     return;
                 }
 
-                // 4. Get the 'ReplayPlaybackSpeed' field on the OtherSettings instance
                 replaySpeedField = otherSettingsInstance.GetType().GetField("ReplayPlaybackSpeed",BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
                 if (replaySpeedField != null)
                 {
                     isInitialized = true;
-                    Main.Logger.Log("[XXLModExtention] Successfully targeted XXLMod3.ProfileSettings.OtherSettings.ReplayPlaybackSpeed!");
+                    Main.Logger.Log("[XXLModExtention] Successfully found ReplayPlaybackSpeed");
+                    replaySpeedField.SetValue(otherSettingsInstance, 1.0f);
                 }
                 else
                 {
-                    Main.Logger.Log("[XXLModExtention] Could not find field 'ReplayPlaybackSpeed' on OtherSettings.");
+                    Main.Logger.Log("[XXLModExtention] Could not find ReplayPlaybackSpeed");
                 }
             }
             catch (Exception ex)

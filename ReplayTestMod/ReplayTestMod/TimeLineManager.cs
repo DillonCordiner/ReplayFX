@@ -12,6 +12,7 @@ namespace ReplayTestMod
     [DefaultExecutionOrder(99999)]
     public class TimelineManager : MonoBehaviour
     {
+        private int LastKeyframeCount = -1;
         private float lastPlaybackTime = -1f;
         private bool PlaybackOverwritten = false;
         private Color PlaybackHandleColor = Color.cyan;
@@ -29,33 +30,19 @@ namespace ReplayTestMod
             }
             
         }
-        /*
-        void Update()
-        {
-            ReplayEditorController replayEditor = ReplayEditorController.Instance;
-
-            if (replayEditor == null || replayEditor.cameraController == null) 
-                return;
-
-            if (!replayEditor.cameraController.CamFollowKeyFrames)
-            {
-                lastPlaybackTime = replayEditor.PlaybackTime;
-                return;
-            }
-
-            float currentTime = replayEditor.PlaybackTime;
-
-            Updatekeys(replayEditor, currentTime);
-            //UpdatePlayBackSpeedKeys(replayEditor, currentTime);
-
-        }
-        */
         void LateUpdate()
         {
             ReplayEditorController replayEditor = ReplayEditorController.Instance;
 
             if (replayEditor == null || replayEditor.cameraController == null)
                 return;
+
+            RefreshOnKeyChange(replayEditor);
+
+            if (!CurveUtil.HasPlayBackKeys())
+            {
+                ResetPlayBackSpeed();
+            }
 
             UpdateHandleColor(replayEditor);
 
@@ -67,12 +54,24 @@ namespace ReplayTestMod
 
             float currentTime = replayEditor.PlaybackTime;
 
-            Updatekeys(replayEditor, currentTime);
-            UpdatePlayBackKeys(currentTime);
+            UpdatePlayBackSpeed(currentTime);
+            UpdateImpulsekeys(replayEditor, currentTime);
+        }
+
+        private void RefreshOnKeyChange(ReplayEditorController replayEditor)
+        {
+            int currentCount = replayEditor.cameraController.keyFrames.Count;
+            if (currentCount != LastKeyframeCount)
+            {
+                CurveUtil.Refresh();
+
+                LastKeyframeCount = currentCount;
+            }
         }
 
 
-        private void Updatekeys(ReplayEditorController replayEditor, float currentTime)
+
+        private void UpdateImpulsekeys(ReplayEditorController replayEditor, float currentTime)
         {
             if (Mathf.Abs(currentTime - lastPlaybackTime) > 0.5f)
             {
@@ -89,54 +88,37 @@ namespace ReplayTestMod
                         impulseKey.TriggerKeyFrame();
                     }
                 }
-                /*
-                else if (keyframe is PlaybackSpeedKeyFrame playbackspeedKey)
-                {
-                    if (lastPlaybackTime <= playbackspeedKey.time && currentTime > playbackspeedKey.time)
-                    {
-                        playbackspeedKey.TriggerKeyFrame();
-                    }
-                }
-                */
             }
             lastPlaybackTime = currentTime;
         }
-        
-        public bool HasPlayBackKeys()
+
+        private void UpdatePlayBackSpeed(float currentTime)
         {
-            bool hasPlaybackKeys = false;
-            if (CurveUtil.playbackSpeedCurve.Keys.Count > 0)
-            {
-                hasPlaybackKeys = true;
-                return hasPlaybackKeys;
-            }
-            return hasPlaybackKeys;
-            
-        }
-        private void UpdatePlayBackKeys(float currentTime)
-        {
-            if (HasPlayBackKeys())
+            if (CurveUtil.HasPlayBackKeys())
             {
                 SetPlayBackSpeed(currentTime);
                 PlaybackOverwritten = true;
             }
             else
             {
-                if (PlaybackOverwritten)
+                ResetPlayBackSpeed();
+            }
+        }
+        private void ResetPlayBackSpeed()
+        {
+            if (PlaybackOverwritten)
+            {
+                if (ModCheckUtil.IsXXLModInstalled)
                 {
-                    if (ModCheckUtil.IsXXLModInstalled)
-                    {
-                        XXLModExtention.RestoreOriginalSpeed();
-                    }
-                    else
-                    {
-                        Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(1.0f);
-                    }
-                    CurveUtil.ClearCurveKeys();
-                    //ReplayEditorController.Instance.cameraController.cameraCurve.Refresh(ReplayEditorController.Instance.cameraController.keyFrames); // Refresh original curves
-                    //CurveUtil.playbackSpeedCurve.Clear();
-                    PlaybackOverwritten = false;
+                    XXLModExtention.RestoreOriginalSpeed();
                 }
+                else
+                {
+                    //Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(1.0f);
+                    PlayBackUtil.SetPlayBackSpeedValue(1.0f);
+                }
+                KeyFrameHelper.RemoveAllPlaybackKeys();
+                PlaybackOverwritten = false;
             }
         }
 
@@ -153,7 +135,8 @@ namespace ReplayTestMod
                 }
                 else
                 {
-                    Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(interpolatedSpeed);
+                    //Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(interpolatedSpeed);
+                    PlayBackUtil.SetPlayBackSpeedValue(interpolatedSpeed);
                 }
             }
         }
