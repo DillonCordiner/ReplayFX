@@ -52,7 +52,8 @@ namespace ReplayTestMod
 
             if ((currentState is ReplayState) || (currentState is PlayState))
             {
-                if (Input.GetKeyDown(Main.settings.noiseHotkey.keyCode))
+                bool isControlPressed = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+                if (!isControlPressed && Input.GetKeyDown(Main.settings.noiseHotkey.keyCode))
                 {
                     Main.camNoiseController.ToggleNoise();
                 }
