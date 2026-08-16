@@ -2,7 +2,7 @@
   "Id": "ReplayTestMod",
   "DisplayName": "ReplayTestMod",
   "Author": "Guru",
-  "Version": "0.0.6",
+  "Version": "0.0.7",
   "ManagerVersion": "0.22.5.0",
   "Requirements": [],
   "LoadAfter": [],
