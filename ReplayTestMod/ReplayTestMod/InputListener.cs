@@ -5,6 +5,7 @@ using Rewired;
 using System.Linq;
 using GameManagement;
 using MapEditor;
+using ReplayTestMod.Keyframes;
 
 namespace ReplayTestMod
 {
@@ -60,9 +61,17 @@ namespace ReplayTestMod
             }
             if ((currentState is ReplayState))
             {
-                if (RewiredInput.PrimaryPlayer.GetButtonSinglePressHold("Left Stick Button"))
+                if (RewiredInput.PrimaryPlayer.GetButton("LB") && RewiredInput.PrimaryPlayer.GetButtonDown("A"))
                 {
                     Main.camNoiseController.ToggleNoise();
+                }
+                else if (RewiredInput.PrimaryPlayer.GetButton("LB") && RewiredInput.PrimaryPlayer.GetButtonDown("Y"))
+                {
+                    KeyFrameHelper.AddPlayBackKeyFrame();
+                }
+                else if (RewiredInput.PrimaryPlayer.GetButton("RB") && RewiredInput.PrimaryPlayer.GetButtonDown("Y"))
+                {
+                    KeyFrameHelper.AddImpluseKeyFrame();
                 }
             }
         }
