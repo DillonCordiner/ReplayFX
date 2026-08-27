@@ -19,6 +19,8 @@ namespace ReplayTestMod
 
         NoiseSettings blankProfile = new NoiseSettings();
 
+        List<NoiseSettings> noiseSettings = new List<NoiseSettings>();
+
         private const string empty = "None";
         public string targetProfile = empty;
         private string currentProfile = "";
@@ -39,6 +41,7 @@ namespace ReplayTestMod
         private void Start()
         {
             blankProfile.name = empty;
+            SetUpNoiseProfiles();
             Vcam = GetVirtualCamera();
             AddNoiseToCamera();
             AddCameraExtensions();
@@ -119,11 +122,45 @@ namespace ReplayTestMod
             source.m_ImpulseDefinition.m_ImpulseChannel = 1;
             source.m_ImpulseDefinition.m_PropagationSpeed = float.MaxValue;
         }
+        private void SetUpNoiseProfiles()
+        {
+            if (noiseSettings == null)
+                return;
+
+            noiseSettings.Add(NoiseUtils.Create6DShakeProfile());
+            noiseSettings.Add(NoiseUtils.Create_Handheld_Normal_Extreme_Profile());
+            noiseSettings.Add(NoiseUtils.Create_Handheld_Normal_Mild_Profile());
+            noiseSettings.Add(NoiseUtils.Create_Handheld_Normal_Strong_Profile());
+            noiseSettings.Add(NoiseUtils.Create_Handheld_Tele_Mild_Profile());
+            noiseSettings.Add(NoiseUtils.Create_Handheld_Tele_Strong_Profile());
+            noiseSettings.Add(NoiseUtils.Create_Handheld_Wideangle_Mild_Profile());
+            noiseSettings.Add(NoiseUtils.Create_Handheld_Wideangle_Strong_Profile());
+        }
         public void LoadNoiseProfile(NoiseSettings noiseProfile)
         {
             noise.m_NoiseProfile = noiseProfile;
         }
         private NoiseSettings GetCurrentProfile()
+        {
+            if (noise == null)
+                return null;
+
+            if (targetProfile == empty)
+            {
+                return blankProfile;
+            }
+
+            foreach (NoiseSettings profile in noiseSettings)
+            {
+                if (profile.name == targetProfile)
+                {
+                    return profile;
+                }
+            }
+            return null;
+        }
+        
+        private NoiseSettings GetCurrentProfileFromAssets()
         {
             if(noise == null)
                 return null;
@@ -141,12 +178,23 @@ namespace ReplayTestMod
             }
             return null;
         }
+        
         private void UpdateNoiseProfile()
         {
             if (currentProfile == targetProfile)
                 return;
 
-            NoiseSettings profile = GetCurrentProfile();
+            NoiseSettings profile;
+            if (Main.settings.useAssetBundleProfiles)
+            {
+                profile = GetCurrentProfileFromAssets();
+            }
+            else
+            {
+                profile = GetCurrentProfile();
+            }
+            //NoiseSettings profile = GetCurrentProfileFromAssets();
+            //NoiseSettings profile = GetCurrentProfile();
             LoadNoiseProfile(profile);
             currentProfile = targetProfile;
 

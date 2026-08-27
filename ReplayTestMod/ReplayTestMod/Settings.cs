@@ -26,6 +26,8 @@ namespace ReplayTestMod
 
         public float replayplayback_speed = 1.0f;
 
+        public bool useAssetBundleProfiles = false;
+
         public override void Save(UnityModManager.ModEntry modEntry)
         {
             Save(this, modEntry);

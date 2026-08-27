@@ -12,6 +12,7 @@ namespace ReplayTestMod.Utils
 {
     public static class AssetLoader
     {
+        
         public static AssetBundle assetBundle;
 
         //public static NoiseSettings _6DShake;
@@ -92,5 +93,6 @@ namespace ReplayTestMod.Utils
         {
             UnloadAssetBundle();
         }
+        
     }
 }

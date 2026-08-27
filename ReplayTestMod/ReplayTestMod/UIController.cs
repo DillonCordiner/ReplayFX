@@ -163,6 +163,12 @@ namespace ReplayTestMod
                     {
                         GUILayout.Label("<b><color=#171717> Disabled </color></b>");
                     }
+                    // Test Button Remove later
+                    if (RGUI.Button(Main.settings.useAssetBundleProfiles, "Use Asset Bundle Profiles"))
+                    {
+                        Main.settings.useAssetBundleProfiles = !Main.settings.useAssetBundleProfiles;
+                    }
+                    // Test Button Remove later
                     GUILayout.Space(6f);
                     Main.settings.noise_amplitude = RGUI.SliderFloat(Main.settings.noise_amplitude, 0.0f, 10.0f, 1.0f, 82, "Amplitude");
                     GUILayout.Space(4f);
