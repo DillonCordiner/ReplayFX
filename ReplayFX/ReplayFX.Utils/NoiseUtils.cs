@@ -1,7 +1,7 @@
 ﻿using Cinemachine;
 using UnityEngine;
 
-namespace ReplayTestMod.Utils
+namespace ReplayFX.Utils
 {
     public static class NoiseUtils
     {

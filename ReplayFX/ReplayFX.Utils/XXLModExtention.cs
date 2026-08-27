@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace ReplayTestMod.Utils
+namespace ReplayFX.Utils
 {
     public static class XXLModExtention
     {

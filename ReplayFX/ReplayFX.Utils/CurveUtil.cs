@@ -1,7 +1,7 @@
 ﻿using ReplayEditor;
 using SmoothKeyframeCurves;
 
-namespace ReplayTestMod.Utils
+namespace ReplayFX.Utils
 {
     public static class CurveUtil
     {

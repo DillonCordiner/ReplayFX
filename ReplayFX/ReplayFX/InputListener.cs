@@ -5,9 +5,9 @@ using Rewired;
 using System.Linq;
 using GameManagement;
 using MapEditor;
-using ReplayTestMod.Keyframes;
+using ReplayFX.Keyframes;
 
-namespace ReplayTestMod
+namespace ReplayFX
 {
     public class InputListener : MonoBehaviour
     {

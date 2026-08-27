@@ -2,9 +2,9 @@
 using ReplayEditor;
 using UnityEngine;
 using HarmonyLib;
-using ReplayTestMod.Utils;
+using ReplayFX.Utils;
 
-namespace ReplayTestMod.Keyframes
+namespace ReplayFX.Keyframes
 {
     public class PlaybackSpeedKeyFrame : KeyFrame
     {

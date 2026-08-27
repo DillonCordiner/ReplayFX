@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace ReplayTestMod.Keyframes
+namespace ReplayFX.Keyframes
 {
     public class ImpulseKeyFrame : KeyFrame
     {

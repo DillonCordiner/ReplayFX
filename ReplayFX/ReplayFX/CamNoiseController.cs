@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using Cinemachine;
-using ReplayTestMod.Utils;
+using ReplayFX.Utils;
 using System.Collections.Generic;
 using ReplayEditor;
 using System.Linq;
 using System;
 using UnityEngine.Profiling;
 
-namespace ReplayTestMod
+namespace ReplayFX
 {
     public class CamNoiseController : MonoBehaviour
     {

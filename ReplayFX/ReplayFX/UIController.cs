@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
-using ReplayTestMod.Utils;
+using ReplayFX.Utils;
 using System.Collections;
 using RapidGUI;
-using ReplayTestMod.Keyframes;
+using ReplayFX.Keyframes;
 
-namespace ReplayTestMod
+namespace ReplayFX
 {
     public class UItab
     {

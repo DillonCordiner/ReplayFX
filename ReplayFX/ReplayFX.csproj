@@ -7,8 +7,8 @@
     <ProjectGuid>{43B91627-DD7D-42F2-8DA6-E31BBCC9DA6B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReplayTestMod</RootNamespace>
-    <AssemblyName>ReplayTestMod</AssemblyName>
+    <RootNamespace>ReplayFX</RootNamespace>
+    <AssemblyName>ReplayFX</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -117,8 +117,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ReplayTestMod.Patches\ReplayCameraControllerPatch.cs" />
-    <Compile Include="ReplayTestMod.Patches\CameraCurvePatch.cs" />
+    <Compile Include="ReplayFX.Patches\ReplayCameraControllerPatch.cs" />
+    <Compile Include="ReplayFX.Patches\CameraCurvePatch.cs" />
     <Compile Include="RapidGUI\Button.cs" />
     <Compile Include="RapidGUI\Field.cs" />
     <Compile Include="RapidGUI\Field\BoolField.cs" />
@@ -142,23 +142,23 @@
     <Compile Include="RapidGUI\Utilities\UnparsedStr.cs" />
     <Compile Include="RapidGUI\Utilities\WarningLabelNoStyle.cs" />
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
-    <Compile Include="ReplayTestMod.Utils\AssetLoader.cs" />
-    <Compile Include="ReplayTestMod.Utils\PlayBackUtil.cs" />
-    <Compile Include="ReplayTestMod.Utils\CurveUtil.cs" />
-    <Compile Include="ReplayTestMod.Utils\XXLModExtention.cs" />
-    <Compile Include="ReplayTestMod.Utils\ModCheckUtil.cs" />
-    <Compile Include="ReplayTestMod.Utils\NoiseUtils.cs" />
-    <Compile Include="ReplayTestMod.Keyframes\PlaybackSpeedKeyFrame.cs" />
-    <Compile Include="ReplayTestMod.Keyframes\KeyFrameHelper.cs" />
-    <Compile Include="ReplayTestMod.Keyframes\ImpulseKeyFrame.cs" />
-    <Compile Include="ReplayTestMod.Utils\ResourceExtractor.cs" />
-    <Compile Include="ReplayTestMod.Utils\UIExtentions.cs" />
-    <Compile Include="ReplayTestMod\InputListener.cs" />
-    <Compile Include="ReplayTestMod\TimeLineManager.cs" />
-    <Compile Include="ReplayTestMod\UIController.cs" />
-    <Compile Include="ReplayTestMod\CamNoiseController.cs" />
-    <Compile Include="ReplayTestMod\Settings.cs" />
-    <Compile Include="ReplayTestMod\Main.cs" />
+    <Compile Include="ReplayFX.Utils\AssetLoader.cs" />
+    <Compile Include="ReplayFX.Utils\PlayBackUtil.cs" />
+    <Compile Include="ReplayFX.Utils\CurveUtil.cs" />
+    <Compile Include="ReplayFX.Utils\XXLModExtention.cs" />
+    <Compile Include="ReplayFX.Utils\ModCheckUtil.cs" />
+    <Compile Include="ReplayFX.Utils\NoiseUtils.cs" />
+    <Compile Include="ReplayFX.Keyframes\PlaybackSpeedKeyFrame.cs" />
+    <Compile Include="ReplayFX.Keyframes\KeyFrameHelper.cs" />
+    <Compile Include="ReplayFX.Keyframes\ImpulseKeyFrame.cs" />
+    <Compile Include="ReplayFX.Utils\ResourceExtractor.cs" />
+    <Compile Include="ReplayFX.Utils\UIExtentions.cs" />
+    <Compile Include="ReplayFX\InputListener.cs" />
+    <Compile Include="ReplayFX\TimeLineManager.cs" />
+    <Compile Include="ReplayFX\UIController.cs" />
+    <Compile Include="ReplayFX\CamNoiseController.cs" />
+    <Compile Include="ReplayFX\Settings.cs" />
+    <Compile Include="ReplayFX\Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Cinemachine;
 
-namespace ReplayTestMod.Utils
+namespace ReplayFX.Utils
 {
     public static class AssetLoader
     {
