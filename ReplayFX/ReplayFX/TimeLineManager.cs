@@ -1,14 +1,14 @@
 ﻿using ReplayEditor;
 using UnityEngine;
-using ReplayTestMod.Utils;
+using ReplayFX.Utils;
 using System.Reflection;
 using HarmonyLib;
 using GameManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using ReplayTestMod.Keyframes;
+using ReplayFX.Keyframes;
 
-namespace ReplayTestMod
+namespace ReplayFX
 {
     [DefaultExecutionOrder(9999)]
     public class TimelineManager : MonoBehaviour

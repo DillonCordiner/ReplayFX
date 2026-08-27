@@ -3,9 +3,9 @@ using UnityEngine;
 using HarmonyLib;
 using ReplayEditor;
 using SmoothKeyframeCurves;
-using ReplayTestMod.Utils;
+using ReplayFX.Utils;
 
-namespace ReplayTestMod.Patches
+namespace ReplayFX.Patches
 {
     /*
     [HarmonyPatch(typeof(ReplayCameraController), "AddKeyFrame")]

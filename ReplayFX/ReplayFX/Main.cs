@@ -6,9 +6,9 @@ using RapidGUI;
 using System;
 using Object = UnityEngine.Object;
 using System.Runtime;
-using ReplayTestMod.Utils;
+using ReplayFX.Utils;
 
-namespace ReplayTestMod
+namespace ReplayFX
 {
     internal static class Main
     {

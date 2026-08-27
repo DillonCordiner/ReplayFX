@@ -1,6 +1,6 @@
 ﻿using UnityModManagerNet;
 
-namespace ReplayTestMod.Utils
+namespace ReplayFX.Utils
 {
     public static class ModCheckUtil
     {

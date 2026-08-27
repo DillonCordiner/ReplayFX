@@ -1,0 +1,11 @@
+{
+  "Id": "ReplayFX",
+  "DisplayName": "ReplayFX",
+  "Author": "Guru",
+  "Version": "0.0.10",
+  "ManagerVersion": "0.22.5.0",
+  "Requirements": [],
+  "LoadAfter": [],
+  "AssemblyName": "ReplayFX.dll",
+  "EntryMethod": "ReplayFX.Main.Load"
+}

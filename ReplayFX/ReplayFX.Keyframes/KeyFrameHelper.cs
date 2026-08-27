@@ -2,7 +2,7 @@
 using ReplayEditor;
 using System;
 
-namespace ReplayTestMod.Keyframes
+namespace ReplayFX.Keyframes
 {
     public static class KeyFrameHelper
     {

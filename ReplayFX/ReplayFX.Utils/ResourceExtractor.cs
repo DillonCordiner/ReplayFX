@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReplayTestMod.Utils
+namespace ReplayFX.Utils
 {
     public static class ResourceExtractor
     {

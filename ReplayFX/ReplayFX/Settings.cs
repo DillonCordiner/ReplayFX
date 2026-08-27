@@ -2,7 +2,7 @@
 using UnityModManagerNet;
 using UnityEngine;
 
-namespace ReplayTestMod
+namespace ReplayFX
 {
     [Serializable]
     public class Settings : UnityModManager.ModSettings
