@@ -169,7 +169,7 @@ namespace ReplayFX
             {
                 return blankProfile;
             }
-            foreach (NoiseSettings profile in AssetLoader.noiseSettings)
+            foreach (NoiseSettings profile in AssetLoader.noiseSettingsAssets)
             {
                 if (profile.name == targetProfile)
                 {
@@ -184,6 +184,7 @@ namespace ReplayFX
             if (currentProfile == targetProfile)
                 return;
 
+            /* //for testing camera shake asset vs generated values
             NoiseSettings profile;
             if (Main.settings.useAssetBundleProfiles)
             {
@@ -193,7 +194,9 @@ namespace ReplayFX
             {
                 profile = GetCurrentProfile();
             }
-            //NoiseSettings profile = GetCurrentProfileFromAssets();
+            */
+
+            NoiseSettings profile = GetCurrentProfileFromAssets();
             //NoiseSettings profile = GetCurrentProfile();
             LoadNoiseProfile(profile);
             currentProfile = targetProfile;
@@ -245,7 +248,8 @@ namespace ReplayFX
                     break;
 
                 case false:
-                    storedProfile = GetCurrentProfile().name;
+                    //storedProfile = GetCurrentProfile().name;
+                    storedProfile = GetCurrentProfileFromAssets().name;
                     targetProfile = empty;
                     break;
 

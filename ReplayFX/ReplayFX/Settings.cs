@@ -24,9 +24,9 @@ namespace ReplayFX
         public float impulse_source_frequency = 1.0f;
         public float impulse_source_decaytime = 0.5f;
 
-        public float replayplayback_speed = 1.0f;
+        public float replay_playback_speed = 1.0f;
 
-        public bool useAssetBundleProfiles = false;
+        public bool useAssetBundleProfiles = true;
 
         public override void Save(UnityModManager.ModEntry modEntry)
         {

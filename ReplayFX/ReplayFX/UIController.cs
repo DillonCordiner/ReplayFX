@@ -104,7 +104,7 @@ namespace ReplayFX
                 return;
 
             GUI.backgroundColor = BGColor;
-            MainWindowRect = GUILayout.Window(42879, MainWindowRect, MainWindow, "<b> ReplayTestMod </b>");
+            MainWindowRect = GUILayout.Window(42879, MainWindowRect, MainWindow, "<b> ReplayFX </b>");
         }
 
         // Creates the GUI window
@@ -112,14 +112,14 @@ namespace ReplayFX
         {
             GUI.DragWindow(new Rect(0, 0, 10000, 20));
 
-            MainUI();
+            //MainUI();
             CameraUI();
             KeyFrameUI();
         }
         private void MainUI()
         {
-            GUILayout.Label($"ReplayTestMod");
-            GUILayout.Space(8f);
+            //GUILayout.Label($"ReplayFX");
+            //GUILayout.Space(8f);
         }
         /*
         private void CameraShakeButton()
@@ -133,11 +133,11 @@ namespace ReplayFX
         {
             if (ModCheckUtil.IsXXLModInstalled)
             {
-                XXLModExtention.SetXXLSpeed(Main.settings.replayplayback_speed);
+                XXLModExtention.SetXXLSpeed(Main.settings.replay_playback_speed);
             }
             else
             {
-                PlayBackUtil.SetPlayBackSpeedValue(Main.settings.replayplayback_speed);
+                PlayBackUtil.SetPlayBackSpeedValue(Main.settings.replay_playback_speed);
             }
         }
         private void CameraUI()
@@ -163,12 +163,13 @@ namespace ReplayFX
                     {
                         GUILayout.Label("<b><color=#171717> Disabled </color></b>");
                     }
-                    // Test Button Remove later
-                    if (RGUI.Button(Main.settings.useAssetBundleProfiles, "Use Asset Bundle Profiles"))
+                    /*
+                    // Test Button for asset noise vs generated noise
+                    if (RGUI.Button(Main.settings.useAssetBundleProfiles, "Use Asset Bundle Profiles - " + Main.settings.useAssetBundleProfiles))
                     {
                         Main.settings.useAssetBundleProfiles = !Main.settings.useAssetBundleProfiles;
                     }
-                    // Test Button Remove later
+                    */
                     GUILayout.Space(6f);
                     Main.settings.noise_amplitude = RGUI.SliderFloat(Main.settings.noise_amplitude, 0.0f, 10.0f, 1.0f, 82, "Amplitude");
                     GUILayout.Space(4f);
@@ -234,7 +235,7 @@ namespace ReplayFX
                         GUILayout.Space(6f);
                         UIextensions.FlexableButton("Create PlayBack KeyFrame", KeyFrameHelper.AddPlayBackKeyFrame, Color.white);
                         GUILayout.Space(4f);
-                        Main.settings.replayplayback_speed = RGUI.SliderFloat(Main.settings.replayplayback_speed, 0.0f, 2.0f, 1.0f, 92, "Replay Speed");
+                        Main.settings.replay_playback_speed = RGUI.SliderFloat(Main.settings.replay_playback_speed, 0.0f, 2.0f, 1.0f, 92, "Replay Speed");
                         GUILayout.Space(8f);
                         UIextensions.FlexableButton("Set Speed to Slider Value", SetPlayBackSpeedButton, Color.white);
                         GUILayout.Space(4f);

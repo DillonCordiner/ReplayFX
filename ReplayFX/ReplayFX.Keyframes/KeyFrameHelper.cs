@@ -15,7 +15,7 @@ namespace ReplayFX.Keyframes
 
         public static void AddPlayBackKeyFrame()
         {
-            CreatePlaybackKeyFrame(Main.settings.replayplayback_speed, ReplayEditorController.Instance.playbackController.CurrentTime);
+            CreatePlaybackKeyFrame(Main.settings.replay_playback_speed, ReplayEditorController.Instance.playbackController.CurrentTime);
             //CurveUtil.Refresh();
             //ReplayEditorController.Instance.cameraController.keyframeUI.UpdateKeyframes(ReplayEditorController.Instance.cameraController.keyFrames);
         }

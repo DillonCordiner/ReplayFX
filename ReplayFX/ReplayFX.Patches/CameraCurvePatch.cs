@@ -5,7 +5,7 @@ using ReplayEditor;
 using SmoothKeyframeCurves;
 using ReplayFX.Utils;
 
-namespace ReplayTestMod.Patches
+namespace ReplayFX.Patches
 {
     
     [HarmonyPatch(typeof(CameraCurve), nameof(CameraCurve.CalculateCurveControlPoints))]

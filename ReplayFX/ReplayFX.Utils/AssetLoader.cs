@@ -11,20 +11,11 @@ using Cinemachine;
 namespace ReplayFX.Utils
 {
     public static class AssetLoader
-    {
-        
+    {  
         public static AssetBundle assetBundle;
 
-        //public static NoiseSettings _6DShake;
-        //public static NoiseSettings _handheld_normal_extreme;
-        //public static NoiseSettings _handheld_normal_mild;
-        //public static NoiseSettings _handheld_normal_strong;
-        //public static NoiseSettings _handheld_tele_mild;
-        //public static NoiseSettings _handheld_tele_strong;
-        //public static NoiseSettings _handheld_windangle_mild;
-        //public static NoiseSettings _handheld_wideangle_strong;
-
-        public static NoiseSettings[] noiseSettings = new NoiseSettings[8];
+        //public static NoiseSettings[] noiseSettings = new NoiseSettings[8];
+        public static List<NoiseSettings> noiseSettingsAssets = new List<NoiseSettings>();
 
         public static void LoadBundles()
         {
@@ -42,10 +33,10 @@ namespace ReplayFX.Utils
         }
         private static IEnumerator LoadAssetBundle()
         {
-            byte[] assetBundleData = ResourceExtractor.GetResources("ReplayTestMod.Resources.noiseassets");
+            byte[] assetBundleData = ResourceExtractor.GetResources("ReplayFX.Resources.noiseassets");
             if (assetBundleData == null)
             {
-                Main.Logger.Log("Failed to extract ReplayTestMod Asset Bundle");
+                Main.Logger.Log("Failed to extract ReplayFX Asset Bundle");
                 yield break;
             }
             AssetBundleCreateRequest abCreateRequest = AssetBundle.LoadFromMemoryAsync(assetBundleData);
@@ -54,22 +45,14 @@ namespace ReplayFX.Utils
             assetBundle = abCreateRequest.assetBundle;
             if (assetBundle == null)
             {
-                Main.Logger.Log("Failed to load ReplayTestMod Asset Bundle Request");
+                Main.Logger.Log("Failed to load ReplayFX Asset Bundle Request");
                 yield break;
             }
             yield return GameStateMachine.Instance.StartCoroutine(LoadAssetFromBundle());
         }
         private static IEnumerator LoadAssetFromBundle()
         {
-            //_6DShake = assetBundle.LoadAsset<NoiseSettings>("6D Shake");
-            //_handheld_normal_extreme = assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_extreme");
-            //_handheld_normal_mild = assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_mild");
-            //_handheld_normal_strong = assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_strong");
-            //_handheld_tele_mild = assetBundle.LoadAsset<NoiseSettings>("Handheld_tele_mild");
-            //_handheld_tele_strong = assetBundle.LoadAsset<NoiseSettings>("Handheld_tele_strong");
-            //_handheld_windangle_mild = assetBundle.LoadAsset<NoiseSettings>("Handheld_wideangle_mild");
-            //_handheld_wideangle_strong = assetBundle.LoadAsset<NoiseSettings>("Handheld_wideangle_strong");
-
+            /*
             noiseSettings[0] = assetBundle.LoadAsset<NoiseSettings>("6D Shake");
             noiseSettings[1] = assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_extreme");
             noiseSettings[2] = assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_mild");
@@ -78,6 +61,16 @@ namespace ReplayFX.Utils
             noiseSettings[5] = assetBundle.LoadAsset<NoiseSettings>("Handheld_tele_strong");
             noiseSettings[6] = assetBundle.LoadAsset<NoiseSettings>("Handheld_wideangle_mild");
             noiseSettings[7] = assetBundle.LoadAsset<NoiseSettings>("Handheld_wideangle_strong");
+            */
+
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("6D Shake"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_extreme"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_mild"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_strong"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_tele_mild"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_tele_strong"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_wideangle_mild"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_wideangle_strong"));
 
             yield return null;
         }

@@ -14,7 +14,7 @@ namespace ReplayFX
     {
         public static bool enabled;
         public static Harmony harmonyInstance;
-        public static string modId = "ReplayTestMod";
+        public static string modId = "ReplayFX";
         public static UnityModManager.ModEntry modEntry;
         public static Settings settings;
         public static GameObject ScriptManager;
@@ -125,7 +125,7 @@ namespace ReplayFX
                     harmonyInstance = new Harmony(modEntry.Info.Id);
                     harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
 
-                    ScriptManager = new GameObject("ReplayTestMod");
+                    ScriptManager = new GameObject("ReplayFX");
                     camNoiseController = ScriptManager.AddComponent<CamNoiseController>();
                     inputListener = ScriptManager.AddComponent<InputListener>();
                     uiController = ScriptManager.AddComponent<UIController>();
