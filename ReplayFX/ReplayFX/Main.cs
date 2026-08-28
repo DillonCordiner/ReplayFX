@@ -61,51 +61,6 @@ namespace ReplayFX
                 }
             }
             GUILayout.EndVertical();
-
-            /*
-            GUILayout.BeginHorizontal();
-            {
-                GUILayout.BeginVertical(GUILayout.MaxWidth(256));
-                {
-                    GUILayout.Label("Camera Profile");
-                    camNoiseController.targetProfile = RGUI.SelectionPopup(camNoiseController.targetProfile, camNoiseController.ProfileOptions);
-                    GUILayout.Space(6f);
-                    settings.amplitude = RGUI.SliderFloat(settings.amplitude, 0.0f, 10.0f, 1.0f, 82, "Amplitude");
-                    GUILayout.Space(4f);
-                    settings.frequency = RGUI.SliderFloat(settings.frequency, 0.0f, 10.0f, 1.0f, 82, "Frequency");
-                    GUILayout.Space(4f);
-                    UIextensions.FlexableButton("Generate new seed", camNoiseController.GenerateNewSeed, Color.white);
-
-                    GUILayout.Space(8f);
-
-                    UIextensions.CenteredLabel("Pivot Offset");
-                    GUILayout.Space(6f);
-                    settings.offset_x = RGUI.SliderFloat(settings.offset_x, 0.0f, 10.0f, 0.0f, 72, "X Pivot");
-                    GUILayout.Space(4f);
-                    settings.offset_y = RGUI.SliderFloat(settings.offset_y, 0.0f, 10.0f, 0.0f, 72, "Y Pivot");
-                    GUILayout.Space(4f);
-                    settings.offset_z = RGUI.SliderFloat(settings.offset_z, 0.0f, 10.0f, 0.0f, 72, "Z Pivot");
-                }
-                GUILayout.EndVertical();
-
-                GUILayout.BeginVertical(GUILayout.MaxWidth(256));
-                {
-                    UIextensions.CenteredLabel("Impluse KeyFrames");
-                    GUILayout.Space(6f);
-                    UIextensions.FlexableButton("Create Impluse KeyFrame", KeyFrameHelper.AddImpluseKeyFrame, Color.white);
-
-                    GUILayout.Space(8f);
-
-                    UIextensions.CenteredLabel("PlayBack KeyFrames");
-                    GUILayout.Space(6f);
-                    UIextensions.FlexableButton("Create PlayBack KeyFrame", KeyFrameHelper.AddPlayBackKeyFrame, Color.white);
-                    GUILayout.Space(4f);
-                    settings.playBackSpeed = RGUI.SliderFloat(settings.playBackSpeed, 0.0f, 2.0f, 1.0f, 72, "PlayBack Speed");
-                }
-                GUILayout.EndVertical();
-            }
-            GUILayout.EndHorizontal();
-            */
         }
         private static void OnSaveGUI(UnityModManager.ModEntry modEntry)
         {

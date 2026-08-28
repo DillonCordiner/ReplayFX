@@ -13,23 +13,19 @@ namespace ReplayFX
     [DefaultExecutionOrder(9999)]
     public class TimelineManager : MonoBehaviour
     {
-        private int LastKeyframeCount = -1;
+        private int lastKeyframeCount = -1;
         private float lastPlaybackTime = -1f;
         private bool PlaybackOverwritten = false;
-        private Color PlaybackHandleColor = Color.cyan;
-        private Color ImpulseHandleColor = Color.white;
-
-        //public CustomCameraCurve customCurve = new CustomCameraCurve();
+        private Color playbackHandleColor = Color.cyan;
+        private Color impulseHandleColor = Color.white;
 
         private void Start()
-        {
-            
+        {         
             ModCheckUtil.CheckForXXLMod();
             if (ModCheckUtil.IsXXLModInstalled)
             {
                 XXLModExtention.GetXXLModSettings();
-            }
-            
+            }     
         }
         void LateUpdate()
         {
@@ -62,15 +58,12 @@ namespace ReplayFX
         private void RefreshOnKeyChange(ReplayEditorController replayEditor)
         {
             int currentCount = replayEditor.cameraController.keyFrames.Count;
-            if (currentCount != LastKeyframeCount)
+            if (currentCount != lastKeyframeCount)
             {
                 CurveUtil.Refresh();
-
-                LastKeyframeCount = currentCount;
+                lastKeyframeCount = currentCount;
             }
         }
-
-
 
         private void UpdateImpulsekeys(ReplayEditorController replayEditor, float currentTime)
         {
@@ -158,11 +151,11 @@ namespace ReplayFX
             {
                 if (keyframes[i] is PlaybackSpeedKeyFrame)
                 {
-                    SetHandleColor(i, sliders, PlaybackHandleColor);
+                    SetHandleColor(i, sliders, playbackHandleColor);
                 }
                 else if (keyframes[i] is ImpulseKeyFrame)
                 {
-                    SetHandleColor(i, sliders, ImpulseHandleColor);
+                    SetHandleColor(i, sliders, impulseHandleColor);
                 }
 
             }

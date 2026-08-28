@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace ReplayFX.Utils
@@ -16,56 +17,58 @@ namespace ReplayFX.Utils
         {
             try
             {
-                Type xxlMainType = Type.GetType("XXLMod3.Main, XXLMod3");
-                if (xxlMainType == null)
+                Type xxlMain = Type.GetType("XXLMod3.Main, XXLMod3");
+                if (xxlMain == null)
                 {
                     Main.Logger.Log("[XXLModExtention] Could not find XXLMod3.Main type.");
                     return;
                 }
 
-                object mainSettingsInstance = null;
-                FieldInfo mainSettingsField = xxlMainType.GetField("settings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
-                                           ?? xxlMainType.GetField("Settings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+                object settingsInstance = null;
+                FieldInfo settingsField = xxlMain.GetField("settings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static) ?? xxlMain.GetField("Settings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
 
-                if (mainSettingsField != null)
+                if (settingsField != null)
                 {
-                    mainSettingsInstance = mainSettingsField.GetValue(null);
+                    settingsInstance = settingsField.GetValue(null);
+                    //Main.Logger.Log("[XXLModExtention] Settings is a Field");
                 }
                 else
                 {
-                    PropertyInfo mainSettingsProp = xxlMainType.GetProperty("settings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
-                                                 ?? xxlMainType.GetProperty("Settings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-                    if (mainSettingsProp != null)
+                    PropertyInfo settingsProperty = xxlMain.GetProperty("settings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static) ?? xxlMain.GetProperty("Settings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+                    if (settingsProperty != null)
                     {
-                        mainSettingsInstance = mainSettingsProp.GetValue(null);
+                        settingsInstance = settingsProperty.GetValue(null);
+                        //Main.Logger.Log("[XXLModExtention] Settings is a Property");
                     }
                 }
 
-                if (mainSettingsInstance == null)
+                if (settingsInstance == null)
                 {
-                    Main.Logger.Log("[XXLModExtention] Could not retrieve main settings instance from XXLMod3.");
+                    Main.Logger.Log("[XXLModExtention] Could not retrieve settings from XXLMod3.");
                     return;
                 }
 
-                Type mainSettingsType = mainSettingsInstance.GetType();
-                FieldInfo otherSettingsField = mainSettingsType.GetField("OtherSettings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                Type settingsType = settingsInstance.GetType();
+                FieldInfo otherSettingsField = settingsType.GetField("OtherSettings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
                 if (otherSettingsField != null)
                 {
-                    otherSettingsInstance = otherSettingsField.GetValue(mainSettingsInstance);
+                    otherSettingsInstance = otherSettingsField.GetValue(settingsInstance);
+                    //Main.Logger.Log("[XXLModExtention] OtherSettings is a Field");
                 }
                 else
                 {
-                    PropertyInfo otherSettingsProp = mainSettingsType.GetProperty("OtherSettings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                    if (otherSettingsProp != null)
+                    PropertyInfo otherSettingsProperty = settingsType.GetProperty("OtherSettings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                    if (otherSettingsProperty != null)
                     {
-                        otherSettingsInstance = otherSettingsProp.GetValue(mainSettingsInstance);
+                        otherSettingsInstance = otherSettingsProperty.GetValue(settingsInstance);
+                        //Main.Logger.Log("[XXLModExtention] OtherSettings is a Property");
                     }
                 }
 
                 if (otherSettingsInstance == null)
                 {
-                    Main.Logger.Log("[XXLModExtention] Could not retrieve OtherSettings object instance.");
+                    Main.Logger.Log("[XXLModExtention] Could not retrieve OtherSettings");
                     return;
                 }
 
@@ -84,7 +87,7 @@ namespace ReplayFX.Utils
             }
             catch (Exception ex)
             {
-                Main.Logger.Log($"[XXLModExtention] Initialization exception: {ex.Message}");
+                Main.Logger.Log($"[XXLModExtention] exception: {ex.Message}");
             }
         }
 

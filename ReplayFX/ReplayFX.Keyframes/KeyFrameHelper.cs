@@ -34,7 +34,6 @@ namespace ReplayFX.Keyframes
         {
             var keyframes = ReplayEditorController.Instance.cameraController.keyFrames;
 
-            // Loop backwards so removing an item doesn't mess up the index of the next item
             for (int i = keyframes.Count - 1; i >= 0; i--)
             {
                 if (keyframes[i].GetType() == keyframeType)
@@ -45,8 +44,6 @@ namespace ReplayFX.Keyframes
         }
         public static void CreatePlaybackKeyFrame(float playbackspeed, float time)
         {
-            //time = time + Main.settings.time_offset; // time offset if needed
-
             int index = FindKeyFrameInsertIndex(time);
             KeyFrame keyFrame;
 
@@ -60,8 +57,6 @@ namespace ReplayFX.Keyframes
 
         public static void CreateImpluseKeyFrame(CinemachineImpulseSource impulseSource, float time)
         {
-            //time = time + Main.settings.time_offset; // time offset if needed
-
             int index = FindKeyFrameInsertIndex(time);
             KeyFrame keyFrame;
 

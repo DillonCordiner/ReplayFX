@@ -26,7 +26,7 @@ namespace ReplayFX
 
         public float replay_playback_speed = 1.0f;
 
-        public bool useAssetBundleProfiles = true;
+        //public bool useAssetBundleProfiles = true;
 
         public override void Save(UnityModManager.ModEntry modEntry)
         {

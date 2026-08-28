@@ -184,7 +184,7 @@ namespace ReplayFX
             if (currentProfile == targetProfile)
                 return;
 
-            /* //for testing camera shake asset vs generated values
+            /*
             NoiseSettings profile;
             if (Main.settings.useAssetBundleProfiles)
             {

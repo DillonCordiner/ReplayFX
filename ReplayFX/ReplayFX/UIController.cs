@@ -107,7 +107,6 @@ namespace ReplayFX
             MainWindowRect = GUILayout.Window(42879, MainWindowRect, MainWindow, "<b> ReplayFX </b>");
         }
 
-        // Creates the GUI window
         private void MainWindow(int windowID)
         {
             GUI.DragWindow(new Rect(0, 0, 10000, 20));
@@ -121,13 +120,6 @@ namespace ReplayFX
             //GUILayout.Label($"ReplayFX");
             //GUILayout.Space(8f);
         }
-        /*
-        private void CameraShakeButton()
-        {
-            Main.settings.enableNoise = !Main.settings.enableNoise;
-            Main.camNoiseController.ToggleNoise();
-        }
-        */
         
         private void SetPlayBackSpeedButton()
         {
@@ -150,7 +142,8 @@ namespace ReplayFX
             {
                 GUILayout.BeginVertical();
                 {
-                    GUILayout.Label("Camera Shake");
+                    UIextensions.CenteredLabel("Camera Shake");
+                    GUILayout.Space(4f);
                     UIextensions.FlexableButton(Main.settings.enableNoise ? "<b> Enabled </b>" : "<b><color=#171717> Disabled </color></b>", Main.camNoiseController.ToggleNoise, Color.white);
 
                     GUILayout.Space(6f);
@@ -164,7 +157,7 @@ namespace ReplayFX
                         GUILayout.Label("<b><color=#171717> Disabled </color></b>");
                     }
                     /*
-                    // Test Button for asset noise vs generated noise
+                    // Test Button
                     if (RGUI.Button(Main.settings.useAssetBundleProfiles, "Use Asset Bundle Profiles - " + Main.settings.useAssetBundleProfiles))
                     {
                         Main.settings.useAssetBundleProfiles = !Main.settings.useAssetBundleProfiles;
@@ -177,15 +170,17 @@ namespace ReplayFX
                     GUILayout.Space(4f);
                     UIextensions.FlexableButton("Generate new seed", Main.camNoiseController.GenerateNewSeed, Color.white);
 
-                    GUILayout.Space(8f);
-
-                    UIextensions.CenteredLabel("Pivot Offset");
                     GUILayout.Space(6f);
-                    Main.settings.noise_offset_x = RGUI.SliderFloat(Main.settings.noise_offset_x, 0.0f, 10.0f, 0.0f, 72, "X Pivot");
-                    GUILayout.Space(4f);
-                    Main.settings.noise_offset_y = RGUI.SliderFloat(Main.settings.noise_offset_y, 0.0f, 10.0f, 0.0f, 72, "Y Pivot");
-                    GUILayout.Space(4f);
-                    Main.settings.noise_offset_z = RGUI.SliderFloat(Main.settings.noise_offset_z, 0.0f, 10.0f, 0.0f, 72, "Z Pivot");
+                    GUILayout.Label("Pivot Offset");
+                    GUILayout.BeginVertical("Box");
+                    {
+                        Main.settings.noise_offset_x = RGUI.SliderFloat(Main.settings.noise_offset_x, 0.0f, 10.0f, 0.0f, 72, "X Pivot");
+                        GUILayout.Space(4f);
+                        Main.settings.noise_offset_y = RGUI.SliderFloat(Main.settings.noise_offset_y, 0.0f, 10.0f, 0.0f, 72, "Y Pivot");
+                        GUILayout.Space(4f);
+                        Main.settings.noise_offset_z = RGUI.SliderFloat(Main.settings.noise_offset_z, 0.0f, 10.0f, 0.0f, 72, "Z Pivot");
+                    }     
+                    GUILayout.EndVertical();
                 }
                 GUILayout.EndVertical();
             }
@@ -205,10 +200,10 @@ namespace ReplayFX
                     UIextensions.FlexableButton("Refresh Timeline", CurveUtil.Refresh, Color.white);
                     GUILayout.Space(8f);
 
+                    UIextensions.CenteredLabel("Impluse KeyFrames");
+                    GUILayout.Space(4f);
                     GUILayout.BeginVertical("Box");
                     {
-                        UIextensions.CenteredLabel("Impluse KeyFrames");
-                        GUILayout.Space(6f);
                         UIextensions.FlexableButton("Create Impluse KeyFrame", KeyFrameHelper.AddImpluseKeyFrame, Color.white);
                         GUILayout.Space(4f);
                         Main.settings.impulse_force = RGUI.SliderFloat(Main.settings.impulse_force, 0.0f, 10.0f, 1.0f, 90, "Impulse Force");
@@ -229,10 +224,10 @@ namespace ReplayFX
 
                     GUILayout.Space(8f);
 
+                    UIextensions.CenteredLabel("PlayBack KeyFrames");
+                    GUILayout.Space(4f);
                     GUILayout.BeginVertical("Box");
                     {
-                        UIextensions.CenteredLabel("PlayBack KeyFrames");
-                        GUILayout.Space(6f);
                         UIextensions.FlexableButton("Create PlayBack KeyFrame", KeyFrameHelper.AddPlayBackKeyFrame, Color.white);
                         GUILayout.Space(4f);
                         Main.settings.replay_playback_speed = RGUI.SliderFloat(Main.settings.replay_playback_speed, 0.0f, 2.0f, 1.0f, 92, "Replay Speed");

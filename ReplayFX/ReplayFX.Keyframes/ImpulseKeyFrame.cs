@@ -36,15 +36,12 @@ namespace ReplayFX.Keyframes
 
         public override void AddKeyframes(CameraCurve cameraCurve)
         {
-            // Leave empty. An impulse shouldn't change the camera's X/Y/Z spline path.
-            //cameraCurve.CalculateCurveControlPoints();
-            Main.Logger.Log("ImpulseKeyFrame: Add Key Frame Called");
+            //Main.Logger.Log("ImpulseKeyFrame: Add Key Frame Called");
         }
 
         public override void Update(Transform cameraTransform, float t)
         {
-            //impulseSource.GenerateImpulse(Vector3.down);
-            Main.Logger.Log("ImpulseKeyFrame: Update Called");
+            //Main.Logger.Log("ImpulseKeyFrame: Update Called");
         }
     }
 }

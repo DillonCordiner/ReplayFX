@@ -5,7 +5,7 @@
   "Version": "0.0.10",
   "ManagerVersion": "0.22.5.0",
   "Requirements": [],
-  "LoadAfter": [],
+  "LoadAfter": ["XXLMod3"],
   "AssemblyName": "ReplayFX.dll",
   "EntryMethod": "ReplayFX.Main.Load"
 }

@@ -20,16 +20,9 @@ namespace ReplayFX.Keyframes
             time = currentTime;
         }
 
-        public void TriggerKeyFrame()
-        {
-            //Traverse.Create().Field("").SetValue();
-            Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(targetSpeed);
-            Main.Logger.Log($"[PlaybackSpeed] Set to: {targetSpeed} at time: {time}");
-        }
-
         public override void ApplyTo(CinemachineVirtualCamera camera)
         {
-            Main.Logger.Log("PlayBackSpeedKeyFrame: Apply To");
+            //Main.Logger.Log("PlayBackSpeedKeyFrame: Apply To");
         }
 
         public override void AddKeyframes(CameraCurve cameraCurve)
@@ -41,7 +34,7 @@ namespace ReplayFX.Keyframes
 
         public override void Update(Transform cameraTransform, float t)
         {
-            Main.Logger.Log("PlayBackSpeedKeyFrame: Update");
+            //Main.Logger.Log("PlayBackSpeedKeyFrame: Update");
         }
     }
 }
