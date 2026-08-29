@@ -20,12 +20,16 @@ namespace ReplayFX
         private Color impulseHandleColor = Color.gray;
 
         private void Start()
-        {         
-            ModCheckUtil.CheckForXXLMod();
-            if (ModCheckUtil.IsXXLModInstalled)
+        {
+            if (ModCheckUtil.CheckForMod(XXLModExtention.XXLmodID))
             {
+                XXLModExtention.IsXXLModInstalled = true;
                 XXLModExtention.GetXXLModSettings();
-            }     
+            }
+            else
+            {
+                XXLModExtention.IsXXLModInstalled = false;
+            }
         }
         void LateUpdate()
         {
@@ -102,7 +106,7 @@ namespace ReplayFX
         {
             if (PlaybackOverwritten)
             {
-                if (ModCheckUtil.IsXXLModInstalled)
+                if (XXLModExtention.IsXXLModInstalled)
                 {
                     XXLModExtention.RestoreOriginalSpeed();
                 }
@@ -123,7 +127,7 @@ namespace ReplayFX
                 //float interpolatedSpeed = CurveUtil.playbackSpeedCurve.Evaluate(currentTime);
                 float interpolatedSpeed = CurveUtil.EvaluatePlaybackSpeed(currentTime);
 
-                if (ModCheckUtil.IsXXLModInstalled)
+                if (XXLModExtention.IsXXLModInstalled)
                 {
                     XXLModExtention.SetXXLSpeed(interpolatedSpeed);
                 }

@@ -123,7 +123,7 @@ namespace ReplayFX
         
         private void SetPlayBackSpeedButton()
         {
-            if (ModCheckUtil.IsXXLModInstalled)
+            if (XXLModExtention.IsXXLModInstalled)
             {
                 XXLModExtention.SetXXLSpeed(Main.settings.replay_playback_speed);
             }

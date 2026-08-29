@@ -29,7 +29,7 @@ namespace ReplayFX.Keyframes
         {
             CurveUtil.playbackSpeedCurve.InsertCurveKey(targetSpeed, time);
             CurveUtil.playbackSpeedCurve.CalculateCurveControlPoints();
-            Main.Logger.Log("PlayBackSpeedKeyFrame: AddKeyFrame");
+            //Main.Logger.Log("PlayBackSpeedKeyFrame: AddKeyFrame");
         }
 
         public override void Update(Transform cameraTransform, float t)

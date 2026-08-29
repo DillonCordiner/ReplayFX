@@ -52,7 +52,7 @@ namespace ReplayFX.Keyframes
             //keyFrame.AddKeyframes(Main.camNoiseController.customCurve);
             ReplayEditorController.Instance.cameraController.keyFrames.Insert(index, keyFrame);
 
-            Main.Logger.Log("PlayBack KeyFrame added at: " + time);
+            //Main.Logger.Log("PlayBack KeyFrame added at: " + time);
         }
 
         public static void CreateImpluseKeyFrame(CinemachineImpulseSource impulseSource, float time)
@@ -60,14 +60,11 @@ namespace ReplayFX.Keyframes
             int index = FindKeyFrameInsertIndex(time);
             KeyFrame keyFrame;
 
-            //keyFrame = new FreeCameraKeyFrame(copy.transform, Main.settings.keyframe_fov, time);
             keyFrame = new ImpulseKeyFrame(impulseSource, Main.settings.impulse_force, time);
-            //keyFrame.AddKeyframes(ReplayEditorController.Instance.cameraController.cameraCurve);
             keyFrame.ApplyTo(ReplayEditorController.Instance.cameraController.VirtualCamera);
-            //keyFrame.Update(ReplayEditorController.Instance.cameraController.VirtualCamera.transform, time);
             ReplayEditorController.Instance.cameraController.keyFrames.Insert(index, keyFrame);
 
-            Main.Logger.Log("Impulse KeyFrame added at: " + time);
+            //Main.Logger.Log("Impulse KeyFrame added at: " + time);
         }
         private static int FindKeyFrameInsertIndex(float time)
         {
