@@ -17,7 +17,7 @@ namespace ReplayFX
         private float lastPlaybackTime = -1f;
         private bool PlaybackOverwritten = false;
         private Color playbackHandleColor = Color.cyan;
-        private Color impulseHandleColor = Color.white;
+        private Color impulseHandleColor = Color.gray;
 
         private void Start()
         {         

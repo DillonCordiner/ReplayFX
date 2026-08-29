@@ -2,7 +2,7 @@
   "Id": "ReplayFX",
   "DisplayName": "ReplayFX",
   "Author": "Guru",
-  "Version": "0.0.10",
+  "Version": "1.0.0",
   "ManagerVersion": "0.22.5.0",
   "Requirements": [],
   "LoadAfter": ["XXLMod3"],
