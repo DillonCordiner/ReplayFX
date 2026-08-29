@@ -25,13 +25,13 @@ namespace ReplayFX.Keyframes
             if (impulseSource != null)
             {
                 impulseSource.GenerateImpulse(force);
-                Main.Logger.Log($"Impulse triggered at time: {time}");
+                //Main.Logger.Log($"Impulse triggered at time: {time}");
             }
         }
         public override void ApplyTo(CinemachineVirtualCamera camera)
         {
             TriggerKeyFrame();
-            Main.Logger.Log("ImpulseKeyFrame: ApplyTo Called");
+            //Main.Logger.Log("ImpulseKeyFrame: ApplyTo Called");
         }
 
         public override void AddKeyframes(CameraCurve cameraCurve)

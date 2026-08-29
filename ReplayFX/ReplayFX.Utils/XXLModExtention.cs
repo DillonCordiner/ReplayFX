@@ -6,6 +6,9 @@ namespace ReplayFX.Utils
 {
     public static class XXLModExtention
     {
+        public static readonly string XXLmodID = "XXLMod3";
+        public static bool IsXXLModInstalled = false;
+
         private static object otherSettingsInstance;
         private static FieldInfo replaySpeedField;
 
@@ -111,7 +114,7 @@ namespace ReplayFX.Utils
             // Restore the player's original setting
             replaySpeedField.SetValue(otherSettingsInstance, originalSpeed);
             hasSavedOriginal = false;
-            Main.Logger.Log("[XXLModExtention] Restored original ReplayPlaybackSpeed setting in XXLMod3.");
+            //Main.Logger.Log("[XXLModExtention] Restored original ReplayPlaybackSpeed setting in XXLMod3.");
         }
     }
 }
