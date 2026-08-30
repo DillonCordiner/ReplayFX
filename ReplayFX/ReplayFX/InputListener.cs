@@ -19,6 +19,8 @@ namespace ReplayFX
 
         public bool changeHotKey = false;
 
+        public bool isBumperPressed = false;
+
         private readonly KeyCode[] keyCodes = Enum.GetValues(typeof(KeyCode)).Cast<KeyCode>().Where(k => ((int)k < (int)KeyCode.Mouse0)).ToArray();
 
         public KeyCode? GetCurrentKeyDown()
@@ -62,7 +64,6 @@ namespace ReplayFX
 
         private void LateUpdate()
         {
-
             playerFound = player != null;
             if (!playerFound)
                 return;
@@ -79,18 +80,24 @@ namespace ReplayFX
             }
             if (currentState is ReplayState)
             {
+                isBumperPressed = player.GetButton("LB") || player.GetButton("RB");
+
                 if (player.GetButton("LB") && player.GetButtonDown("A"))
                 {
                     Main.camNoiseController.ToggleNoise();
                 }
-                else if (player.GetButton("LB") && player.GetButtonDown("Y"))
+                else if (player.GetButton("LB") && player.GetButtonDown("X"))
                 {
                     KeyFrameHelper.AddPlayBackKeyFrame();
                 }
-                else if (player.GetButton("RB") && player.GetButtonDown("Y"))
+                else if (player.GetButton("RB") && player.GetButtonDown("X"))
                 {
                     KeyFrameHelper.AddImpluseKeyFrame();
                 }
+            }
+            else if (isBumperPressed)
+            {
+                isBumperPressed = false;
             }
         }
         /*

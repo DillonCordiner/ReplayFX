@@ -1,5 +1,7 @@
 ﻿using Cinemachine;
 using ReplayEditor;
+using ReplayFX.Utils;
+using RootMotion;
 using System;
 
 namespace ReplayFX.Keyframes
@@ -26,21 +28,22 @@ namespace ReplayFX.Keyframes
         }
         public static void RemoveAllPlaybackKeys()
         {
-            //CurveUtil.playbackSpeedCurve.Clear();
             RemoveKeyFramesOfType(typeof(PlaybackSpeedKeyFrame));
-            //CurveUtil.Refresh();
         }
         private static void RemoveKeyFramesOfType(Type keyframeType)
         {
-            var keyframes = ReplayEditorController.Instance.cameraController.keyFrames;
+            ReplayCameraController cameraController = ReplayEditorController.Instance.cameraController;
+            //var keyframes = ReplayEditorController.Instance.cameraController.keyFrames;
 
-            for (int i = keyframes.Count - 1; i >= 0; i--)
+            for (int i = cameraController.keyFrames.Count - 1; i >= 0; i--)
             {
-                if (keyframes[i].GetType() == keyframeType)
+                if (cameraController.keyFrames[i].GetType() == keyframeType)
                 {
-                    ReplayEditorController.Instance.cameraController.keyFrames.Remove(keyframes[i]);
+                    //ReplayEditorController.Instance.cameraController.keyFrames.Remove(keyframes[i]);
+                    cameraController.keyFrames.RemoveAt(i);
                 }
             }
+            CurveUtil.Refresh();
         }
         public static void CreatePlaybackKeyFrame(float playbackspeed, float time)
         {
