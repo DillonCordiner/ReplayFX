@@ -25,13 +25,14 @@ namespace ReplayFX
             {
                 XXLModExtention.IsXXLModInstalled = true;
                 XXLModExtention.GetXXLModSettings();
+                ResetPlayBackSpeed();
             }
             else
             {
                 XXLModExtention.IsXXLModInstalled = false;
             }
         }
-        void LateUpdate()
+        private void LateUpdate()
         {
             ReplayEditorController replayEditor = ReplayEditorController.Instance;
 
@@ -40,10 +41,12 @@ namespace ReplayFX
 
             RefreshOnKeyChange(replayEditor);
 
+            /*
             if (!CurveUtil.HasPlayBackKeys())
             {
                 ResetPlayBackSpeed();
             }
+            */
 
             UpdateHandleColor(replayEditor);
 
@@ -62,7 +65,7 @@ namespace ReplayFX
         private void RefreshOnKeyChange(ReplayEditorController replayEditor)
         {
             int currentCount = replayEditor.cameraController.keyFrames.Count;
-            if (currentCount != lastKeyframeCount)
+            if (currentCount >= 0 && currentCount != lastKeyframeCount)
             {
                 CurveUtil.Refresh();
                 lastKeyframeCount = currentCount;
@@ -115,7 +118,7 @@ namespace ReplayFX
                     //Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(1.0f);
                     PlayBackUtil.SetPlayBackSpeedValue(1.0f);
                 }
-                KeyFrameHelper.RemoveAllPlaybackKeys();
+                //KeyFrameHelper.RemoveAllPlaybackKeys();
                 PlaybackOverwritten = false;
             }
         }

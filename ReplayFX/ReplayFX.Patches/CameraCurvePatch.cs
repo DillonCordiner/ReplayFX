@@ -8,54 +8,36 @@ using ReplayFX.Utils;
 namespace ReplayFX.Patches
 {
     
-    [HarmonyPatch(typeof(CameraCurve), nameof(CameraCurve.CalculateCurveControlPoints))]
+    [HarmonyPatch(typeof(CameraCurve), "CalculateCurveControlPoints")]
     public static class CameraCurveControlPointPatch
     {
         [HarmonyPostfix]
         static void Postfix(CameraCurve __instance)
         {
             CurveUtil.playbackSpeedCurve.CalculateCurveControlPoints();
+            //Main.Logger.Log("[CalculateCurveControlPoints] Patch Complete");
         }
     }
     
-    [HarmonyPatch(typeof(CameraCurve), nameof(CameraCurve.Clear))]
+    [HarmonyPatch(typeof(CameraCurve), "Clear")]
     public static class CameraCurveClearPatch
     {
         [HarmonyPostfix]
         static void Postfix(CameraCurve __instance)
         {
             CurveUtil.playbackSpeedCurve.Clear();
+            //Main.Logger.Log("[Clear] Patch Complete");
         }
     }
 
-    [HarmonyPatch(typeof(CameraCurve), nameof(CameraCurve.DeleteCurveKeys))]
+    [HarmonyPatch(typeof(CameraCurve), "DeleteCurveKeys")]
     public static class CameraCurveDeleteCurvePatch
     {
         [HarmonyPostfix]
-        static void Postfix(CameraCurve __instance, int i, bool refreshDirectly)
+        static void Postfix(CameraCurve __instance, ref int i, ref bool refreshDirectly)
         {
             CurveUtil.playbackSpeedCurve.DeleteCurveKey(i, refreshDirectly);
+            //Main.Logger.Log("[DeleteCurveKeys] Patch Complete");
         }
     }
-
-    /*
-    [HarmonyPatch(typeof(CameraCurve), nameof(CameraCurve.Refresh))]
-    public static class CameraCurveRefreshPatch
-    {
-        [HarmonyPostfix]
-        static void Postfix()
-        {
-            //CurveUtil.playbackSpeedCurve.CalculateCurveControlPoints();
-
-            
-            if (CurveUtil.HasPlayBackKeys())
-            {
-                CurveUtil.playbackSpeedCurve.CalculateCurveControlPoints();
-            }
-            
-        }
-    }
-    */
-
-
 }

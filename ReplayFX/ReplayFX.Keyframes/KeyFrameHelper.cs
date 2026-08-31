@@ -12,14 +12,12 @@ namespace ReplayFX.Keyframes
         {
             CreateImpluseKeyFrame(Main.camNoiseController.impulseSource, ReplayEditorController.Instance.playbackController.CurrentTime);
             //CurveUtil.Refresh();
-            //ReplayEditorController.Instance.cameraController.keyframeUI.UpdateKeyframes(ReplayEditorController.Instance.cameraController.keyFrames);
         }
 
         public static void AddPlayBackKeyFrame()
         {
             CreatePlaybackKeyFrame(Main.settings.replay_playback_speed, ReplayEditorController.Instance.playbackController.CurrentTime);
             //CurveUtil.Refresh();
-            //ReplayEditorController.Instance.cameraController.keyframeUI.UpdateKeyframes(ReplayEditorController.Instance.cameraController.keyFrames);
         }
         public static void RemoveAllImpulseKeys()
         {
@@ -29,6 +27,7 @@ namespace ReplayFX.Keyframes
         public static void RemoveAllPlaybackKeys()
         {
             RemoveKeyFramesOfType(typeof(PlaybackSpeedKeyFrame));
+            //CurveUtil.Refresh();
         }
         private static void RemoveKeyFramesOfType(Type keyframeType)
         {
@@ -43,7 +42,7 @@ namespace ReplayFX.Keyframes
                     cameraController.keyFrames.RemoveAt(i);
                 }
             }
-            CurveUtil.Refresh();
+            //CurveUtil.Refresh();
         }
         public static void CreatePlaybackKeyFrame(float playbackspeed, float time)
         {

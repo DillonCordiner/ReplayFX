@@ -3,6 +3,7 @@ using ReplayFX.Utils;
 using System.Collections;
 using RapidGUI;
 using ReplayFX.Keyframes;
+using GameManagement;
 
 namespace ReplayFX
 {

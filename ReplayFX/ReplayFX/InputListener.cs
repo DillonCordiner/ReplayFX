@@ -86,11 +86,11 @@ namespace ReplayFX
                 {
                     Main.camNoiseController.ToggleNoise();
                 }
-                else if (player.GetButton("LB") && player.GetButtonDown("X"))
+                else if (player.GetButton("RB") && player.GetButtonDown("A"))
                 {
                     KeyFrameHelper.AddPlayBackKeyFrame();
                 }
-                else if (player.GetButton("RB") && player.GetButtonDown("X"))
+                else if (player.GetButton("RB") && player.GetButtonDown("Y"))
                 {
                     KeyFrameHelper.AddImpluseKeyFrame();
                 }

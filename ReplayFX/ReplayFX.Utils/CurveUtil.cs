@@ -31,6 +31,7 @@ namespace ReplayFX.Utils
             //ReplayEditorController.Instance.cameraController.cameraCurve.Clear();
             ReplayEditorController.Instance.cameraController.cameraCurve.Refresh(ReplayEditorController.Instance.cameraController.keyFrames);
             ReplayEditorController.Instance.cameraController.keyframeUI.UpdateKeyframes(ReplayEditorController.Instance.cameraController.keyFrames);
+
         }
     }
 }
