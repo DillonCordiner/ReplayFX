@@ -62,7 +62,7 @@ namespace ReplayFX.Keyframes
             int index = FindKeyFrameInsertIndex(time);
             KeyFrame keyFrame;
 
-            keyFrame = new ImpulseKeyFrame(impulseSource, Main.settings.impulse_force, time);
+            keyFrame = new ImpulseKeyFrame(impulseSource, time, Main.settings.impulse_force, Main.settings.impulse_source_amplitude, Main.settings.impulse_source_frequency, Main.settings.impulse_source_decaytime);
             keyFrame.ApplyTo(ReplayEditorController.Instance.cameraController.VirtualCamera);
             ReplayEditorController.Instance.cameraController.keyFrames.Insert(index, keyFrame);
 

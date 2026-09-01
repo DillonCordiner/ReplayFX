@@ -19,7 +19,6 @@ namespace ReplayFX
         public float noise_offset_z = 0.0f;
 
         public float impulse_force = 1.0f;
-        public float impulse_listener_gain = 2.0f;
         public float impulse_source_amplitude = 2.0f;
         public float impulse_source_frequency = 1.0f;
         public float impulse_source_decaytime = 0.5f;

@@ -265,11 +265,7 @@ namespace ReplayFX
             if (impulseSource == null || impulseListener == null)
                 return;
 
-            if (impulseListener.m_Gain != Main.settings.impulse_listener_gain)
-            {
-                impulseListener.m_Gain = Main.settings.impulse_listener_gain;
-            }
-            else if (impulseSource.m_ImpulseDefinition.m_AmplitudeGain != Main.settings.impulse_source_amplitude)
+            if (impulseSource.m_ImpulseDefinition.m_AmplitudeGain != Main.settings.impulse_source_amplitude)
             {
                 impulseSource.m_ImpulseDefinition.m_AmplitudeGain = Main.settings.impulse_source_amplitude;
             }

@@ -167,9 +167,9 @@ namespace ReplayFX
                     }
                     */
                     GUILayout.Space(6f);
-                    Main.settings.noise_amplitude = RGUI.SliderFloat(Main.settings.noise_amplitude, 0.0f, 10.0f, 1.0f, 82, "Amplitude");
+                    Main.settings.noise_amplitude = RGUI.SliderFloat(Main.settings.noise_amplitude, 0.0f, 10.0f, 1.0f, 92, "Amplitude");
                     GUILayout.Space(4f);
-                    Main.settings.noise_frequency = RGUI.SliderFloat(Main.settings.noise_frequency, 0.0f, 10.0f, 1.0f, 82, "Frequency");
+                    Main.settings.noise_frequency = RGUI.SliderFloat(Main.settings.noise_frequency, 0.0f, 10.0f, 1.0f, 92, "Frequency");
                     GUILayout.Space(4f);
                     UIextensions.FlexableButton("Generate new seed", Main.noiseController.GenerateNewSeed, Color.white);
 
@@ -209,15 +209,13 @@ namespace ReplayFX
                     {
                         UIextensions.FlexableButton("Create Impluse KeyFrame", KeyFrameHelper.AddImpluseKeyFrame, Color.white);
                         GUILayout.Space(4f);
-                        Main.settings.impulse_force = RGUI.SliderFloat(Main.settings.impulse_force, 0.0f, 10.0f, 1.0f, 90, "Impulse Force");
+                        Main.settings.impulse_force = RGUI.SliderFloat(Main.settings.impulse_force, 0.0f, 10.0f, 1.0f, 92, "Impulse Force");
                         GUILayout.Space(4f);
-                        Main.settings.impulse_listener_gain = RGUI.SliderFloat(Main.settings.impulse_listener_gain, 0.0f, 10.0f, 2.0f, 90, "Gain");
+                        Main.settings.impulse_source_amplitude = RGUI.SliderFloat(Main.settings.impulse_source_amplitude, 0.0f, 10.0f, 2.0f, 92, "Amplitude");
                         GUILayout.Space(4f);
-                        Main.settings.impulse_source_amplitude = RGUI.SliderFloat(Main.settings.impulse_source_amplitude, 0.0f, 10.0f, 2.0f, 90, "Amplitude");
+                        Main.settings.impulse_source_frequency = RGUI.SliderFloat(Main.settings.impulse_source_frequency, 0.0f, 10.0f, 1.0f, 92, "Frequency");
                         GUILayout.Space(4f);
-                        Main.settings.impulse_source_frequency = RGUI.SliderFloat(Main.settings.impulse_source_frequency, 0.0f, 10.0f, 1.0f, 90, "Frequency");
-                        GUILayout.Space(4f);
-                        Main.settings.impulse_source_decaytime = RGUI.SliderFloat(Main.settings.impulse_source_decaytime, 0.0f, 2.0f, 0.5f, 90, "Decay");
+                        Main.settings.impulse_source_decaytime = RGUI.SliderFloat(Main.settings.impulse_source_decaytime, 0.0f, 2.0f, 0.5f, 92, "Decay");
                         GUILayout.Space(8f);
                         UIextensions.FlexableButton("Test Impulse", Main.noiseController.GenerateImpluse, Color.white);
                         GUILayout.Space(4f);

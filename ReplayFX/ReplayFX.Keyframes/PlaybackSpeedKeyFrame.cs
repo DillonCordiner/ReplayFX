@@ -8,10 +8,6 @@ namespace ReplayFX.Keyframes
 {
     public class PlaybackSpeedKeyFrame : KeyFrame
     {
-        /// <summary>
-        /// NOTE: whenever a PlaybackSpeedKeyFrame is deleted or moved make sure CurveUtil.playbackSpeedCurve.Clear() is called to repopulate curve. ** only when using games built in curve **
-        /// </summary>
-
         public float targetSpeed;
 
         public PlaybackSpeedKeyFrame(float speed, float currentTime)

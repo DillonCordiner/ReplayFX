@@ -13,17 +13,26 @@ namespace ReplayFX.Keyframes
     {
         private CinemachineImpulseSource impulseSource;
         private float force;
+        private float amplitude;
+        private float frequency;
+        private float decay;
 
-        public ImpulseKeyFrame(CinemachineImpulseSource newimpulseSource, float impulseForce ,float currenttime)
+        public ImpulseKeyFrame(CinemachineImpulseSource newimpulseSource, float currenttime, float impulseForce, float impulseAmplitude, float impulseFrequency, float impulseDecay)
         {
             impulseSource = newimpulseSource;
             time = currenttime;
             force = impulseForce;
+            amplitude = impulseAmplitude;
+            frequency = impulseFrequency;
+            decay = impulseDecay;
         }
         public void TriggerKeyFrame()
         {
             if (impulseSource != null)
             {
+                impulseSource.m_ImpulseDefinition.m_AmplitudeGain = amplitude;
+                impulseSource.m_ImpulseDefinition.m_FrequencyGain = frequency;
+                impulseSource.m_ImpulseDefinition.m_TimeEnvelope.m_DecayTime = decay;
                 impulseSource.GenerateImpulse(force);
                 //Main.Logger.Log($"Impulse triggered at time: {time}");
             }
