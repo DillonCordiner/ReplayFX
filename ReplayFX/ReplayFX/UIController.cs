@@ -31,6 +31,7 @@ namespace ReplayFX
         //readonly UItab Test_Tab = new UItab(true, "Test Stuff", 14);
         readonly UItab Camera_Tab = new UItab(true, "Camera", 14);
         readonly UItab KeyFrame_Tab = new UItab(true, "KeyFrames", 14);
+        readonly UItab Color_Tab = new UItab(true, "Color", 13);
 
         private void Tabs(UItab obj, string color = "#e6ebe8")
         {
@@ -115,9 +116,10 @@ namespace ReplayFX
             //MainUI();
             CameraUI();
             KeyFrameUI();
+            //ColorUI();
         }
         private void MainUI()
-        {
+        {          
             //GUILayout.Label($"ReplayFX");
             //GUILayout.Space(8f);
         }
@@ -242,6 +244,38 @@ namespace ReplayFX
                 GUILayout.EndVertical();
             }
             GUILayout.EndHorizontal();
+
+            ColorUI();
+        }
+        private void ColorUI()
+        {
+            Tabs(Color_Tab, UIextensions.TabColorSwitch(Color_Tab));
+            if (Color_Tab.isClosed)
+                return;
+
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.BeginVertical("Box");
+                {
+                    Main.settings.playback_color_value = RGUI.SliderFloat(Main.settings.playback_color_value, 0.0f, 1.0f, 0.5f, 92, "PlayBack Color");
+                    GUILayout.BeginHorizontal();
+                    {
+                        Main.settings.isPlaybackGreyscale = GUILayout.Toggle(Main.settings.isPlaybackGreyscale, "Use Greyscale", GUILayout.Height(20f));
+                        GUILayout.FlexibleSpace();
+                    }
+                    GUILayout.EndHorizontal();
+                    GUILayout.Space(10f);
+                    Main.settings.impulse_color_value = RGUI.SliderFloat(Main.settings.impulse_color_value, 0.0f, 1.0f, 0.4f, 92, "Impulse Color");
+                    GUILayout.BeginHorizontal();
+                    {
+                        Main.settings.isImpulseGreyscale = GUILayout.Toggle(Main.settings.isImpulseGreyscale, "Use Greyscale", GUILayout.Height(20f));
+                        GUILayout.FlexibleSpace();
+                    }
+                    GUILayout.EndHorizontal();
+                }
+                GUILayout.EndVertical();
+            }
+            GUILayout.EndHorizontal();     
         }
     }
 }

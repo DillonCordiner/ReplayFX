@@ -143,6 +143,8 @@
     <Compile Include="RapidGUI\Utilities\WarningLabelNoStyle.cs" />
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
     <Compile Include="ReplayFX.Utils\AssetLoader.cs" />
+    <Compile Include="ReplayFX.Utils\ColorUtil.cs" />
+    <Compile Include="ReplayFX.Utils\FloatToColourUtil.cs" />
     <Compile Include="ReplayFX.Utils\PlayBackUtil.cs" />
     <Compile Include="ReplayFX.Utils\CurveUtil.cs" />
     <Compile Include="ReplayFX.Utils\XXLModExtention.cs" />

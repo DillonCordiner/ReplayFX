@@ -26,6 +26,12 @@ namespace ReplayFX
 
         public float replay_playback_speed = 1.0f;
 
+        public float playback_color_value = 0.50f;
+        public float impulse_color_value = 0.40f;
+
+        public bool isPlaybackGreyscale = false;
+        public bool isImpulseGreyscale = true;
+
         //public bool useAssetBundleProfiles = true;
 
         public override void Save(UnityModManager.ModEntry modEntry)

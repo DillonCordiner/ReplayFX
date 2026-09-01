@@ -158,10 +158,32 @@ namespace ReplayFX
             {
                 if (keyframes[i] is PlaybackSpeedKeyFrame)
                 {
+                    //playbackHandleColor = FloatToColourUtil.GetColorFromValue(Main.settings.playbackHandleValue);
+
+                    if (Main.settings.isPlaybackGreyscale)
+                    {
+                        playbackHandleColor = ColorUtil.FloatToGrayscale(Main.settings.playback_color_value);
+                    }
+                    else
+                    {
+                        playbackHandleColor = ColorUtil.FloatToRGB(Main.settings.playback_color_value);
+                    }
+
                     SetHandleColor(i, sliders, playbackHandleColor);
                 }
                 else if (keyframes[i] is ImpulseKeyFrame)
                 {
+                    //impulseHandleColor = FloatToColourUtil.GetColorFromValue(Main.settings.impulseHandleValue);
+
+                    if (Main.settings.isImpulseGreyscale)
+                    {
+                        impulseHandleColor = ColorUtil.FloatToGrayscale(Main.settings.impulse_color_value);
+                    }
+                    else
+                    {
+                        impulseHandleColor = ColorUtil.FloatToRGB(Main.settings.impulse_color_value);
+                    }
+
                     SetHandleColor(i, sliders, impulseHandleColor);
                 }
 
