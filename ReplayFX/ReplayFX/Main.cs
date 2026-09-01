@@ -18,7 +18,7 @@ namespace ReplayFX
         public static UnityModManager.ModEntry modEntry;
         public static Settings settings;
         public static GameObject ScriptManager;
-        public static CamNoiseController camNoiseController;
+        public static NoiseController noiseController;
         public static InputListener inputListener;
         public static UIController uiController;
         public static TimelineManager timelineManager;
@@ -81,7 +81,7 @@ namespace ReplayFX
                     harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
 
                     ScriptManager = new GameObject("ReplayFX");
-                    camNoiseController = ScriptManager.AddComponent<CamNoiseController>();
+                    noiseController = ScriptManager.AddComponent<NoiseController>();
                     inputListener = ScriptManager.AddComponent<InputListener>();
                     uiController = ScriptManager.AddComponent<UIController>();
                     timelineManager = ScriptManager.AddComponent<TimelineManager>();

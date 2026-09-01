@@ -147,13 +147,13 @@ namespace ReplayFX
                 {
                     UIextensions.CenteredLabel("Camera Shake");
                     GUILayout.Space(4f);
-                    UIextensions.FlexableButton(Main.settings.enableNoise ? "<b> Enabled </b>" : "<b><color=#171717> Disabled </color></b>", Main.camNoiseController.ToggleNoise, Color.white);
+                    UIextensions.FlexableButton(Main.settings.enableNoise ? "<b> Enabled </b>" : "<b><color=#171717> Disabled </color></b>", Main.noiseController.ToggleNoise, Color.white);
 
                     GUILayout.Space(6f);
                     GUILayout.Label("Camera Profile");
                     if (Main.settings.enableNoise)
                     {
-                        Main.camNoiseController.targetProfile = RGUI.SelectionPopup(Main.camNoiseController.targetProfile, Main.camNoiseController.ProfileOptions);
+                        Main.noiseController.targetProfile = RGUI.SelectionPopup(Main.noiseController.targetProfile, Main.noiseController.ProfileOptions);
                     }
                     else
                     {
@@ -171,7 +171,7 @@ namespace ReplayFX
                     GUILayout.Space(4f);
                     Main.settings.noise_frequency = RGUI.SliderFloat(Main.settings.noise_frequency, 0.0f, 10.0f, 1.0f, 82, "Frequency");
                     GUILayout.Space(4f);
-                    UIextensions.FlexableButton("Generate new seed", Main.camNoiseController.GenerateNewSeed, Color.white);
+                    UIextensions.FlexableButton("Generate new seed", Main.noiseController.GenerateNewSeed, Color.white);
 
                     GUILayout.Space(6f);
                     GUILayout.Label("Pivot Offset");
@@ -219,7 +219,7 @@ namespace ReplayFX
                         GUILayout.Space(4f);
                         Main.settings.impulse_source_decaytime = RGUI.SliderFloat(Main.settings.impulse_source_decaytime, 0.0f, 2.0f, 0.5f, 90, "Decay");
                         GUILayout.Space(8f);
-                        UIextensions.FlexableButton("Test Impulse", Main.camNoiseController.GenerateImpluse, Color.white);
+                        UIextensions.FlexableButton("Test Impulse", Main.noiseController.GenerateImpluse, Color.white);
                         GUILayout.Space(4f);
                         UIextensions.FlexableButton("Delete All Keys", KeyFrameHelper.RemoveAllImpulseKeys, Color.white);
                     }

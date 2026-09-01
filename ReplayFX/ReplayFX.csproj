@@ -144,7 +144,6 @@
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
     <Compile Include="ReplayFX.Utils\AssetLoader.cs" />
     <Compile Include="ReplayFX.Utils\ColorUtil.cs" />
-    <Compile Include="ReplayFX.Utils\FloatToColourUtil.cs" />
     <Compile Include="ReplayFX.Utils\PlayBackUtil.cs" />
     <Compile Include="ReplayFX.Utils\CurveUtil.cs" />
     <Compile Include="ReplayFX.Utils\XXLModExtention.cs" />
@@ -158,7 +157,7 @@
     <Compile Include="ReplayFX\InputListener.cs" />
     <Compile Include="ReplayFX\TimeLineManager.cs" />
     <Compile Include="ReplayFX\UIController.cs" />
-    <Compile Include="ReplayFX\CamNoiseController.cs" />
+    <Compile Include="ReplayFX\NoiseController.cs" />
     <Compile Include="ReplayFX\Settings.cs" />
     <Compile Include="ReplayFX\Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

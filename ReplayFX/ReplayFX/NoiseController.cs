@@ -9,7 +9,7 @@ using UnityEngine.Profiling;
 
 namespace ReplayFX
 {
-    public class CamNoiseController : MonoBehaviour
+    public class NoiseController : MonoBehaviour
     {
         CinemachineVirtualCamera Vcam;
         CinemachineBasicMultiChannelPerlin noise;

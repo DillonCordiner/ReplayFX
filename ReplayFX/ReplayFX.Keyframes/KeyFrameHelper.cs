@@ -10,7 +10,7 @@ namespace ReplayFX.Keyframes
     {
         public static void AddImpluseKeyFrame()
         {
-            CreateImpluseKeyFrame(Main.camNoiseController.impulseSource, ReplayEditorController.Instance.playbackController.CurrentTime);
+            CreateImpluseKeyFrame(Main.noiseController.impulseSource, ReplayEditorController.Instance.playbackController.CurrentTime);
             //CurveUtil.Refresh();
         }
 
