@@ -5,10 +5,10 @@ namespace ReplayFX.Utils
 {
     public static class NoiseUtils
     {
-        public static NoiseSettings Create6DShakeCustomProfile()
+        public static NoiseSettings CreateShakeCustomProfile()
         {
             NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
-            profile.name = "Custom 6D Shake";
+            profile.name = "Custom Shake";
 
             profile.PositionNoise = new NoiseSettings.TransformNoiseParams[]
             {
@@ -57,10 +57,10 @@ namespace ReplayFX.Utils
             return profile;
         }
 
-        public static NoiseSettings Create6DShakeProfile()
+        public static NoiseSettings CreateShakeProfile()
         {
             NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
-            profile.name = "6D Shake";
+            profile.name = "Shake";
 
             profile.PositionNoise = new NoiseSettings.TransformNoiseParams[]
             {

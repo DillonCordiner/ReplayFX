@@ -53,7 +53,7 @@ namespace ReplayFX.Utils
         private static IEnumerator LoadAssetFromBundle()
         {
             /*
-            noiseSettings[0] = assetBundle.LoadAsset<NoiseSettings>("6D Shake");
+            noiseSettings[0] = assetBundle.LoadAsset<NoiseSettings>("Shake");
             noiseSettings[1] = assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_extreme");
             noiseSettings[2] = assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_mild");
             noiseSettings[3] = assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_strong");
@@ -63,7 +63,7 @@ namespace ReplayFX.Utils
             noiseSettings[7] = assetBundle.LoadAsset<NoiseSettings>("Handheld_wideangle_strong");
             */
 
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("6D Shake"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Shake"));
             noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_extreme"));
             noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_mild"));
             noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_strong"));

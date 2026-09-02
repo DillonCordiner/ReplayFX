@@ -35,19 +35,10 @@ namespace ReplayFX.Utils
                     settingsInstance = settingsField.GetValue(null);
                     //Main.Logger.Log("[XXLModExtention] Settings is a Field");
                 }
-                else
-                {
-                    PropertyInfo settingsProperty = xxlMain.GetProperty("settings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static) ?? xxlMain.GetProperty("Settings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-                    if (settingsProperty != null)
-                    {
-                        settingsInstance = settingsProperty.GetValue(null);
-                        //Main.Logger.Log("[XXLModExtention] Settings is a Property");
-                    }
-                }
 
                 if (settingsInstance == null)
                 {
-                    Main.Logger.Log("[XXLModExtention] Could not retrieve settings from XXLMod3.");
+                    Main.Logger.Log("[XXLModExtention] Could not find settings from XXLMod3.");
                     return;
                 }
 
@@ -59,19 +50,10 @@ namespace ReplayFX.Utils
                     otherSettingsInstance = otherSettingsField.GetValue(settingsInstance);
                     //Main.Logger.Log("[XXLModExtention] OtherSettings is a Field");
                 }
-                else
-                {
-                    PropertyInfo otherSettingsProperty = settingsType.GetProperty("OtherSettings", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                    if (otherSettingsProperty != null)
-                    {
-                        otherSettingsInstance = otherSettingsProperty.GetValue(settingsInstance);
-                        //Main.Logger.Log("[XXLModExtention] OtherSettings is a Property");
-                    }
-                }
 
                 if (otherSettingsInstance == null)
                 {
-                    Main.Logger.Log("[XXLModExtention] Could not retrieve OtherSettings");
+                    Main.Logger.Log("[XXLModExtention] Could not find OtherSettings");
                     return;
                 }
 

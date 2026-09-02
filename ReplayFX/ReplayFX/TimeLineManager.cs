@@ -40,14 +40,6 @@ namespace ReplayFX
                 return;
 
             RefreshOnKeyChange(replayEditor);
-
-            /*
-            if (!CurveUtil.HasPlayBackKeys())
-            {
-                ResetPlayBackSpeed();
-            }
-            */
-
             UpdateHandleColor(replayEditor);
 
             if (!replayEditor.cameraController.CamFollowKeyFrames)
@@ -144,8 +136,8 @@ namespace ReplayFX
 
         private void UpdateHandleColor(ReplayEditorController replayEditor)
         {
-            var keyframes = replayEditor.cameraController.keyFrames;
-            var sliders = replayEditor.cameraController.keyframeUI.keyframeSliders;
+            List<KeyFrame> keyframes = replayEditor.cameraController.keyFrames;
+            List<Slider> sliders = replayEditor.cameraController.keyframeUI.keyframeSliders;
 
             if (keyframes.Count <= 0 || sliders.Count <= 0)
             {

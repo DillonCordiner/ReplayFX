@@ -9,6 +9,19 @@ using UnityEngine.Profiling;
 
 namespace ReplayFX
 {
+    public enum ProfileOptions
+    {
+        None,
+        Shake,
+        Handheld_normal_extreme,
+        Handheld_normal_mild,
+        Handheld_normal_strong,
+        Handheld_tele_mild,
+        Handheld_tele_strong,
+        Handheld_wideangle_mild,
+        Handheld_wideangle_strong
+    }
+
     public class NoiseController : MonoBehaviour
     {
         CinemachineVirtualCamera Vcam;
@@ -26,6 +39,7 @@ namespace ReplayFX
         private string currentProfile = "";
         private string storedProfile = empty;
 
+        /*
         public string[] ProfileOptions = new string[] {
             "None",
             "6D Shake",
@@ -37,6 +51,7 @@ namespace ReplayFX
             "Handheld_wideangle_mild",
             "Handheld_wideangle_strong"
         };
+        */
 
         private void Start()
         {
@@ -110,9 +125,9 @@ namespace ReplayFX
         }
         private void SetUpImpulseSourse(CinemachineImpulseSource source)
         {
-            //NoiseSettings generated6DShake = NoiseUtils.Create6DShakeProfile();
-            NoiseSettings generated6DShake = NoiseUtils.Create6DShakeCustomProfile();
-            source.m_ImpulseDefinition.m_RawSignal = generated6DShake;
+            //NoiseSettings generatedShake = NoiseUtils.CreateShakeProfile();
+            NoiseSettings generatedShake = NoiseUtils.CreateShakeCustomProfile();
+            source.m_ImpulseDefinition.m_RawSignal = generatedShake;
             source.m_ImpulseDefinition.m_AmplitudeGain = 2.0f;
             source.m_ImpulseDefinition.m_FrequencyGain = 1.0f;
             source.m_ImpulseDefinition.m_ImpactRadius = 100.0f;
@@ -127,7 +142,7 @@ namespace ReplayFX
             if (noiseSettings == null)
                 return;
 
-            noiseSettings.Add(NoiseUtils.Create6DShakeProfile());
+            noiseSettings.Add(NoiseUtils.CreateShakeProfile());
             noiseSettings.Add(NoiseUtils.Create_Handheld_Normal_Extreme_Profile());
             noiseSettings.Add(NoiseUtils.Create_Handheld_Normal_Mild_Profile());
             noiseSettings.Add(NoiseUtils.Create_Handheld_Normal_Strong_Profile());

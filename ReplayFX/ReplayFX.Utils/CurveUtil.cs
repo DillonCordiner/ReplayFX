@@ -1,5 +1,7 @@
 ﻿using ReplayEditor;
 using SmoothKeyframeCurves;
+using System.Security.Cryptography;
+using UnityEngine;
 
 namespace ReplayFX.Utils
 {
@@ -20,12 +22,28 @@ namespace ReplayFX.Utils
 
         public static float EvaluatePlaybackSpeed(float time)
         {
-            if (playbackSpeedCurve.Keys.Count == 0)
+            FloatCurve curve = playbackSpeedCurve;
+            if (curve.Keys.Count == 0)
             {
                 return 1.0f;
             }
-            return playbackSpeedCurve.Evaluate(time);
+            for (int i = 0; i < curve.Keys.Count - 1; i++)
+            {
+                CurveKey<float> leftKey = curve.Keys[i];
+                CurveKey<float> rightKey = curve.Keys[i + 1];
+
+                if (time >= leftKey.Time && time <= rightKey.Time)
+                {
+                    if (Mathf.Approximately(leftKey.Value, rightKey.Value))
+                    {
+                        return leftKey.Value;
+                    }
+                    break;
+                }
+            }
+            return curve.Evaluate(time);
         }
+
         public static void Refresh()
         {
             //ReplayEditorController.Instance.cameraController.cameraCurve.Clear();
