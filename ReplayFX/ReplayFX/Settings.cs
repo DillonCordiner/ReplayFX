@@ -31,6 +31,8 @@ namespace ReplayFX
         public bool isPlaybackGreyscale = false;
         public bool isImpulseGreyscale = true;
 
+        public string savedProfile = "";
+
         //public bool useAssetBundleProfiles = true;
 
         public override void Save(UnityModManager.ModEntry modEntry)

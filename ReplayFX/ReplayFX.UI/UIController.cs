@@ -6,7 +6,7 @@ using ReplayFX.Keyframes;
 using System;
 using GameManagement;
 
-namespace ReplayFX
+namespace ReplayFX.UI
 {
     public class UItab
     {
@@ -154,8 +154,8 @@ namespace ReplayFX
                     GUILayout.Label("Camera Profile");
                     if (Main.settings.enableNoise)
                     {
-                        string[] profiles = Enum.GetNames(typeof(ProfileOptions));
-                        Main.noiseController.targetProfile = RGUI.SelectionPopup(Main.noiseController.targetProfile, profiles);
+                        //string[] profiles = Enum.GetNames(typeof(ProfileOptions));
+                        Main.noiseController.targetProfile = RGUI.SelectionPopup(Main.noiseController.targetProfile, Main.noiseController.ProfileOptionsArray);
                     }
                     else
                     {

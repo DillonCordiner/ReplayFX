@@ -2,7 +2,7 @@
 using RapidGUI;
 using System;
 
-namespace ReplayFX.Utils
+namespace ReplayFX.UI
 {
     public static class UIextensions
     {

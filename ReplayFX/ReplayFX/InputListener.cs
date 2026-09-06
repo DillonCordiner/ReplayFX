@@ -8,6 +8,7 @@ using MapEditor;
 using ReplayFX.Keyframes;
 using Rewired.Integration.UnityUI;
 using UnityEngine.EventSystems;
+using ReplayFX.UI;
 
 namespace ReplayFX
 {
@@ -61,7 +62,20 @@ namespace ReplayFX
             //Player player = ReInput.players.AllPlayers.FirstOrDefault();
             player = ReInput.players.GetPlayer(0);
         }
+        private void Update() 
+        {
+            if (GameStateMachine.Instance.CurrentState == null || !(GameStateMachine.Instance.CurrentState is ReplayFXSettingsState))
+                return;
 
+            if (player.GetButtonDown(7))
+            {
+                Main.rfxSettings.NextCategory();
+            }
+            if (player.GetButtonDown(6))
+            {
+                Main.rfxSettings.PreviousCategory();
+            }
+        }
         private void LateUpdate()
         {
             playerFound = player != null;

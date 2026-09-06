@@ -13,31 +13,33 @@ namespace ReplayFX
     {
         None,
         Shake,
-        Handheld_normal_extreme,
-        Handheld_normal_mild,
-        Handheld_normal_strong,
-        Handheld_tele_mild,
-        Handheld_tele_strong,
-        Handheld_wideangle_mild,
-        Handheld_wideangle_strong
+        Normal_extreme,
+        Normal_mild,
+        Normal_strong,
+        Tele_mild,
+        Tele_strong,
+        Wideangle_mild,
+        Wideangle_strong
     }
 
     public class NoiseController : MonoBehaviour
     {
-        CinemachineVirtualCamera Vcam;
-        CinemachineBasicMultiChannelPerlin noise;
-        CinemachineImpulseListener impulseListener;
+        private CinemachineVirtualCamera Vcam;
+        private CinemachineBasicMultiChannelPerlin noise;
+        private CinemachineImpulseListener impulseListener;
         public CinemachineImpulseSource impulseSource;
         //public CustomCameraCurve customCurve = new CustomCameraCurve();
 
-        NoiseSettings blankProfile = new NoiseSettings();
+        //NoiseSettings blankProfile = new NoiseSettings();
+        private NoiseSettings blankProfile;
 
-        List<NoiseSettings> noiseSettings = new List<NoiseSettings>();
+        public List<NoiseSettings> noiseSettings = new List<NoiseSettings>();
 
-        private const string empty = "None";
-        public string targetProfile = empty;
-        private string currentProfile = "";
-        private string storedProfile = empty;
+        private const string none = "None";
+        public string targetProfile = none;
+        public string currentProfile { get; private set; } = "";
+        //private string storedProfile = empty;
+        public string[] ProfileOptionsArray = Enum.GetNames(typeof(ProfileOptions));
 
         /*
         public string[] ProfileOptions = new string[] {
@@ -55,10 +57,11 @@ namespace ReplayFX
 
         private void Start()
         {
-            blankProfile.name = empty;
-            SetUpNoiseProfiles();
             Vcam = GetVirtualCamera();
+            blankProfile = NoiseUtils.CreateBlankProfile();
+            SetUpNoiseProfiles();
             AddNoiseToCamera();
+            SetDefaultNoiseProfile();
             AddCameraExtensions();
             AddImpulseSource();
         }
@@ -142,49 +145,39 @@ namespace ReplayFX
             if (noiseSettings == null)
                 return;
 
+            noiseSettings.Clear();
+
             noiseSettings.Add(NoiseUtils.CreateShakeProfile());
-            noiseSettings.Add(NoiseUtils.Create_Handheld_Normal_Extreme_Profile());
-            noiseSettings.Add(NoiseUtils.Create_Handheld_Normal_Mild_Profile());
-            noiseSettings.Add(NoiseUtils.Create_Handheld_Normal_Strong_Profile());
-            noiseSettings.Add(NoiseUtils.Create_Handheld_Tele_Mild_Profile());
-            noiseSettings.Add(NoiseUtils.Create_Handheld_Tele_Strong_Profile());
-            noiseSettings.Add(NoiseUtils.Create_Handheld_Wideangle_Mild_Profile());
-            noiseSettings.Add(NoiseUtils.Create_Handheld_Wideangle_Strong_Profile());
+            noiseSettings.Add(NoiseUtils.Create_Normal_Extreme_Profile());
+            noiseSettings.Add(NoiseUtils.Create_Normal_Mild_Profile());
+            noiseSettings.Add(NoiseUtils.Create_Normal_Strong_Profile());
+            noiseSettings.Add(NoiseUtils.Create_Tele_Mild_Profile());
+            noiseSettings.Add(NoiseUtils.Create_Tele_Strong_Profile());
+            noiseSettings.Add(NoiseUtils.Create_Wideangle_Mild_Profile());
+            noiseSettings.Add(NoiseUtils.Create_Wideangle_Strong_Profile());
+        }
+        private void SetDefaultNoiseProfile()
+        {
+            if (Main.settings.enableNoise)
+            {
+                targetProfile = Main.settings.savedProfile;
+            }
         }
         public void LoadNoiseProfile(NoiseSettings noiseProfile)
         {
             noise.m_NoiseProfile = noiseProfile;
         }
-        private NoiseSettings GetCurrentProfile()
+        private NoiseSettings GetCurrentProfile(List<NoiseSettings> noisesettings)
         {
-            if (noise == null)
+            if (noise == null || noisesettings.Count <= 0)
                 return null;
 
-            if (targetProfile == empty)
+            if (targetProfile == none || targetProfile == "")
             {
                 return blankProfile;
             }
 
-            foreach (NoiseSettings profile in noiseSettings)
-            {
-                if (profile.name == targetProfile)
-                {
-                    return profile;
-                }
-            }
-            return null;
-        }
-        
-        private NoiseSettings GetCurrentProfileFromAssets()
-        {
-            if(noise == null)
-                return null;
-
-            if (targetProfile == empty)
-            {
-                return blankProfile;
-            }
-            foreach (NoiseSettings profile in AssetLoader.noiseSettingsAssets)
+            foreach (NoiseSettings profile in noisesettings)
             {
                 if (profile.name == targetProfile)
                 {
@@ -196,30 +189,31 @@ namespace ReplayFX
         
         private void UpdateNoiseProfile()
         {
-            if (currentProfile == targetProfile)
+            if (noise == null || currentProfile == targetProfile)
                 return;
 
             /*
             NoiseSettings profile;
             if (Main.settings.useAssetBundleProfiles)
             {
-                profile = GetCurrentProfileFromAssets();
+                profile = GetCurrentProfile(AssetLoader.noiseSettingsAssets);
             }
             else
             {
-                profile = GetCurrentProfile();
+                profile = GetCurrentProfile(noiseSettings);
             }
             */
 
-            NoiseSettings profile = GetCurrentProfileFromAssets();
-            //NoiseSettings profile = GetCurrentProfile();
+            //NoiseSettings profile = GetCurrentProfile(noiseSettings);
+            NoiseSettings profile = GetCurrentProfile(AssetLoader.noiseSettingsAssets);
             LoadNoiseProfile(profile);
-            currentProfile = targetProfile;
+            //currentProfile = targetProfile;
+            currentProfile = profile.name;
 
         }    
         private void UpdateNoiseProfileValues()
         {
-            if (noise.m_NoiseProfile.name == empty)
+            if (noise.m_NoiseProfile == null || noise.m_NoiseProfile.name == none || noise.m_NoiseProfile.name == "")
                 return;
 
             if (noise.m_AmplitudeGain != Main.settings.noise_amplitude)
@@ -233,7 +227,7 @@ namespace ReplayFX
         }
         public void UpdatePivotOffset()
         {
-            if (noise.m_NoiseProfile.name == empty)
+            if (noise.m_NoiseProfile == null || noise.m_NoiseProfile.name == none || noise.m_NoiseProfile.name == "")
                 return;
 
             if (noise.m_PivotOffset.x != Main.settings.noise_offset_x ||
@@ -256,16 +250,15 @@ namespace ReplayFX
             switch (Main.settings.enableNoise)
             {
                 case true:
-                    if (targetProfile != storedProfile)
+                    if (targetProfile != Main.settings.savedProfile)
                     {
-                        targetProfile = storedProfile;
+                        targetProfile = Main.settings.savedProfile;
                     }
                     break;
 
                 case false:
-                    //storedProfile = GetCurrentProfile().name;
-                    storedProfile = GetCurrentProfileFromAssets().name;
-                    targetProfile = empty;
+                    Main.settings.savedProfile = targetProfile;
+                    targetProfile = none;
                     break;
 
             }

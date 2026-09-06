@@ -64,13 +64,13 @@ namespace ReplayFX.Utils
             */
 
             noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Shake"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_extreme"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_mild"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_strong"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_tele_mild"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_tele_strong"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_wideangle_mild"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Handheld_wideangle_strong"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Normal_extreme"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Normal_mild"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Normal_strong"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Tele_mild"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Tele_strong"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Wideangle_mild"));
+            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Wideangle_strong"));
 
             yield return null;
         }

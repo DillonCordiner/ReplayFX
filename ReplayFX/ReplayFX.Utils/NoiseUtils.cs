@@ -5,6 +5,13 @@ namespace ReplayFX.Utils
 {
     public static class NoiseUtils
     {
+        public static NoiseSettings CreateBlankProfile()
+        {
+            NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
+            profile.name = "None";
+            return profile;
+        }
+
         public static NoiseSettings CreateShakeCustomProfile()
         {
             NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
@@ -109,10 +116,10 @@ namespace ReplayFX.Utils
             return profile;
         }
 
-        public static NoiseSettings Create_Handheld_Normal_Extreme_Profile()
+        public static NoiseSettings Create_Normal_Extreme_Profile()
         {
             NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
-            profile.name = "Handheld_normal_extreme";
+            profile.name = "Normal_extreme";
 
             profile.OrientationNoise = new NoiseSettings.TransformNoiseParams[]
             {
@@ -139,10 +146,10 @@ namespace ReplayFX.Utils
             return profile;
         }
 
-        public static NoiseSettings Create_Handheld_Normal_Mild_Profile()
+        public static NoiseSettings Create_Normal_Mild_Profile()
         {
             NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
-            profile.name = "Handheld_normal_mild";
+            profile.name = "Normal_mild";
 
             profile.OrientationNoise = new NoiseSettings.TransformNoiseParams[]
             {
@@ -169,10 +176,10 @@ namespace ReplayFX.Utils
             return profile;
         }
 
-        public static NoiseSettings Create_Handheld_Normal_Strong_Profile()
+        public static NoiseSettings Create_Normal_Strong_Profile()
         {
             NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
-            profile.name = "Handheld_normal_strong";
+            profile.name = "Normal_strong";
 
             profile.OrientationNoise = new NoiseSettings.TransformNoiseParams[]
             {
@@ -199,10 +206,10 @@ namespace ReplayFX.Utils
             return profile;
         }
 
-        public static NoiseSettings Create_Handheld_Tele_Mild_Profile()
+        public static NoiseSettings Create_Tele_Mild_Profile()
         {
             NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
-            profile.name = "Handheld_tele_mild";
+            profile.name = "Tele_mild";
 
             profile.OrientationNoise = new NoiseSettings.TransformNoiseParams[]
             {
@@ -229,10 +236,10 @@ namespace ReplayFX.Utils
             return profile;
         }
 
-        public static NoiseSettings Create_Handheld_Tele_Strong_Profile()
+        public static NoiseSettings Create_Tele_Strong_Profile()
         {
             NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
-            profile.name = "Handheld_tele_strong";
+            profile.name = "Tele_strong";
 
             profile.OrientationNoise = new NoiseSettings.TransformNoiseParams[]
             {
@@ -259,10 +266,10 @@ namespace ReplayFX.Utils
             return profile;
         }
 
-        public static NoiseSettings Create_Handheld_Wideangle_Mild_Profile()
+        public static NoiseSettings Create_Wideangle_Mild_Profile()
         {
             NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
-            profile.name = "Handheld_wideangle_mild";
+            profile.name = "TWideangle_mild";
 
             profile.OrientationNoise = new NoiseSettings.TransformNoiseParams[]
             {
@@ -289,10 +296,10 @@ namespace ReplayFX.Utils
             return profile;
         }
 
-        public static NoiseSettings Create_Handheld_Wideangle_Strong_Profile()
+        public static NoiseSettings Create_Wideangle_Strong_Profile()
         {
             NoiseSettings profile = ScriptableObject.CreateInstance<NoiseSettings>();
-            profile.name = "Handheld_wideangle_strong";
+            profile.name = "Wideangle_strong";
 
             profile.OrientationNoise = new NoiseSettings.TransformNoiseParams[]
             {

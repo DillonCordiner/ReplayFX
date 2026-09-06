@@ -7,6 +7,7 @@ using System;
 using Object = UnityEngine.Object;
 using System.Runtime;
 using ReplayFX.Utils;
+using ReplayFX.UI;
 
 namespace ReplayFX
 {
@@ -22,6 +23,7 @@ namespace ReplayFX
         public static InputListener inputListener;
         public static UIController uiController;
         public static TimelineManager timelineManager;
+        public static ReplayFXSettingsController rfxSettings;
 
         public static bool Load(UnityModManager.ModEntry modEntry)
         {
@@ -45,22 +47,37 @@ namespace ReplayFX
         }
         private static void OnGUI(UnityModManager.ModEntry modEntry)
         {
-            GUILayout.BeginVertical(GUILayout.Width(284));
-            if (RGUI.Button(inputListener.changeHotKey, "Change HotKey"))
+            GUILayout.BeginHorizontal();
             {
-                inputListener.changeHotKey = !inputListener.changeHotKey;
+                GUILayout.Label("[Ctrl + " + settings.noiseHotkey.keyCode.ToString("") + "] for Keyboard/mouse UI");
+                GUILayout.FlexibleSpace();
             }
-            if (inputListener.changeHotKey)
+            GUILayout.EndHorizontal();
+            GUILayout.Space(10);
+            GUILayout.BeginHorizontal();
             {
-                GUILayout.Label("<b>Press any Key to change Noise HotKey</b>");
-                GUILayout.Box("<b>Current Noise HotKey: </b>" + settings.noiseHotkey.keyCode.ToString(""), GUILayout.Height(25f));
-                if (inputListener.GetCurrentKeyDown() != null)
+                if (RGUI.Button(inputListener.changeHotKey, "Change HotKey"))
                 {
-                    settings.noiseHotkey = new KeyBinding { keyCode = (KeyCode)inputListener.GetCurrentKeyDown() };
-                    Logger.Log("Noise Hot Key Changed to:" + settings.noiseHotkey.keyCode.ToString(""));
+                    inputListener.changeHotKey = !inputListener.changeHotKey;
                 }
+                GUILayout.FlexibleSpace();
             }
-            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            {
+                if (inputListener.changeHotKey)
+                {
+                    GUILayout.Label("<b>Press any Key to change Noise HotKey</b>");
+                    GUILayout.Box("<b>Current HotKey: </b>" + settings.noiseHotkey.keyCode.ToString(""), GUILayout.Height(25f));
+                    if (inputListener.GetCurrentKeyDown() != null)
+                    {
+                        settings.noiseHotkey = new KeyBinding { keyCode = (KeyCode)inputListener.GetCurrentKeyDown() };
+                        Logger.Log("HotKey Changed to:" + settings.noiseHotkey.keyCode.ToString(""));
+                    }
+                }
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndHorizontal();
         }
         private static void OnSaveGUI(UnityModManager.ModEntry modEntry)
         {
@@ -85,6 +102,7 @@ namespace ReplayFX
                     inputListener = ScriptManager.AddComponent<InputListener>();
                     uiController = ScriptManager.AddComponent<UIController>();
                     timelineManager = ScriptManager.AddComponent<TimelineManager>();
+                    rfxSettings = ScriptManager.AddComponent<ReplayFXSettingsController>();
                     Object.DontDestroyOnLoad(ScriptManager);
 
                     AssetLoader.LoadBundles();
