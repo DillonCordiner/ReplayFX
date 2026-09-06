@@ -9,6 +9,7 @@ using UnityEngine.ResourceManagement;
 using UnityEngine.AddressableAssets;
 using ReplayFX;
 using Rewired;
+using static RootMotion.Demos.Turret;
 
 namespace ReplayFX
 {
@@ -37,7 +38,7 @@ namespace ReplayFX
 
         //public ReorderableArray<SettingsMenuController.SettingsCategory> SettingsCategories;
         [Reorderable]
-        public SettingsCategoryArray SettingsCategories;
+        public SettingsCategoryArray SettingsCategories = new SettingsCategoryArray();
 
         public CategoryButton SettingsCategoryButton;
         public Transform settingsPageParent;
@@ -56,13 +57,12 @@ namespace ReplayFX
             }
             catch (Exception ex)
             {
-                Main.Logger.LogException($"Failed to initialize replay settings menu:", ex);
+                Main.Logger.Log("Failed to initialize replay settings menu:");
+                Main.Logger.LogException(ex);
             }
-            
-            //SetupClonedMenu(SettingsMenuController.Instance.gameObject);
-            //RemoveDefaultPages();
-            //SetStartPage("Camera Settings");
-            //SetCurrentCategory("Camera Settings");
+
+            SetStartPage("Camera Settings");
+            SetCurrentCategory("Camera Settings");
         }
         
         public async Task InitializeMenuAsync()
@@ -71,7 +71,7 @@ namespace ReplayFX
 
             cameraSettings = await PageBuilder.BuildCameraPageAsync();
             keyframeSettings = await PageBuilder.BuildKeyframePageAsync();
-
+            UpdateUI();
             pagesCreated = true;
         }
         private void OnDestroy()
@@ -117,6 +117,20 @@ namespace ReplayFX
             currentCategoryIndex = Mathf.Clamp(currentCategoryIndex, 0, SettingsCategories.Count - 1);
             for (int i = 0; i < SettingsCategories.Count; i++)
             {
+                if (i == currentCategoryIndex)
+                {
+                    SettingsCategories[i].Panel.SetActive(true);
+                    SettingsCategoryButton.SetText(SettingsCategories[i].Name, false);
+                }
+                else
+                {
+                    SettingsCategories[i].Panel.SetActive(false);
+                }
+            }
+            /*
+            currentCategoryIndex = Mathf.Clamp(currentCategoryIndex, 0, SettingsCategories.Count - 1);
+            for (int i = 0; i < SettingsCategories.Count; i++)
+            {
                 bool isActive = (i == currentCategoryIndex);
 
                 SettingsCategories[i].Panel.SetActive(isActive);
@@ -125,7 +139,8 @@ namespace ReplayFX
                 {
                     SettingsCategoryButton.SetText(SettingsCategories[i].Name, false);
                 }
-            }    
+            }
+            */
         }
         public void SetStartPage(string settingsPage)
         {
@@ -195,16 +210,6 @@ namespace ReplayFX
             int num = SettingsCategories.FindIndex((SettingsCategory c) => c.Name == name);
             SettingsCategories.RemoveAt(num);
             Destroy(page.gameObject);
-            /*
-            foreach (SettingsMenuController.SettingsCategory catagory in SettingsCategories)
-            {
-                if (catagory.Name == name)
-                {
-                    SettingsCategories.Remove(catagory);
-                    Destroy(catagory.Panel);
-                }
-            }
-            */
         }
         private void AddSettingsState(GameObject obj)
         {
@@ -229,32 +234,6 @@ namespace ReplayFX
                 }
             }
         }
-        /* old SetupClonedMenu
-        public void SetupClonedMenu(GameObject originalMenuPrefab)
-        {
-            GameObject clonedMenu = Instantiate(originalMenuPrefab);
-            SettingsMenuController originalController = clonedMenu.GetComponentInChildren<SettingsMenuController>();
-            if (originalController != null)
-            {
-                Destroy(originalController);
-            }
-            clonedMenu.transform.SetParent(Main.ScriptManager.transform);
-            AddSettingsState(clonedMenu);
-            //SettingsCategories = SettingsMenuController.Instance.SettingsCategories; // change later to match clone settings panels
-            SettingsCategoryButton = clonedMenu.GetComponentInChildren<CategoryButton>(true);
-            if (SettingsCategoryButton != null)
-            {
-                SettingsCategoryButton.OnNextCategory += NextCategory;
-                SettingsCategoryButton.OnPreviousCategory += PreviousCategory;
-            }
-            //Transform pageParent = clonedMenu.transform.Find("Options Area");
-            Transform pageParent = clonedMenu.transform.FindChildRecursively("Options Area");
-            if (pageParent != null)
-            {
-                settingsPageParent = pageParent;
-            }
-        }
-        */
         private void AddSettingsPage(string name, ProceduralMenuPage menuPage, int index = -1)
         {
             int num = SettingsCategories.FindIndex((SettingsCategory c) => c.Panel == menuPage.gameObject);
@@ -303,40 +282,19 @@ namespace ReplayFX
             }
 
             proceduralMenuPage = (await Addressables.InstantiateAsync(ProceduralMenuPage.prefabKey, settingsPageParent, false, true)).GetComponent<ProceduralMenuPage>();
+
+            //var handle = Addressables.InstantiateAsync(ProceduralMenuPage.prefabKey, settingsPageParent, false, true);
+            //GameObject pageObj = await handle.Task;
+            //proceduralMenuPage = pageObj.GetComponent<ProceduralMenuPage>();
+
             //GameObject pageObj = await Addressables.InstantiateAsync(ProceduralMenuPage.prefabKey, settingsPageParent, false, true).Task;
             //proceduralMenuPage = pageObj.GetComponent<ProceduralMenuPage>();
-            //proceduralMenuPage = CreateProceduralPage();
 
             proceduralMenuPage.name = name + " Page";
             proceduralMenuPage.layoutGroup.spacing = 16f;
             AddSettingsPage(name, proceduralMenuPage, index);
             return proceduralMenuPage;
         }
-        /*
-        private ProceduralMenuPage CreateProceduralPage()
-        {
-            // 1. Find ANY existing vanilla ProceduralMenuPage in the hierarchy
-            ProceduralMenuPage vanillaPage = SettingsMenuController.Instance.GetComponentInChildren<ProceduralMenuPage>(true);
-
-            if (vanillaPage != null)
-            {
-                // 2. Clone it synchronously (No Addressables required)
-                GameObject clone = Instantiate(vanillaPage.gameObject, settingsPageParent);
-
-                // 3. Get the component and wipe all the cloned vanilla items
-                ProceduralMenuPage newPage;
-                newPage = clone.GetComponent<ProceduralMenuPage>();
-                newPage.RemoveAll(); // Clears the list and destroys the cloned items
-
-                return newPage;
-            }
-            else
-            {
-                Main.Logger.Log("Could not find a vanilla page to clone!");
-                return null;
-            }
-        }
-        */
         public async void CreateSettingsPage(string name, Action<ProceduralMenuPage> action, int index = -1)
         {
             ProceduralMenuPage proceduralMenuPage = await CreateSettingsPage(name, index);

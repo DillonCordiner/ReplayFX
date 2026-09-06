@@ -64,8 +64,12 @@ namespace ReplayFX
         }
         private void Update() 
         {
-            if (GameStateMachine.Instance.CurrentState == null || !(GameStateMachine.Instance.CurrentState is ReplayFXSettingsState))
+            playerFound = player != null;
+            if (!playerFound)
                 return;
+
+            //if (GameStateMachine.Instance.CurrentState == null || !(GameStateMachine.Instance.CurrentState is ReplayFXSettingsState))
+            //return;
 
             if (player.GetButtonDown(7))
             {

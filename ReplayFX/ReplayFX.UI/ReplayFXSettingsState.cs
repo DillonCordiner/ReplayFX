@@ -14,12 +14,14 @@ namespace ReplayFX
         {
             gameObject.SetActive(true);
             GameStateMachine.Instance.SemiTransparentLayer.SetActive(false);
+            GameStateMachine.Instance.PauseObject.SetActive(true);
             //Main.rfxSettings.SetCurrentCategory(PageBuilder.cameraSettings);
         }
 
         public override void OnExit(GameState nextState)
         {
             gameObject.SetActive(false);
+            GameStateMachine.Instance.PauseObject.SetActive(false);
             UISounds.Instance.PlayOneShotExit();
         }
 
