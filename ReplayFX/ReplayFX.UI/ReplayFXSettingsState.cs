@@ -12,7 +12,7 @@ namespace ReplayFX
     {
         public override void OnEnter(GameState prevState)
         {
-            gameObject.SetActive(true);
+            base.gameObject.SetActive(true);
             GameStateMachine.Instance.SemiTransparentLayer.SetActive(false);
             GameStateMachine.Instance.PauseObject.SetActive(true);
             //Main.rfxSettings.SetCurrentCategory(PageBuilder.cameraSettings);
@@ -20,7 +20,7 @@ namespace ReplayFX
 
         public override void OnExit(GameState nextState)
         {
-            gameObject.SetActive(false);
+            base.gameObject.SetActive(false);
             GameStateMachine.Instance.PauseObject.SetActive(false);
             UISounds.Instance.PlayOneShotExit();
         }

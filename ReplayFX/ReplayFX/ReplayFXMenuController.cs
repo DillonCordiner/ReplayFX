@@ -10,10 +10,11 @@ using UnityEngine.AddressableAssets;
 using ReplayFX;
 using Rewired;
 using static RootMotion.Demos.Turret;
+using ReplayEditor;
 
 namespace ReplayFX
 {
-    public class ReplayFXSettingsController : MonoBehaviour
+    public class ReplayFXMenuController : MonoBehaviour
     {
         [Serializable]
         public class SettingsCategoryArray : ReorderableArray<SettingsCategory>
@@ -45,6 +46,7 @@ namespace ReplayFX
 
         public ReplayFXSettingsState rfxSettingsState;
         public GameObject clonedMenu;
+        private MenuButton replayMenuButton;
 
         private async void Start()
         {
@@ -61,8 +63,10 @@ namespace ReplayFX
                 Main.Logger.LogException(ex);
             }
 
-            SetStartPage("Camera Settings");
-            SetCurrentCategory("Camera Settings");
+            SetStartPage(PageBuilder.cameraSettings);
+            SetCurrentCategory(PageBuilder.cameraSettings);
+
+            SetUpMenuButton();
         }
         
         public async Task InitializeMenuAsync()
@@ -81,6 +85,18 @@ namespace ReplayFX
                 SettingsCategoryButton.OnNextCategory -= NextCategory;
                 SettingsCategoryButton.OnPreviousCategory -= PreviousCategory;
             }
+        }
+        private void SetUpMenuButton()
+        {
+            MenuButton originalButton = ReplayEditorController.Instance.Menu.MainMenuPanel.GetComponentInChildren<MenuButton>();
+            replayMenuButton = PageBuilder.CreateButton(originalButton, "ReplayFX", MenuButtonAction);
+        }
+        private void MenuButtonAction()
+        {
+            clonedMenu.SetActive(true);
+            ReplayEditorController.Instance.Menu.SettingsMenu.gameObject.SetActive(false);
+            ReplayEditorController.Instance.Menu.SaveMenu.gameObject.SetActive(false);
+            ReplayEditorController.Instance.Menu.MainMenuPanel.SetActive(false);
         }
         public void SetupClonedMenu(GameObject originalMenuPrefab)
         {
@@ -111,7 +127,6 @@ namespace ReplayFX
                 settingsPageParent = pageParent;
             }
         }
-
         private void UpdateUI()
         {
             currentCategoryIndex = Mathf.Clamp(currentCategoryIndex, 0, SettingsCategories.Count - 1);
@@ -127,20 +142,6 @@ namespace ReplayFX
                     SettingsCategories[i].Panel.SetActive(false);
                 }
             }
-            /*
-            currentCategoryIndex = Mathf.Clamp(currentCategoryIndex, 0, SettingsCategories.Count - 1);
-            for (int i = 0; i < SettingsCategories.Count; i++)
-            {
-                bool isActive = (i == currentCategoryIndex);
-
-                SettingsCategories[i].Panel.SetActive(isActive);
-
-                if (isActive && SettingsCategoryButton != null)
-                {
-                    SettingsCategoryButton.SetText(SettingsCategories[i].Name, false);
-                }
-            }
-            */
         }
         public void SetStartPage(string settingsPage)
         {
@@ -168,7 +169,6 @@ namespace ReplayFX
                 }
             }
         }
-
         public void NextCategory()
         {
             currentCategoryIndex++;
@@ -189,7 +189,6 @@ namespace ReplayFX
             UpdateUI();
             //PreviousCategory();
         }
-
         public ProceduralMenuPage GetSettingsPage(string name)
         {
             int num = SettingsCategories.FindIndex((SettingsCategory c) => c.Name == name);

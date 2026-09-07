@@ -3,6 +3,8 @@ using RapidGUI;
 using System;
 using System.Threading.Tasks;
 using Rewired;
+using UnityEngine.Events;
+using TMPro;
 
 namespace ReplayFX.UI
 {
@@ -11,6 +13,26 @@ namespace ReplayFX.UI
         public static readonly string cameraSettings = "Camera Settings";
         public static readonly string keyframeSettings = "KeyFrame Settings";
 
+        public static MenuButton CreateButton(MenuButton originalButton, string label, UnityAction buttonAction)
+        {
+            GameObject newButtonObj = UnityEngine.Object.Instantiate(originalButton.gameObject, originalButton.gameObject.transform.parent);
+            //newButtonObj.transform.SetSiblingIndex(originalButton.transform.GetSiblingIndex() + 1);
+            newButtonObj.transform.SetAsLastSibling();
+            newButtonObj.name = label;
+
+            MenuButton newButton;
+            newButton = newButtonObj.GetComponent<MenuButton>();
+            newButton.GreyedOut = false;
+            newButton.GreyedOutInfoText = label;
+            //newButton.Label.SetText(label);
+            newButton.SetText(label);
+
+            newButton.onClick.RemoveAllListeners();  // Remove existing listeners
+            newButton.onClick.SetPersistentListenerState(0, UnityEventCallState.Off); // removes persistant listeners that are set in unity editor.
+            newButton.onClick.AddListener(buttonAction);  // Add new listener
+
+            return newButton;
+        }
         public static async Task<ProceduralMenuPage> BuildCameraPageAsync()
         {
             //ProceduralMenuPage proceduralMenuPage = await SettingsMenuController.Instance.CreateSettingsPage("Camera Settings", -1);
