@@ -14,27 +14,36 @@ namespace ReplayFX.Patches
         [HarmonyPrefix]
         static bool Prefix(ReplayCameraController __instance, ref float start, ref float end)
         {
-            for (int i = __instance.keyFrames.Count - 1; i >= 0; i--)
+            if (__instance.keyFrames.Count <= 0)
             {
-                if (__instance.keyFrames[i].time < start - 0.001f || __instance.keyFrames[i].time > end + 0.001f)
-                {
-                    //Main.Logger.Log($"[DeleteKeyFramesOutside] Removing Key {__instance.keyFrames[i].GetType().Name} : {i}");
-
-                    __instance.keyFrames.RemoveAt(i);
-
-                    /*
-                    if (__instance.keyFrames[i] is PlaybackSpeedKeyFrame || __instance.keyFrames[i] is ImpulseKeyFrame)
-                    {
-                        Main.Logger.Log($"[DeleteKeyFramesOutside] Removing Key {Keyname} : {i}");
-                        __instance.keyFrames.RemoveAt(i);
-                        __instance.cameraCurve.DeleteCurveKeys(i, false);
-                    }
-                    */
-                }
+                //__instance.DeleteAllKeyFrames();
+                //CurveUtil.Refresh();
+                return false;
             }
-            //CurveUtil.Refresh();
-            //Main.Logger.Log("[DeleteKeyFramesOutside] Patch Complete");
-            return false;
+            else
+            {
+                for (int i = __instance.keyFrames.Count - 1; i >= 0; i--)
+                {
+                    if (__instance.keyFrames[i].time < start - 0.001f || __instance.keyFrames[i].time > end + 0.001f)
+                    {
+                        //Main.Logger.Log($"[DeleteKeyFramesOutside] Removing Key {__instance.keyFrames[i].GetType().Name} : {i}");
+
+                        __instance.keyFrames.RemoveAt(i);
+
+                        /*
+                        if (__instance.keyFrames[i] is PlaybackSpeedKeyFrame || __instance.keyFrames[i] is ImpulseKeyFrame)
+                        {
+                            Main.Logger.Log($"[DeleteKeyFramesOutside] Removing Key {Keyname} : {i}");
+                            __instance.keyFrames.RemoveAt(i);
+                            __instance.cameraCurve.DeleteCurveKeys(i, false);
+                        }
+                        */
+                    }
+                }
+                //CurveUtil.Refresh();
+                //Main.Logger.Log("[DeleteKeyFramesOutside] Patch Complete");
+                return false;
+            }
         }
     }
     /*

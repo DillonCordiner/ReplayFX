@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Rewired;
 using UnityEngine.Events;
 using TMPro;
+using ReplayFX.Keyframes;
 
 namespace ReplayFX.UI
 {
@@ -17,7 +18,7 @@ namespace ReplayFX.UI
         {
             GameObject newButtonObj = UnityEngine.Object.Instantiate(originalButton.gameObject, originalButton.gameObject.transform.parent);
             //newButtonObj.transform.SetSiblingIndex(originalButton.transform.GetSiblingIndex() + 1);
-            newButtonObj.transform.SetAsLastSibling();
+            newButtonObj.transform.SetAsFirstSibling();
             newButtonObj.name = label;
 
             MenuButton newButton;
@@ -54,6 +55,16 @@ namespace ReplayFX.UI
                 Main.noiseController.targetProfile = v;
             }, Main.noiseController.ProfileOptionsArray);
             */
+            await proceduralMenuPage.AddIntSetting("noise_amplitude", "Amplitude", () => Mathf.RoundToInt(Main.settings.noise_amplitude * 10f), delegate (int v)
+            {
+                Main.settings.noise_amplitude = v / 10f;
+            }, 0, 100, "{0}%", int.MaxValue);
+
+            await proceduralMenuPage.AddIntSetting("noise_frequency", "Frequency", () => Mathf.RoundToInt(Main.settings.noise_frequency * 10f), delegate (int v)
+            {
+                Main.settings.noise_frequency = v / 10f;
+            }, 0, 100, "{0}%", int.MaxValue);
+
             return proceduralMenuPage;
         }
         public static async Task<ProceduralMenuPage> BuildKeyframePageAsync()
@@ -65,6 +76,29 @@ namespace ReplayFX.UI
             {
                 Main.settings.replay_playback_speed = v / 100f;
             }, 0, 200, "{0}%", int.MaxValue);
+
+            await proceduralMenuPage.AddIntSetting("impulse_force", "Impulse Force", () => Mathf.RoundToInt(Main.settings.impulse_force * 10f), delegate (int v)
+            {
+                Main.settings.impulse_force = v / 10f;
+            }, 0, 100, "{0}%", int.MaxValue);
+
+            await proceduralMenuPage.AddIntSetting("impulse_amplitude", "Impulse Amplitude", () => Mathf.RoundToInt(Main.settings.impulse_source_amplitude * 10f), delegate (int v)
+            {
+                Main.settings.impulse_source_amplitude = v / 10f;
+            }, 0, 100, "{0}%", int.MaxValue);
+
+            await proceduralMenuPage.AddIntSetting("impulse_frequency", "Impulse Frequency", () => Mathf.RoundToInt(Main.settings.impulse_source_frequency * 10f), delegate (int v)
+            {
+                Main.settings.impulse_source_frequency = v / 10f;
+            }, 0, 100, "{0}%", int.MaxValue);
+
+            await proceduralMenuPage.AddIntSetting("impulse_decay", "Impulse Decay", () => Mathf.RoundToInt(Main.settings.impulse_source_decaytime * 100f), delegate (int v)
+            {
+                Main.settings.impulse_source_decaytime = v / 100f;
+            }, 0, 200, "{0}%", int.MaxValue);
+
+            //await proceduralMenuPage.AddButton("impulse_test", "Test Impulse", () => Main.noiseController.GenerateImpluse(), int.MaxValue);
+
             /*
             await keyframeSettings.AddFloatSetting("test_slider", "Test Slider", () => Main.settings.replay_playback_speed, delegate (float v)
             {
@@ -87,12 +121,11 @@ namespace ReplayFX.UI
             Main.noiseController.targetProfile = name;
             Main.Logger.Log("Camera Profile");
         }
+
         private static float GetTestSlider() => 0.5f;
         private static void SetTestSlider(float val)
         {
             Main.Logger.Log("Set Slider");
         }
-
-      
     }
 }

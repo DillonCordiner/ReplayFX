@@ -205,6 +205,10 @@ namespace ReplayFX
             */
 
             //NoiseSettings profile = GetCurrentProfile(noiseSettings);
+
+            if (AssetLoader.noiseSettingsAssets.Count <= 0)
+                return;
+
             NoiseSettings profile = GetCurrentProfile(AssetLoader.noiseSettingsAssets);
             LoadNoiseProfile(profile);
             //currentProfile = targetProfile;
@@ -254,11 +258,17 @@ namespace ReplayFX
                     {
                         targetProfile = Main.settings.savedProfile;
                     }
+                    Main.rfxSettings.cameraSettings.SetVisible("camera_profile", true);
+                    //Main.rfxSettings.cameraSettings.UpdateItem("camera_profile");
+                    Main.rfxSettings.cameraSettings.UpdatePage();
                     break;
 
                 case false:
                     Main.settings.savedProfile = targetProfile;
                     targetProfile = none;
+                    Main.rfxSettings.cameraSettings.SetVisible("camera_profile", false);
+                    //Main.rfxSettings.cameraSettings.UpdateItem("camera_profile");
+                    Main.rfxSettings.cameraSettings.UpdatePage();
                     break;
 
             }

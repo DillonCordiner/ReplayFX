@@ -154,7 +154,7 @@
     <Compile Include="RapidGUI\Utilities\UnparsedStr.cs" />
     <Compile Include="RapidGUI\Utilities\WarningLabelNoStyle.cs" />
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
-    <Compile Include="ReplayFX.UI\ReplayFXSettingsState.cs" />
+    <Compile Include="ReplayFX.State\ReplayFXMenuState.cs" />
     <Compile Include="ReplayFX.UI\PageBuilder.cs" />
     <Compile Include="ReplayFX.Utils\AssetLoader.cs" />
     <Compile Include="ReplayFX.Utils\ColorUtil.cs" />
@@ -168,7 +168,7 @@
     <Compile Include="ReplayFX.Keyframes\ImpulseKeyFrame.cs" />
     <Compile Include="ReplayFX.Utils\ResourceExtractor.cs" />
     <Compile Include="ReplayFX.UI\UIExtentions.cs" />
-    <Compile Include="ReplayFX\ReplayFXMenuController.cs" />
+    <Compile Include="ReplayFX.UI\ReplayFXMenuController.cs" />
     <Compile Include="ReplayFX\InputListener.cs" />
     <Compile Include="ReplayFX\TimeLineManager.cs" />
     <Compile Include="ReplayFX.UI\UIController.cs" />

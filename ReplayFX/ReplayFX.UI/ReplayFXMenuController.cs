@@ -3,16 +3,14 @@ using SkaterXL.Core;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
-using ReplayFX.UI;
 using GameManagement;
 using UnityEngine.ResourceManagement;
 using UnityEngine.AddressableAssets;
 using ReplayFX;
-using Rewired;
-using static RootMotion.Demos.Turret;
 using ReplayEditor;
+using ReplayFX.State;
 
-namespace ReplayFX
+namespace ReplayFX.UI
 {
     public class ReplayFXMenuController : MonoBehaviour
     {
@@ -44,7 +42,7 @@ namespace ReplayFX
         public CategoryButton SettingsCategoryButton;
         public Transform settingsPageParent;
 
-        public ReplayFXSettingsState rfxSettingsState;
+        public ReplayFXMenuState rfxMenuState;
         public GameObject clonedMenu;
         private MenuButton replayMenuButton;
 
@@ -75,6 +73,12 @@ namespace ReplayFX
 
             cameraSettings = await PageBuilder.BuildCameraPageAsync();
             keyframeSettings = await PageBuilder.BuildKeyframePageAsync();
+            if (!Main.settings.enableNoise)
+            {
+                cameraSettings.SetVisible("camera_profile", false);
+            }
+            cameraSettings.UpdatePage();
+            keyframeSettings.UpdatePage();
             UpdateUI();
             pagesCreated = true;
         }
@@ -85,11 +89,20 @@ namespace ReplayFX
                 SettingsCategoryButton.OnNextCategory -= NextCategory;
                 SettingsCategoryButton.OnPreviousCategory -= PreviousCategory;
             }
+            Destroy(clonedMenu);
+            clonedMenu = null;
+            Destroy(replayMenuButton.gameObject);
+            replayMenuButton = null;
         }
         private void SetUpMenuButton()
         {
             MenuButton originalButton = ReplayEditorController.Instance.Menu.MainMenuPanel.GetComponentInChildren<MenuButton>();
-            replayMenuButton = PageBuilder.CreateButton(originalButton, "ReplayFX", MenuButtonAction);
+            replayMenuButton = PageBuilder.CreateButton(originalButton, "Replay FX", MenuButtonAction);
+
+            if (replayMenuButton != null)
+            {
+                ReplayEditorController.Instance.Menu.MainMenuPanel.GetComponent<FixFirstSelected>().selected = replayMenuButton.gameObject;
+            }
         }
         private void MenuButtonAction()
         {
@@ -97,6 +110,8 @@ namespace ReplayFX
             ReplayEditorController.Instance.Menu.SettingsMenu.gameObject.SetActive(false);
             ReplayEditorController.Instance.Menu.SaveMenu.gameObject.SetActive(false);
             ReplayEditorController.Instance.Menu.MainMenuPanel.SetActive(false);
+            UpdateUI();
+            ReplayEditorController.Instance.Menu.MainMenuPanel.GetComponent<FixFirstSelected>().selected = replayMenuButton.gameObject;
         }
         public void SetupClonedMenu(GameObject originalMenuPrefab)
         {
@@ -127,7 +142,7 @@ namespace ReplayFX
                 settingsPageParent = pageParent;
             }
         }
-        private void UpdateUI()
+        public void UpdateUI()
         {
             currentCategoryIndex = Mathf.Clamp(currentCategoryIndex, 0, SettingsCategories.Count - 1);
             for (int i = 0; i < SettingsCategories.Count; i++)
@@ -212,9 +227,9 @@ namespace ReplayFX
         }
         private void AddSettingsState(GameObject obj)
         {
-            if (rfxSettingsState == null)
+            if (rfxMenuState == null)
             {
-                rfxSettingsState = obj.AddComponent<ReplayFXSettingsState>();
+                rfxMenuState = obj.AddComponent<ReplayFXMenuState>();
                 RemoveOldStates(obj);
             }
             else

@@ -14,7 +14,10 @@ namespace ReplayFX.Patches
         [HarmonyPostfix]
         static void Postfix(CameraCurve __instance)
         {
-            CurveUtil.playbackSpeedCurve.CalculateCurveControlPoints();
+            if (CurveUtil.HasPlayBackKeys())
+            {
+                CurveUtil.playbackSpeedCurve.CalculateCurveControlPoints();
+            }
             //Main.Logger.Log("[CalculateCurveControlPoints] Patch Complete");
         }
     }
@@ -25,7 +28,10 @@ namespace ReplayFX.Patches
         [HarmonyPostfix]
         static void Postfix(CameraCurve __instance)
         {
-            CurveUtil.playbackSpeedCurve.Clear();
+            if (CurveUtil.HasPlayBackKeys())
+            {
+                CurveUtil.playbackSpeedCurve.Clear();
+            }
             //Main.Logger.Log("[Clear] Patch Complete");
         }
     }
@@ -36,7 +42,10 @@ namespace ReplayFX.Patches
         [HarmonyPostfix]
         static void Postfix(CameraCurve __instance, ref int i, ref bool refreshDirectly)
         {
-            CurveUtil.playbackSpeedCurve.DeleteCurveKey(i, refreshDirectly);
+            if (CurveUtil.HasPlayBackKeys())
+            {
+                CurveUtil.playbackSpeedCurve.DeleteCurveKey(i, refreshDirectly);
+            }
             //Main.Logger.Log("[DeleteCurveKeys] Patch Complete");
         }
     }

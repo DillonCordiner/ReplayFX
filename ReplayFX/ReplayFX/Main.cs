@@ -49,6 +49,12 @@ namespace ReplayFX
         {
             GUILayout.BeginHorizontal();
             {
+                GUILayout.Label("<b>Most settings can be changed in the replay pause menu</b>");
+                GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            {
                 GUILayout.Label("[Ctrl + " + settings.noiseHotkey.keyCode.ToString("") + "] for Keyboard/mouse UI");
                 GUILayout.FlexibleSpace();
             }
