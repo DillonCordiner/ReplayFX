@@ -45,6 +45,7 @@ namespace ReplayFX.UI
         public ReplayFXMenuState rfxMenuState;
         public GameObject clonedMenu;
         private MenuButton replayMenuButton;
+        private MenuButton testImpulseButton;
 
         private async void Start()
         {
@@ -61,10 +62,8 @@ namespace ReplayFX.UI
                 Main.Logger.LogException(ex);
             }
 
-            SetStartPage(PageBuilder.cameraSettings);
             SetCurrentCategory(PageBuilder.cameraSettings);
-
-            SetUpMenuButton();
+            CreateCustomButtons();
         }
         
         public async Task InitializeMenuAsync()
@@ -78,10 +77,10 @@ namespace ReplayFX.UI
             {
                 cameraMenuPage.SetVisible("camera_profile", false);
             }
+            UpdateUI();
             cameraMenuPage.UpdatePage();
             keyframeMenuPage.UpdatePage();
             colorMenuPage.UpdatePage();
-            UpdateUI();
             pagesCreated = true;
         }
         private void OnDestroy()
@@ -96,7 +95,7 @@ namespace ReplayFX.UI
             Destroy(replayMenuButton.gameObject);
             replayMenuButton = null;
         }
-        private void SetUpMenuButton()
+        private void CreateCustomButtons()
         {
             MenuButton originalButton = ReplayEditorController.Instance.Menu.MainMenuPanel.GetComponentInChildren<MenuButton>();
             if (originalButton == null)
@@ -108,6 +107,12 @@ namespace ReplayFX.UI
             if (replayMenuButton != null)
             {
                 ReplayEditorController.Instance.Menu.MainMenuPanel.GetComponent<FixFirstSelected>().selected = replayMenuButton.gameObject;
+            }
+            testImpulseButton = PageBuilder.CreateButton(originalButton, "Test Impulse", Main.noiseController.GenerateImpluse);
+            if (testImpulseButton)
+            {
+                testImpulseButton.gameObject.transform.SetParent(keyframeMenuPage.itemParent.transform, false);
+                testImpulseButton.gameObject.transform.SetAsLastSibling();
             }
         }
         private void MenuButtonAction()
@@ -160,24 +165,12 @@ namespace ReplayFX.UI
                 {
                     SettingsCategories[i].Panel.SetActive(true);
                     SettingsCategoryButton.SetText(SettingsCategories[i].Name, false);
+                    ProceduralMenuPage page = GetSettingsPage(SettingsCategories[i].Name);
+                    page.UpdatePage();
                 }
                 else
                 {
                     SettingsCategories[i].Panel.SetActive(false);
-                }
-            }
-        }
-        public void SetStartPage(string settingsPage)
-        {
-            if (SettingsCategories.Count <= 0)
-                return;
-
-            for (int i = 0; i < SettingsCategories.Length; i++)
-            {
-                if (SettingsCategories[i].Name == settingsPage)
-                {
-                    currentCategoryIndex = i;
-                    return;
                 }
             }
         }

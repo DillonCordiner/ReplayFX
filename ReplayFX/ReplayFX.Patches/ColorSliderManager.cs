@@ -14,22 +14,62 @@ namespace ReplayFX.Patches
     [HarmonyPatch(typeof(ColorSliderItem), nameof(ColorSliderItem.UpdateItem))]
     public static class ColorSliderItem_UpdateItem_Patch
     {
+        // Changed to Prefix so registration happens BEFORE UpdateItem() evaluates GetValue()
+        [HarmonyPrefix]
+        public static void Prefix(ColorSliderItem __instance)
+        {
+            var floatToColor = __instance.selectable.GetComponent<FloatToColor>();
+            if (floatToColor == null) return;
+
+            string itemName = __instance.selectable.gameObject.name;
+            if (itemName.Contains("Playback") && itemName.Contains("Color"))
+                ColorSliderManager.SliderModes[floatToColor.GetInstanceID()] = 1;
+            else if (itemName.Contains("Impulse") && itemName.Contains("Color"))
+                ColorSliderManager.SliderModes[floatToColor.GetInstanceID()] = 2;
+        }
+
+        // Kept as Postfix to safely force the visual color block to refresh after layouting
         [HarmonyPostfix]
         public static void Postfix(ColorSliderItem __instance)
         {
             var floatToColor = __instance.selectable.GetComponent<FloatToColor>();
             if (floatToColor == null) return;
 
-            // Tag the slider ID based on its label when the UI page updates
-            string label = __instance.selectable.label.text;
-            if (label.Contains("Playback"))
-                ColorSliderManager.SliderModes[floatToColor.GetInstanceID()] = 1;
-            else if (label.Contains("Impulse"))
-                ColorSliderManager.SliderModes[floatToColor.GetInstanceID()] = 2;
-
             floatToColor.UpdateValue(__instance.selectable.value);
         }
     }
+    /*
+    [HarmonyPatch(typeof(ColorSliderItem), nameof(ColorSliderItem.UpdateItem))]
+    public static class ColorSliderItem_UpdateItem_Patch
+    {
+
+        
+        [HarmonyPostfix]
+        public static void Postfix(ColorSliderItem __instance)
+        {
+            var floatToColor = __instance.selectable.GetComponent<FloatToColor>();
+            if (floatToColor == null) return;
+            
+            
+            //string label = __instance.selectable.label.text;
+            //if (label.Contains("Playback"))
+            //    ColorSliderManager.SliderModes[floatToColor.GetInstanceID()] = 1;
+            //else if (label.Contains("Impulse"))
+            //   ColorSliderManager.SliderModes[floatToColor.GetInstanceID()] = 2;
+            
+            
+            string itemName = __instance.selectable.gameObject.name;
+            if (itemName.Contains("Playback") && itemName.Contains("Color"))
+                ColorSliderManager.SliderModes[floatToColor.GetInstanceID()] = 1;
+            else if (itemName.Contains("Impulse") && itemName.Contains("Color"))
+                ColorSliderManager.SliderModes[floatToColor.GetInstanceID()] = 2;
+            
+
+            floatToColor.UpdateValue(__instance.selectable.value);
+        }
+        
+    }
+    */
 
     [HarmonyPatch(typeof(FloatToColor))]
     public static class FloatToColor_Color_Patches

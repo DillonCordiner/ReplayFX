@@ -73,11 +73,11 @@ namespace ReplayFX
 
             if (player.GetButtonDown(7))
             {
-                Main.rfxSettings.NextCategory();
+                Main.replayfxMenu.NextCategory();
             }
             if (player.GetButtonDown(6))
             {
-                Main.rfxSettings.PreviousCategory();
+                Main.replayfxMenu.PreviousCategory();
             }
         }
         private void LateUpdate()
@@ -100,11 +100,12 @@ namespace ReplayFX
             {
                 isBumperPressed = player.GetButton("LB") || player.GetButton("RB");
 
-                if (player.GetButton("LB") && player.GetButtonDown("A"))
-                {
-                    Main.noiseController.ToggleNoise();
-                }
-                else if (player.GetButton("RB") && player.GetButtonDown("A"))
+                //if (player.GetButton("LB") && player.GetButtonDown("A"))
+                //{
+                //    Main.noiseController.ToggleNoise();
+                //}
+
+                if (player.GetButton("RB") && player.GetButtonDown("A"))
                 {
                     KeyFrameHelper.AddPlayBackKeyFrame();
                 }

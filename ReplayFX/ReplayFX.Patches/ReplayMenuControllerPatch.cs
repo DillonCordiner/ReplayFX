@@ -11,7 +11,7 @@ namespace ReplayFX.Patches
         [HarmonyPrefix]
         static bool Prefix(ReplayMenuController __instance)
         {
-            Main.rfxSettings.clonedMenu.gameObject.SetActive(false);
+            Main.replayfxMenu.clonedMenu.gameObject.SetActive(false);
             return true;
         }
     }
@@ -21,7 +21,7 @@ namespace ReplayFX.Patches
         [HarmonyPrefix]
         static bool Prefix(ReplayMenuController __instance)
         {
-            Main.rfxSettings.clonedMenu.gameObject.SetActive(false);
+            Main.replayfxMenu.clonedMenu.gameObject.SetActive(false);
             return true;
         }
     }
@@ -31,7 +31,7 @@ namespace ReplayFX.Patches
         [HarmonyPrefix]
         static bool Prefix(ReplayMenuController __instance)
         {
-            Main.rfxSettings.clonedMenu.gameObject.SetActive(false);
+            Main.replayfxMenu.clonedMenu.gameObject.SetActive(false);
             return true;
         }
     }
@@ -41,7 +41,7 @@ namespace ReplayFX.Patches
         [HarmonyPrefix]
         static bool Prefix(ReplayMenuController __instance)
         {
-            Main.rfxSettings.clonedMenu.gameObject.SetActive(false);
+            Main.replayfxMenu.clonedMenu.gameObject.SetActive(false);
             return true;
         }
     }

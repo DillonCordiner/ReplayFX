@@ -39,7 +39,7 @@ namespace ReplayFX.UI
         public static async Task<ProceduralMenuPage> BuildCameraPageAsync()
         {
             //ProceduralMenuPage proceduralMenuPage = await SettingsMenuController.Instance.CreateSettingsPage("Camera Settings", -1);
-            ProceduralMenuPage proceduralMenuPage = await Main.rfxSettings.CreateSettingsPage(cameraSettings, -1);
+            ProceduralMenuPage proceduralMenuPage = await Main.replayfxMenu.CreateSettingsPage(cameraSettings, -1);
 
             await proceduralMenuPage.AddBoolSetting("enable_noise", "Camera Shake", () => GetEnableNoise(), (val) => SetEnableNoise(val), "Enabled", "Disabled", int.MaxValue);
             /*
@@ -73,29 +73,29 @@ namespace ReplayFX.UI
         public static async Task<ProceduralMenuPage> BuildKeyframePageAsync()
         {
             //ProceduralMenuPage proceduralMenuPage = await SettingsMenuController.Instance.CreateSettingsPage("KeyFrame Settings", -1);
-            ProceduralMenuPage proceduralMenuPage = await Main.rfxSettings.CreateSettingsPage(keyframeSettings, -1);
+            ProceduralMenuPage proceduralMenuPage = await Main.replayfxMenu.CreateSettingsPage(keyframeSettings, -1);
 
-            await proceduralMenuPage.AddIntSetting("playback_speed", "Playback Speed", () => Mathf.RoundToInt(Main.settings.replay_playback_speed * 100f), delegate (int v)
+            await proceduralMenuPage.AddIntSetting("playback_speed", "Playback Key Speed", () => Mathf.RoundToInt(Main.settings.replay_playback_speed * 100f), delegate (int v)
             {
                 Main.settings.replay_playback_speed = v / 100f;
             }, 0, 200, "{0}%", int.MaxValue);
 
-            await proceduralMenuPage.AddIntSetting("impulse_force", "Impulse Force", () => Mathf.RoundToInt(Main.settings.impulse_force * 10f), delegate (int v)
+            await proceduralMenuPage.AddIntSetting("impulse_force", "Impulse Key Force", () => Mathf.RoundToInt(Main.settings.impulse_force * 10f), delegate (int v)
             {
                 Main.settings.impulse_force = v / 10f;
             }, 0, 100, "{0}%", int.MaxValue);
 
-            await proceduralMenuPage.AddIntSetting("impulse_amplitude", "Impulse Amplitude", () => Mathf.RoundToInt(Main.settings.impulse_source_amplitude * 10f), delegate (int v)
+            await proceduralMenuPage.AddIntSetting("impulse_amplitude", "Impulse Key Amplitude", () => Mathf.RoundToInt(Main.settings.impulse_source_amplitude * 10f), delegate (int v)
             {
                 Main.settings.impulse_source_amplitude = v / 10f;
             }, 0, 100, "{0}%", int.MaxValue);
 
-            await proceduralMenuPage.AddIntSetting("impulse_frequency", "Impulse Frequency", () => Mathf.RoundToInt(Main.settings.impulse_source_frequency * 10f), delegate (int v)
+            await proceduralMenuPage.AddIntSetting("impulse_frequency", "Impulse Key Frequency", () => Mathf.RoundToInt(Main.settings.impulse_source_frequency * 10f), delegate (int v)
             {
                 Main.settings.impulse_source_frequency = v / 10f;
             }, 0, 100, "{0}%", int.MaxValue);
 
-            await proceduralMenuPage.AddIntSetting("impulse_decay", "Impulse Decay", () => Mathf.RoundToInt(Main.settings.impulse_source_decaytime * 100f), delegate (int v)
+            await proceduralMenuPage.AddIntSetting("impulse_decay", "Impulse Key Decay", () => Mathf.RoundToInt(Main.settings.impulse_source_decaytime * 100f), delegate (int v)
             {
                 Main.settings.impulse_source_decaytime = v / 100f;
             }, 0, 200, "{0}%", int.MaxValue);
@@ -114,10 +114,13 @@ namespace ReplayFX.UI
         }
         public static async Task<ProceduralMenuPage> BuildColorPageAsync()
         {
-            ProceduralMenuPage proceduralMenuPage = await Main.rfxSettings.CreateSettingsPage(ColorSettings, -1);
+            ProceduralMenuPage proceduralMenuPage = await Main.replayfxMenu.CreateSettingsPage(ColorSettings, -1);
 
             await proceduralMenuPage.AddColorSetting("playback_color", "Playback Key Color", () => GetPlaybackColorItem(), (color) => SetPlaybackColorItem(color), FloatToColor.ConversionType.Hue, int.MaxValue);
-            await proceduralMenuPage.AddBoolSetting("playback_greyscale", "Color Type", () => GetPlaybackGreyScale(), (val) => SetPlaybackGreyScale(val), "Greyscale", "RGB", int.MaxValue);
+            await proceduralMenuPage.AddBoolSetting("playback_greyscale", "Color Mode", () => GetPlaybackGreyScale(), (val) => SetPlaybackGreyScale(val), "Greyscale", "RGB", int.MaxValue);
+
+            await proceduralMenuPage.AddColorSetting("impulse_color", "Impulse Key Color", () => GetImpulseColorItem(), (color) => SetImpulseColorItem(color), FloatToColor.ConversionType.Hue, int.MaxValue);
+            await proceduralMenuPage.AddBoolSetting("impulse_greyscale", "Color Mode", () => GetImpulseGreyScale(), (val) => SetImpulseGreyScale(val), "Greyscale", "RGB", int.MaxValue);
             /*
             await proceduralMenuPage.AddBoolSetting("playback_greyscale", "Color Type", () => Main.settings.isPlaybackGreyscale, delegate (bool v)
             {
@@ -143,51 +146,55 @@ namespace ReplayFX.UI
                 Main.noiseController.ToggleNoise();
             }
 
-            if (Main.rfxSettings.cameraMenuPage != null)
+            if (Main.replayfxMenu.cameraMenuPage != null)
             {
-                Main.rfxSettings.cameraMenuPage.SetVisible("camera_profile", Main.settings.enableNoise);
-                Main.rfxSettings.cameraMenuPage.UpdatePage();
+                Main.replayfxMenu.cameraMenuPage.SetVisible("camera_profile", Main.settings.enableNoise);
+                Main.replayfxMenu.cameraMenuPage.UpdatePage();
             }
         }
         private static string GetCameraProfileItem() => Main.noiseController.targetProfile;
         private static void SetCameraProfileItem(string name)
         {
             Main.noiseController.targetProfile = name;
+            //Main.rfxSettings.cameraMenuPage.UpdateItem("camera_profile");
         }
         private static bool GetPlaybackGreyScale() => Main.settings.isPlaybackGreyscale;
         private static void SetPlaybackGreyScale(bool val)
         {
             Main.settings.isPlaybackGreyscale = val;
 
-            if (Main.rfxSettings.colorMenuPage != null)
+            if (Main.replayfxMenu.colorMenuPage != null)
             {
-                //Main.rfxSettings.colorMenuPage.UpdateItem("playback_color");
-                Main.rfxSettings.colorMenuPage.UpdatePage();
-                Main.rfxSettings.UpdateUI();
+                Main.replayfxMenu.colorMenuPage.UpdatePage();
+            }
+        }
+        private static bool GetImpulseGreyScale() => Main.settings.isImpulseGreyscale;
+        private static void SetImpulseGreyScale(bool val)
+        {
+            Main.settings.isImpulseGreyscale = val;
+
+            if (Main.replayfxMenu.colorMenuPage != null)
+            {
+                Main.replayfxMenu.colorMenuPage.UpdatePage();
             }
         }
         private static Color GetPlaybackColorItem()
         {
-            if (Main.settings.isPlaybackGreyscale)
-            {
-                return ColorUtil.FloatToGrayscale(Main.settings.playback_color_value);
-            }
-            else
-            {
-                return ColorUtil.FloatToRGB(Main.settings.playback_color_value);
-            }
+            return ColorUtil.GetColorFromValue(Main.settings.isPlaybackGreyscale, Main.settings.playback_color_value);
+            //return Main.settings.isPlaybackGreyscale ? ColorUtil.FloatToGrayscale(Main.settings.playback_color_value) : ColorUtil.FloatToRGB(Main.settings.playback_color_value);
         }
-
         private static void SetPlaybackColorItem(Color color)
         {
-            if (Main.settings.isPlaybackGreyscale)
-            {
-                Main.settings.playback_color_value = ColorUtil.GrayscaleToFloat(color);
-            }
-            else
-            {
-                Main.settings.playback_color_value = ColorUtil.RGBToFloat(color);
-            }
+            Main.settings.playback_color_value = ColorUtil.SetValueFromColor(Main.settings.isPlaybackGreyscale, color);
+            //Main.settings.playback_color_value = Main.settings.isPlaybackGreyscale ? ColorUtil.GrayscaleToFloat(color) : ColorUtil.RGBToFloat(color);
+        }
+        private static Color GetImpulseColorItem()
+        {
+            return ColorUtil.GetColorFromValue(Main.settings.isImpulseGreyscale, Main.settings.impulse_color_value);
+        }
+        private static void SetImpulseColorItem(Color color)
+        {
+            Main.settings.impulse_color_value = ColorUtil.SetValueFromColor(Main.settings.isImpulseGreyscale, color);
         }
         private static float GetTestSlider() => 0.5f;
         private static void SetTestSlider(float val)

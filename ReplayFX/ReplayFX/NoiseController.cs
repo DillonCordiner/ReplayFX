@@ -192,20 +192,6 @@ namespace ReplayFX
             if (noise == null || currentProfile == targetProfile)
                 return;
 
-            /*
-            NoiseSettings profile;
-            if (Main.settings.useAssetBundleProfiles)
-            {
-                profile = GetCurrentProfile(AssetLoader.noiseSettingsAssets);
-            }
-            else
-            {
-                profile = GetCurrentProfile(noiseSettings);
-            }
-            */
-
-            //NoiseSettings profile = GetCurrentProfile(noiseSettings);
-
             if (AssetLoader.noiseSettingsAssets.Count <= 0)
                 return;
 
@@ -258,17 +244,17 @@ namespace ReplayFX
                     {
                         targetProfile = Main.settings.savedProfile;
                     }
-                    //Main.rfxSettings.cameraMenuPage.SetVisible("camera_profile", true);
+                    Main.replayfxMenu.cameraMenuPage.SetVisible("camera_profile", true);
                     //Main.rfxSettings.cameraSettings.UpdateItem("camera_profile");
-                    //Main.rfxSettings.cameraMenuPage.UpdatePage();
+                    Main.replayfxMenu.cameraMenuPage.UpdatePage();
                     break;
 
                 case false:
                     Main.settings.savedProfile = targetProfile;
                     targetProfile = none;
-                    //Main.rfxSettings.cameraMenuPage.SetVisible("camera_profile", false);
+                    Main.replayfxMenu.cameraMenuPage.SetVisible("camera_profile", false);
                     //Main.rfxSettings.cameraSettings.UpdateItem("camera_profile");
-                    //Main.rfxSettings.cameraMenuPage.UpdatePage();
+                    Main.replayfxMenu.cameraMenuPage.UpdatePage();
                     break;
 
             }

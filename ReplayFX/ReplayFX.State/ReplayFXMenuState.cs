@@ -17,7 +17,7 @@ namespace ReplayFX.State
             //GameStateMachine.Instance.PauseObject.SetActive(true);
             //Main.rfxSettings.SetCurrentCategory(PageBuilder.cameraSettings);
             //Main.rfxSettings.SetStartPage(PageBuilder.cameraSettings);
-            Main.rfxSettings.UpdateUI();
+            Main.replayfxMenu.UpdateUI();
         }
 
         public override void OnExit(GameState nextState)

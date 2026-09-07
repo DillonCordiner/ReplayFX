@@ -34,5 +34,14 @@ namespace ReplayFX.Utils
 
             return Color.HSVToRGB(hue, 1f, 1f);
         }
+        public static Color GetColorFromValue(bool greyscale, float value)
+        {
+            return greyscale ? FloatToGrayscale(value) : FloatToRGB(value);
+        }
+
+        public static float SetValueFromColor(bool greyscale, Color color)
+        {
+            return greyscale ? GrayscaleToFloat(color) : RGBToFloat(color);
+        }
     }
 }
