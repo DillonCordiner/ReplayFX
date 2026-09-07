@@ -6,6 +6,7 @@ using Rewired;
 using UnityEngine.Events;
 using TMPro;
 using ReplayFX.Keyframes;
+using ReplayFX.Utils;
 
 namespace ReplayFX.UI
 {
@@ -13,6 +14,7 @@ namespace ReplayFX.UI
     {
         public static readonly string cameraSettings = "Camera Settings";
         public static readonly string keyframeSettings = "KeyFrame Settings";
+        public static readonly string ColorSettings = "Color Settings";
 
         public static MenuButton CreateButton(MenuButton originalButton, string label, UnityAction buttonAction)
         {
@@ -49,6 +51,7 @@ namespace ReplayFX.UI
             */
 
             await proceduralMenuPage.AddStringEnumSetting("camera_profile", "Camera Profile", () => GetCameraProfileItem(), (name) => SetCameraProfileItem(name), Main.noiseController.ProfileOptionsArray);
+
             /*
             await cameraSettings.AddStringEnumSetting("test_string", "test_string", () => Main.noiseController.targetProfile, delegate (string v)
             {
@@ -109,19 +112,83 @@ namespace ReplayFX.UI
 
             return proceduralMenuPage;
         }
+        public static async Task<ProceduralMenuPage> BuildColorPageAsync()
+        {
+            ProceduralMenuPage proceduralMenuPage = await Main.rfxSettings.CreateSettingsPage(ColorSettings, -1);
+
+            await proceduralMenuPage.AddColorSetting("playback_color", "Playback Key Color", () => GetPlaybackColorItem(), (color) => SetPlaybackColorItem(color), FloatToColor.ConversionType.Hue, int.MaxValue);
+            await proceduralMenuPage.AddBoolSetting("playback_greyscale", "Color Type", () => GetPlaybackGreyScale(), (val) => SetPlaybackGreyScale(val), "Greyscale", "RGB", int.MaxValue);
+            /*
+            await proceduralMenuPage.AddBoolSetting("playback_greyscale", "Color Type", () => Main.settings.isPlaybackGreyscale, delegate (bool v)
+            {
+                Main.settings.isPlaybackGreyscale = v;
+                proceduralMenuPage.UpdatePage();
+            }, "Greyscale", "RGB", int.MaxValue);
+            */
+            /*
+            await proceduralMenuPage.AddColorSetting("playback_color", "Playback Key Color", () => Main.settings.playback_key_color, delegate (Color v)
+            {
+                //Color color = ColorUtil.FloatToRGB(Main.settings.playback_color_value);
+                Main.settings.playback_key_color = v;
+            }, FloatToColor.ConversionType.Hue, int.MaxValue);
+            */
+
+            return proceduralMenuPage;
+        }
         private static bool GetEnableNoise() => Main.settings.enableNoise;
         private static void SetEnableNoise(bool val)
         {
-            Main.noiseController.ToggleNoise();
-            Main.Logger.Log("Enable Noise");
+            if (Main.noiseController != null)
+            {
+                Main.noiseController.ToggleNoise();
+            }
+
+            if (Main.rfxSettings.cameraMenuPage != null)
+            {
+                Main.rfxSettings.cameraMenuPage.SetVisible("camera_profile", Main.settings.enableNoise);
+                Main.rfxSettings.cameraMenuPage.UpdatePage();
+            }
         }
         private static string GetCameraProfileItem() => Main.noiseController.targetProfile;
         private static void SetCameraProfileItem(string name)
         {
             Main.noiseController.targetProfile = name;
-            Main.Logger.Log("Camera Profile");
+        }
+        private static bool GetPlaybackGreyScale() => Main.settings.isPlaybackGreyscale;
+        private static void SetPlaybackGreyScale(bool val)
+        {
+            Main.settings.isPlaybackGreyscale = val;
+
+            if (Main.rfxSettings.colorMenuPage != null)
+            {
+                //Main.rfxSettings.colorMenuPage.UpdateItem("playback_color");
+                Main.rfxSettings.colorMenuPage.UpdatePage();
+                Main.rfxSettings.UpdateUI();
+            }
+        }
+        private static Color GetPlaybackColorItem()
+        {
+            if (Main.settings.isPlaybackGreyscale)
+            {
+                return ColorUtil.FloatToGrayscale(Main.settings.playback_color_value);
+            }
+            else
+            {
+                return ColorUtil.FloatToRGB(Main.settings.playback_color_value);
+            }
         }
 
+        private static void SetPlaybackColorItem(Color color)
+        {
+            if (Main.settings.isPlaybackGreyscale)
+            {
+                Main.settings.playback_color_value = ColorUtil.GrayscaleToFloat(color);
+            }
+            else
+            {
+                Main.settings.playback_color_value = ColorUtil.RGBToFloat(color);
+            }
+        }
         private static float GetTestSlider() => 0.5f;
         private static void SetTestSlider(float val)
         {

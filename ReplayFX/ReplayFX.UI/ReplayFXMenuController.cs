@@ -31,9 +31,9 @@ namespace ReplayFX.UI
         public int currentCategoryIndex = 0;
         public bool pagesCreated = false;
 
-        public ProceduralMenuPage cameraSettings;
-        public ProceduralMenuPage keyframeSettings;
-        //public ProceduralMenuPage colorSettings;
+        public ProceduralMenuPage cameraMenuPage;
+        public ProceduralMenuPage keyframeMenuPage;
+        public ProceduralMenuPage colorMenuPage;
 
         //public ReorderableArray<SettingsMenuController.SettingsCategory> SettingsCategories;
         [Reorderable]
@@ -71,14 +71,16 @@ namespace ReplayFX.UI
         {
             if (pagesCreated) return;
 
-            cameraSettings = await PageBuilder.BuildCameraPageAsync();
-            keyframeSettings = await PageBuilder.BuildKeyframePageAsync();
+            cameraMenuPage = await PageBuilder.BuildCameraPageAsync();
+            keyframeMenuPage = await PageBuilder.BuildKeyframePageAsync();
+            colorMenuPage = await PageBuilder.BuildColorPageAsync();
             if (!Main.settings.enableNoise)
             {
-                cameraSettings.SetVisible("camera_profile", false);
+                cameraMenuPage.SetVisible("camera_profile", false);
             }
-            cameraSettings.UpdatePage();
-            keyframeSettings.UpdatePage();
+            cameraMenuPage.UpdatePage();
+            keyframeMenuPage.UpdatePage();
+            colorMenuPage.UpdatePage();
             UpdateUI();
             pagesCreated = true;
         }
@@ -97,8 +99,12 @@ namespace ReplayFX.UI
         private void SetUpMenuButton()
         {
             MenuButton originalButton = ReplayEditorController.Instance.Menu.MainMenuPanel.GetComponentInChildren<MenuButton>();
+            if (originalButton == null)
+            {
+                Main.Logger.Log("[SetUpMenuButton] Failed to get parent button");
+                return;
+            }
             replayMenuButton = PageBuilder.CreateButton(originalButton, "Replay FX", MenuButtonAction);
-
             if (replayMenuButton != null)
             {
                 ReplayEditorController.Instance.Menu.MainMenuPanel.GetComponent<FixFirstSelected>().selected = replayMenuButton.gameObject;
@@ -144,6 +150,9 @@ namespace ReplayFX.UI
         }
         public void UpdateUI()
         {
+            if (SettingsCategories.Count <= 0)
+                return;
+
             currentCategoryIndex = Mathf.Clamp(currentCategoryIndex, 0, SettingsCategories.Count - 1);
             for (int i = 0; i < SettingsCategories.Count; i++)
             {
@@ -160,6 +169,9 @@ namespace ReplayFX.UI
         }
         public void SetStartPage(string settingsPage)
         {
+            if (SettingsCategories.Count <= 0)
+                return;
+
             for (int i = 0; i < SettingsCategories.Length; i++)
             {
                 if (SettingsCategories[i].Name == settingsPage)
@@ -171,6 +183,9 @@ namespace ReplayFX.UI
         }
         public void SetCurrentCategory(string categoryName)
         {
+            if (SettingsCategories.Count <= 0)
+                return;
+
             for (int i = 0; i < SettingsCategories.Count; i++)
             {
                 if (SettingsCategories[i].Name == categoryName)

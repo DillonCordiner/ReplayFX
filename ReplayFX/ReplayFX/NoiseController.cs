@@ -258,17 +258,17 @@ namespace ReplayFX
                     {
                         targetProfile = Main.settings.savedProfile;
                     }
-                    Main.rfxSettings.cameraSettings.SetVisible("camera_profile", true);
+                    //Main.rfxSettings.cameraMenuPage.SetVisible("camera_profile", true);
                     //Main.rfxSettings.cameraSettings.UpdateItem("camera_profile");
-                    Main.rfxSettings.cameraSettings.UpdatePage();
+                    //Main.rfxSettings.cameraMenuPage.UpdatePage();
                     break;
 
                 case false:
                     Main.settings.savedProfile = targetProfile;
                     targetProfile = none;
-                    Main.rfxSettings.cameraSettings.SetVisible("camera_profile", false);
+                    //Main.rfxSettings.cameraMenuPage.SetVisible("camera_profile", false);
                     //Main.rfxSettings.cameraSettings.UpdateItem("camera_profile");
-                    Main.rfxSettings.cameraSettings.UpdatePage();
+                    //Main.rfxSettings.cameraMenuPage.UpdatePage();
                     break;
 
             }

@@ -28,6 +28,9 @@ namespace ReplayFX
         public float playback_color_value = 0.50f;
         public float impulse_color_value = 0.40f;
 
+        //public Color playback_key_color = Color.cyan;
+        //public Color impulse_key_color = Color.gray;
+
         public bool isPlaybackGreyscale = false;
         public bool isImpulseGreyscale = true;
 

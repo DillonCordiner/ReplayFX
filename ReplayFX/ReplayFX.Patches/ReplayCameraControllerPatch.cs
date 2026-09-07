@@ -17,7 +17,7 @@ namespace ReplayFX.Patches
             if (__instance.keyFrames.Count <= 0)
             {
                 //__instance.DeleteAllKeyFrames();
-                //CurveUtil.Refresh();
+                CurveUtil.Refresh();
                 return false;
             }
             else

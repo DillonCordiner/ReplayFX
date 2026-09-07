@@ -16,8 +16,10 @@ namespace ReplayFX
         private int lastKeyframeCount = -1;
         private float lastPlaybackTime = -1f;
         private bool PlaybackOverwritten = false;
-        private Color playbackHandleColor = Color.cyan;
-        private Color impulseHandleColor = Color.gray;
+        private Color impulse_key_color = Color.cyan;
+        private Color playback_key_color = Color.gray;
+        //private Color playbackHandleColor = Color.cyan;
+        //private Color impulseHandleColor = Color.gray;
 
         private void Start()
         {
@@ -154,14 +156,14 @@ namespace ReplayFX
 
                     if (Main.settings.isPlaybackGreyscale)
                     {
-                        playbackHandleColor = ColorUtil.FloatToGrayscale(Main.settings.playback_color_value);
+                        playback_key_color = ColorUtil.FloatToGrayscale(Main.settings.playback_color_value);
                     }
                     else
                     {
-                        playbackHandleColor = ColorUtil.FloatToRGB(Main.settings.playback_color_value);
+                        playback_key_color = ColorUtil.FloatToRGB(Main.settings.playback_color_value);
                     }
 
-                    SetHandleColor(i, sliders, playbackHandleColor);
+                    SetHandleColor(i, sliders, playback_key_color);
                 }
                 else if (keyframes[i] is ImpulseKeyFrame)
                 {
@@ -169,14 +171,14 @@ namespace ReplayFX
 
                     if (Main.settings.isImpulseGreyscale)
                     {
-                        impulseHandleColor = ColorUtil.FloatToGrayscale(Main.settings.impulse_color_value);
+                        impulse_key_color = ColorUtil.FloatToGrayscale(Main.settings.impulse_color_value);
                     }
                     else
                     {
-                        impulseHandleColor = ColorUtil.FloatToRGB(Main.settings.impulse_color_value);
+                        impulse_key_color = ColorUtil.FloatToRGB(Main.settings.impulse_color_value);
                     }
 
-                    SetHandleColor(i, sliders, impulseHandleColor);
+                    SetHandleColor(i, sliders, impulse_key_color);
                 }
 
             }
