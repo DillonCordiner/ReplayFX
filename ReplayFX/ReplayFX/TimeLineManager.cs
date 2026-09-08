@@ -18,8 +18,6 @@ namespace ReplayFX
         private bool PlaybackOverwritten = false;
         private Color impulse_key_color = Color.cyan;
         private Color playback_key_color = Color.gray;
-        //private Color playbackHandleColor = Color.cyan;
-        //private Color impulseHandleColor = Color.gray;
 
         private void Start()
         {

@@ -5,6 +5,7 @@ using RapidGUI;
 using ReplayFX.Keyframes;
 using System;
 using GameManagement;
+using Tayx.Graphy.Utils.NumString;
 
 namespace ReplayFX.UI
 {
@@ -148,14 +149,14 @@ namespace ReplayFX.UI
                 {
                     UIextensions.CenteredLabel("Camera Shake");
                     GUILayout.Space(4f);
-                    UIextensions.FlexableButton(Main.settings.enableNoise ? "<b> Enabled </b>" : "<b><color=#171717> Disabled </color></b>", Main.noiseController.ToggleNoise, Color.white);
+                    UIextensions.FlexableButton(Main.settings.enableNoise ? "<b> Enabled </b>" : "<b><color=#171717> Disabled </color></b>", Main.camController.ToggleNoise, Color.white);
 
                     GUILayout.Space(6f);
                     GUILayout.Label("Camera Profile");
                     if (Main.settings.enableNoise)
                     {
                         //string[] profiles = Enum.GetNames(typeof(ProfileOptions));
-                        Main.noiseController.targetProfile = RGUI.SelectionPopup(Main.noiseController.targetProfile, Main.noiseController.ProfileOptionsArray);
+                        Main.camController.targetProfile = RGUI.SelectionPopup(Main.camController.targetProfile, Main.camController.ProfileOptionsArray);
                     }
                     else
                     {
@@ -173,9 +174,12 @@ namespace ReplayFX.UI
                     GUILayout.Space(4f);
                     Main.settings.noise_frequency = RGUI.SliderFloat(Main.settings.noise_frequency, 0.0f, 10.0f, 1.0f, 92, "Frequency");
                     GUILayout.Space(4f);
-                    UIextensions.FlexableButton("Generate new seed", Main.noiseController.GenerateNewSeed, Color.white);
-
-                    GUILayout.Space(6f);
+                    UIextensions.FlexableButton("Generate new seed", Main.camController.GenerateNewSeed, Color.white);
+                    GUILayout.Space(10f);
+                    GUILayout.Label("Recorded FPS");
+                    string fps = Main.settings.replay_recorded_fps.ToString();
+                    int.TryParse(RGUI.SelectionPopup(fps, Main.camController.recordedFPSarray), out Main.settings.replay_recorded_fps);
+                    GUILayout.Space(8f);
                     GUILayout.Label("Pivot Offset");
                     GUILayout.BeginVertical("Box");
                     {
@@ -219,7 +223,7 @@ namespace ReplayFX.UI
                         GUILayout.Space(4f);
                         Main.settings.impulse_source_decaytime = RGUI.SliderFloat(Main.settings.impulse_source_decaytime, 0.0f, 2.0f, 0.5f, 92, "Decay");
                         GUILayout.Space(8f);
-                        UIextensions.FlexableButton("Test Impulse", Main.noiseController.GenerateImpluse, Color.white);
+                        UIextensions.FlexableButton("Test Impulse", Main.camController.GenerateImpluse, Color.white);
                         GUILayout.Space(4f);
                         UIextensions.FlexableButton("Delete All Keys", KeyFrameHelper.RemoveAllImpulseKeys, Color.white);
                     }

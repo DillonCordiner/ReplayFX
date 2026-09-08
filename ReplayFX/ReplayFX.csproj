@@ -178,11 +178,11 @@
     <Compile Include="ReplayFX.Keyframes\ImpulseKeyFrame.cs" />
     <Compile Include="ReplayFX.Utils\ResourceExtractor.cs" />
     <Compile Include="ReplayFX.UI\UIExtentions.cs" />
-    <Compile Include="ReplayFX.UI\ReplayFXMenuController.cs" />
+    <Compile Include="ReplayFX.UI\RFXMenuController.cs" />
     <Compile Include="ReplayFX\InputListener.cs" />
     <Compile Include="ReplayFX\TimeLineManager.cs" />
     <Compile Include="ReplayFX.UI\UIController.cs" />
-    <Compile Include="ReplayFX\NoiseController.cs" />
+    <Compile Include="ReplayFX\RFXCameraController.cs" />
     <Compile Include="ReplayFX\Settings.cs" />
     <Compile Include="ReplayFX\Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

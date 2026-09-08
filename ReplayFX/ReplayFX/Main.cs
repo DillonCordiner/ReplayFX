@@ -19,11 +19,11 @@ namespace ReplayFX
         public static UnityModManager.ModEntry modEntry;
         public static Settings settings;
         public static GameObject ScriptManager;
-        public static NoiseController noiseController;
+        public static RFXCameraController camController;
         public static InputListener inputListener;
         public static UIController uiController;
         public static TimelineManager timelineManager;
-        public static ReplayFXMenuController replayfxMenu;
+        public static RFXMenuController replayfxMenu;
 
         public static bool Load(UnityModManager.ModEntry modEntry)
         {
@@ -104,11 +104,11 @@ namespace ReplayFX
                     harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
 
                     ScriptManager = new GameObject("ReplayFX");
-                    noiseController = ScriptManager.AddComponent<NoiseController>();
+                    camController = ScriptManager.AddComponent<RFXCameraController>();
+                    timelineManager = ScriptManager.AddComponent<TimelineManager>();
+                    replayfxMenu = ScriptManager.AddComponent<RFXMenuController>();
                     inputListener = ScriptManager.AddComponent<InputListener>();
                     uiController = ScriptManager.AddComponent<UIController>();
-                    timelineManager = ScriptManager.AddComponent<TimelineManager>();
-                    replayfxMenu = ScriptManager.AddComponent<ReplayFXMenuController>();
                     Object.DontDestroyOnLoad(ScriptManager);
 
                     AssetLoader.LoadBundles();

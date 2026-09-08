@@ -93,7 +93,7 @@ namespace ReplayFX
                 bool isControlPressed = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
                 if (!isControlPressed && Input.GetKeyDown(Main.settings.noiseHotkey.keyCode))
                 {
-                    Main.noiseController.ToggleNoise();
+                    Main.camController.ToggleNoise();
                 }
             }
             if (currentState is ReplayState)
@@ -102,7 +102,7 @@ namespace ReplayFX
 
                 //if (player.GetButton("LB") && player.GetButtonDown("A"))
                 //{
-                //    Main.noiseController.ToggleNoise();
+                //    Main.camController.ToggleNoise();
                 //}
 
                 if (player.GetButton("RB") && player.GetButtonDown("A"))

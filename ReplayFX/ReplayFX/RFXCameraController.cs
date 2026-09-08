@@ -22,7 +22,7 @@ namespace ReplayFX
         Wideangle_strong
     }
 
-    public class NoiseController : MonoBehaviour
+    public class RFXCameraController : MonoBehaviour
     {
         private CinemachineVirtualCamera Vcam;
         private CinemachineBasicMultiChannelPerlin noise;
@@ -38,22 +38,9 @@ namespace ReplayFX
         private const string none = "None";
         public string targetProfile = none;
         public string currentProfile { get; private set; } = "";
-        //private string storedProfile = empty;
-        public string[] ProfileOptionsArray = Enum.GetNames(typeof(ProfileOptions));
 
-        /*
-        public string[] ProfileOptions = new string[] {
-            "None",
-            "6D Shake",
-            "Handheld_normal_extreme",
-            "Handheld_normal_mild",
-            "Handheld_normal_strong",
-            "Handheld_tele_mild",
-            "Handheld_tele_strong",
-            "Handheld_wideangle_mild",
-            "Handheld_wideangle_strong"
-        };
-        */
+        public readonly string[] ProfileOptionsArray = Enum.GetNames(typeof(ProfileOptions));
+        public readonly string[] recordedFPSarray = new string[] { "15", "30", "60" };
 
         private void Start()
         {
@@ -68,14 +55,12 @@ namespace ReplayFX
 
         private void Update()
         {
-            if (noise == null)
-                return;
-
             UpdateNoiseState();
             UpdateNoiseProfile();
             UpdateNoiseProfileValues();
             UpdatePivotOffset();
             UpdateImpulseValues();
+            UpdateRecordedFPS();
         }
         private CinemachineVirtualCamera GetVirtualCamera()
         {
@@ -103,8 +88,11 @@ namespace ReplayFX
             }
             Vcam.AddExtension(impulseListener);
             impulseListener = Vcam.gameObject.AddComponent<CinemachineImpulseListener>();
-            impulseListener.m_Gain = 2.0f;
-            impulseListener.m_ChannelMask = 1;
+            if (impulseListener != null)
+            {
+                impulseListener.m_Gain = 2.0f;
+                impulseListener.m_ChannelMask = 1;
+            }
         }
         private void AddNoiseToCamera()
         {
@@ -166,6 +154,9 @@ namespace ReplayFX
         }
         public void LoadNoiseProfile(NoiseSettings noiseProfile)
         {
+            if(noise == null)
+                return;
+
             noise.m_NoiseProfile = noiseProfile;
         }
         private NoiseSettings GetCurrentProfile(List<NoiseSettings> noisesettings)
@@ -204,7 +195,7 @@ namespace ReplayFX
         }    
         private void UpdateNoiseProfileValues()
         {
-            if (noise.m_NoiseProfile == null || noise.m_NoiseProfile.name == none || noise.m_NoiseProfile.name == "")
+            if (noise == null || noise.m_NoiseProfile == null || noise.m_NoiseProfile.name == none || noise.m_NoiseProfile.name == "")
                 return;
 
             if (noise.m_AmplitudeGain != Main.settings.noise_amplitude)
@@ -218,7 +209,7 @@ namespace ReplayFX
         }
         public void UpdatePivotOffset()
         {
-            if (noise.m_NoiseProfile == null || noise.m_NoiseProfile.name == none || noise.m_NoiseProfile.name == "")
+            if (noise == null || noise.m_NoiseProfile == null || noise.m_NoiseProfile.name == none || noise.m_NoiseProfile.name == "")
                 return;
 
             if (noise.m_PivotOffset.x != Main.settings.noise_offset_x ||
@@ -229,8 +220,21 @@ namespace ReplayFX
                 noise.m_PivotOffset = new Vector3(Main.settings.noise_offset_x, Main.settings.noise_offset_y, Main.settings.noise_offset_z);
             }
         }
+        public void UpdateRecordedFPS()
+        {
+            if (ReplaySettings.Instance == null || recordedFPSarray == null || recordedFPSarray.Length <= 0)
+                return;
+
+            if (Main.settings.replay_recorded_fps != ReplaySettings.Instance.FPS)
+            {
+                ReplaySettings.Instance.FPS = Main.settings.replay_recorded_fps;
+            }
+        }
         public void GenerateNewSeed()
         {
+            if (noise == null)
+                return;
+
             noise.ReSeed();
         }  
         public void ToggleNoise()
@@ -265,38 +269,12 @@ namespace ReplayFX
                 Main.replayfxMenu.cameraMenuPage.UpdatePage();
             }
         }
-        /*
-        public void ToggleNoise()
-        {
-            //noise.enabled = Main.settings.enableNoise;
-            Main.settings.enableNoise = !Main.settings.enableNoise;
-
-            switch (Main.settings.enableNoise)
-            {
-                case true:
-                    if (targetProfile != Main.settings.savedProfile)
-                    {
-                        targetProfile = Main.settings.savedProfile;
-                    }
-                    Main.replayfxMenu.cameraMenuPage.SetVisible("camera_profile", true);
-                    //Main.rfxSettings.cameraSettings.UpdateItem("camera_profile");
-                    Main.replayfxMenu.cameraMenuPage.UpdatePage();
-                    break;
-
-                case false:
-                    Main.settings.savedProfile = targetProfile;
-                    targetProfile = none;
-                    Main.replayfxMenu.cameraMenuPage.SetVisible("camera_profile", false);
-                    //Main.rfxSettings.cameraSettings.UpdateItem("camera_profile");
-                    Main.replayfxMenu.cameraMenuPage.UpdatePage();
-                    break;
-
-            }
-        }
-        */
         public void GenerateImpluse()
         {
-            impulseSource.GenerateImpulse(Main.settings.impulse_force);
+            if (impulseSource != null)
+            {
+                impulseSource.GenerateImpulse(Main.settings.impulse_force);
+            }
         }
 
         public void UpdateImpulseValues()

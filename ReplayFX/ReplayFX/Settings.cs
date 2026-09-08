@@ -24,6 +24,7 @@ namespace ReplayFX
         public float impulse_source_decaytime = 0.5f;
 
         public float replay_playback_speed = 1.0f;
+        public int replay_recorded_fps = 30;
 
         public float playback_color_value = 0.50f;
         public float impulse_color_value = 0.40f;

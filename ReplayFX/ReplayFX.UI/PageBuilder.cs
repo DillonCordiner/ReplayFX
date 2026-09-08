@@ -45,18 +45,18 @@ namespace ReplayFX.UI
             /*
             await cameraSettings.AddBoolSetting("test_bool", "test_bool", () => Main.settings.enableNoise, delegate (bool v)
             {         
-                Main.noiseController.ToggleNoise();
+                Main.camController.ToggleNoise();
                 v = Main.settings.enableNoise;
             }, "Enabled", "Disabled", int.MaxValue);
             */
 
-            await proceduralMenuPage.AddStringEnumSetting("camera_profile", "Camera Profile", () => GetCameraProfileItem(), (name) => SetCameraProfileItem(name), Main.noiseController.ProfileOptionsArray);
+            await proceduralMenuPage.AddStringEnumSetting("camera_profile", "Camera Profile", () => GetCameraProfileItem(), (name) => SetCameraProfileItem(name), Main.camController.ProfileOptionsArray);
 
             /*
-            await cameraSettings.AddStringEnumSetting("test_string", "test_string", () => Main.noiseController.targetProfile, delegate (string v)
+            await cameraSettings.AddStringEnumSetting("test_string", "test_string", () => Main.camController.targetProfile, delegate (string v)
             {
-                Main.noiseController.targetProfile = v;
-            }, Main.noiseController.ProfileOptionsArray);
+                Main.camController.targetProfile = v;
+            }, Main.camController.ProfileOptionsArray);
             */
             await proceduralMenuPage.AddIntSetting("noise_amplitude", "Amplitude", () => Mathf.RoundToInt(Main.settings.noise_amplitude * 10f), delegate (int v)
             {
@@ -67,6 +67,8 @@ namespace ReplayFX.UI
             {
                 Main.settings.noise_frequency = v / 10f;
             }, 0, 100, "{0}%", int.MaxValue);
+
+            await proceduralMenuPage.AddStringEnumSetting("replay_fps", "Recorded FPS", () => GetFPSItem(), (val) => SetFPSItem(val), Main.camController.recordedFPSarray);
 
             return proceduralMenuPage;
         }
@@ -100,7 +102,7 @@ namespace ReplayFX.UI
                 Main.settings.impulse_source_decaytime = v / 100f;
             }, 0, 200, "{0}%", int.MaxValue);
 
-            //await proceduralMenuPage.AddButton("impulse_test", "Test Impulse", () => Main.noiseController.GenerateImpluse(), int.MaxValue);
+            //await proceduralMenuPage.AddButton("impulse_test", "Test Impulse", () => Main.camController.GenerateImpluse(), int.MaxValue);
 
             /*
             await keyframeSettings.AddFloatSetting("test_slider", "Test Slider", () => Main.settings.replay_playback_speed, delegate (float v)
@@ -141,16 +143,21 @@ namespace ReplayFX.UI
         private static bool GetEnableNoise() => Main.settings.enableNoise;
         private static void SetEnableNoise(bool val)
         {
-            if (Main.noiseController != null)
+            if (Main.camController != null)
             {
-                Main.noiseController.ToggleNoise();
+                Main.camController.ToggleNoise();
             }
         }
-        private static string GetCameraProfileItem() => Main.noiseController.targetProfile;
+        private static string GetCameraProfileItem() => Main.camController.targetProfile;
         private static void SetCameraProfileItem(string name)
         {
-            Main.noiseController.targetProfile = name;
+            Main.camController.targetProfile = name;
             //Main.rfxSettings.cameraMenuPage.UpdateItem("camera_profile");
+        }
+        private static string GetFPSItem() => Main.settings.replay_recorded_fps.ToString() + "FPS";
+        private static void SetFPSItem(string name)
+        {
+            int.TryParse(name, out Main.settings.replay_recorded_fps);
         }
         private static bool GetPlaybackGreyScale() => Main.settings.isPlaybackGreyscale;
         private static void SetPlaybackGreyScale(bool val)

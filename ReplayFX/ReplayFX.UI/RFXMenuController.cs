@@ -13,7 +13,7 @@ using UnityEngine.UI;
 
 namespace ReplayFX.UI
 {
-    public class ReplayFXMenuController : MonoBehaviour
+    public class RFXMenuController : MonoBehaviour
     {
         [Serializable]
         public class SettingsCategoryArray : ReorderableArray<SettingsCategory>
@@ -126,7 +126,7 @@ namespace ReplayFX.UI
             {
                 ReplayEditorController.Instance.Menu.MainMenuPanel.GetComponent<FixFirstSelected>().selected = replayMenuButton.gameObject;
             }
-            testImpulseButton = PageBuilder.CreateButton(originalButton, "Test Impulse", Main.noiseController.GenerateImpluse);
+            testImpulseButton = PageBuilder.CreateButton(originalButton, "Test Impulse", Main.camController.GenerateImpluse);
             if (testImpulseButton)
             {
                 testImpulseButton.gameObject.transform.SetParent(keyframeMenuPage.itemParent.transform, false);
