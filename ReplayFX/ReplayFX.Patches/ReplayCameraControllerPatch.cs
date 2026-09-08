@@ -5,9 +5,50 @@ using ReplayEditor;
 using SmoothKeyframeCurves;
 using ReplayFX.Utils;
 using ReplayFX.Keyframes;
+using System.Xml.Linq;
+
 
 namespace ReplayFX.Patches
 {
+    [HarmonyPatch(typeof(ReplayCameraController), "DeleteKeyFramesOutside")]
+    public static class ReplayCameraController_DeleteKeyFramesOutside_Patch
+    {
+        [HarmonyPrefix]
+        static bool Prefix(ReplayCameraController __instance, ref float start, ref float end)
+        {
+            if (__instance.keyFrames == null || __instance.keyFrames.Count <= 0)
+            {
+                CurveUtil.Refresh();
+                //Main.Logger.Log("[DeleteKeyFramesOutside] Refreshed and Skipped");
+                return false;
+            }
+
+            for (int i = __instance.keyFrames.Count - 1; i >= 0; i--)
+            {
+                KeyFrame key = __instance.keyFrames[i];
+                if (key != null && (key.time < start - 0.001f || key.time > end + 0.001f))
+                {
+                    //string keyName = key.ToString();
+                    //Main.Logger.Log($"[DeleteKeyFramesOutside] Removing Key {keyName} at index {i}");
+
+                    __instance.keyFrames.RemoveAt(i);
+
+                    try
+                    {
+                        __instance.cameraCurve?.DeleteCurveKeys(i, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Main.Logger.Log($"[DeleteKeyFramesOutside] Failed to delete curve key at index {i}: {ex.Message}");
+                    }
+                }
+            }
+            //CurveUtil.Refresh();
+            //Main.Logger.Log("[DeleteKeyFramesOutside] Patch Complete");
+            return false;
+        }
+    }
+    /*
     [HarmonyPatch(typeof(ReplayCameraController), "DeleteKeyFramesOutside")]
     public static class ReplayCameraController_DeleteKeyFramesOutside_Patch
     {
@@ -18,7 +59,9 @@ namespace ReplayFX.Patches
             {
                 //__instance.DeleteAllKeyFrames();
                 CurveUtil.Refresh();
+                Main.Logger.Log($"[DeleteKeyFramesOutside] Refreshed and Skipped");
                 return false;
+                //return true;
             }
             else
             {
@@ -29,23 +72,27 @@ namespace ReplayFX.Patches
                         //Main.Logger.Log($"[DeleteKeyFramesOutside] Removing Key {__instance.keyFrames[i].GetType().Name} : {i}");
 
                         __instance.keyFrames.RemoveAt(i);
+                        __instance.cameraCurve.DeleteCurveKeys(i, false);
 
-                        /*
-                        if (__instance.keyFrames[i] is PlaybackSpeedKeyFrame || __instance.keyFrames[i] is ImpulseKeyFrame)
-                        {
-                            Main.Logger.Log($"[DeleteKeyFramesOutside] Removing Key {Keyname} : {i}");
-                            __instance.keyFrames.RemoveAt(i);
-                            __instance.cameraCurve.DeleteCurveKeys(i, false);
-                        }
-                        */
+                        string name = __instance.keyFrames[i].ToString();
+                        Main.Logger.Log($"[DeleteKeyFramesOutside] Removing Key {name} : {i}");
+
+                        //if (__instance.keyFrames[i] is PlaybackSpeedKeyFrame || __instance.keyFrames[i] is ImpulseKeyFrame)
+                        //{
+                        //    Main.Logger.Log($"[DeleteKeyFramesOutside] Removing Key {Keyname} : {i}");
+                        //    __instance.keyFrames.RemoveAt(i);
+                        //    __instance.cameraCurve.DeleteCurveKeys(i, false);
+                        //}
+
                     }
                 }
                 //CurveUtil.Refresh();
-                //Main.Logger.Log("[DeleteKeyFramesOutside] Patch Complete");
+                Main.Logger.Log("[DeleteKeyFramesOutside] Patch Complete");
                 return false;
             }
         }
     }
+    */
     /*
     [HarmonyPatch(typeof(ReplayCameraController), "AddKeyFrame")]
     public static class ReplayCameraController_AddKeyFrame_Patch

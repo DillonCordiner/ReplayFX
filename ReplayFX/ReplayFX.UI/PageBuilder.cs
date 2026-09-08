@@ -13,7 +13,7 @@ namespace ReplayFX.UI
     public static class PageBuilder
     {
         public static readonly string cameraSettings = "Camera Settings";
-        public static readonly string keyframeSettings = "KeyFrame Settings";
+        public static readonly string keyframeSettings = "Keyframe Settings";
         public static readonly string ColorSettings = "Color Settings";
 
         public static MenuButton CreateButton(MenuButton originalButton, string label, UnityAction buttonAction)
@@ -72,7 +72,7 @@ namespace ReplayFX.UI
         }
         public static async Task<ProceduralMenuPage> BuildKeyframePageAsync()
         {
-            //ProceduralMenuPage proceduralMenuPage = await SettingsMenuController.Instance.CreateSettingsPage("KeyFrame Settings", -1);
+            //ProceduralMenuPage proceduralMenuPage = await SettingsMenuController.Instance.CreateSettingsPage("Keyframe Settings", -1);
             ProceduralMenuPage proceduralMenuPage = await Main.replayfxMenu.CreateSettingsPage(keyframeSettings, -1);
 
             await proceduralMenuPage.AddIntSetting("playback_speed", "Playback Key Speed", () => Mathf.RoundToInt(Main.settings.replay_playback_speed * 100f), delegate (int v)
@@ -144,12 +144,6 @@ namespace ReplayFX.UI
             if (Main.noiseController != null)
             {
                 Main.noiseController.ToggleNoise();
-            }
-
-            if (Main.replayfxMenu.cameraMenuPage != null)
-            {
-                Main.replayfxMenu.cameraMenuPage.SetVisible("camera_profile", Main.settings.enableNoise);
-                Main.replayfxMenu.cameraMenuPage.UpdatePage();
             }
         }
         private static string GetCameraProfileItem() => Main.noiseController.targetProfile;

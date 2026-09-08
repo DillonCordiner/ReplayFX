@@ -9,6 +9,7 @@ using UnityEngine.AddressableAssets;
 using ReplayFX;
 using ReplayEditor;
 using ReplayFX.State;
+using UnityEngine.UI;
 
 namespace ReplayFX.UI
 {
@@ -46,6 +47,7 @@ namespace ReplayFX.UI
         public GameObject clonedMenu;
         private MenuButton replayMenuButton;
         private MenuButton testImpulseButton;
+        public GameObject clonedInfoPanel;
 
         private async void Start()
         {
@@ -64,6 +66,8 @@ namespace ReplayFX.UI
 
             SetCurrentCategory(PageBuilder.cameraSettings);
             CreateCustomButtons();
+
+            SetupClonedInfoPanel(); // testing
         }
         
         public async Task InitializeMenuAsync()
@@ -94,6 +98,20 @@ namespace ReplayFX.UI
             clonedMenu = null;
             Destroy(replayMenuButton.gameObject);
             replayMenuButton = null;
+            Destroy(clonedInfoPanel);
+            clonedInfoPanel = null;
+        }
+        public void SetupClonedInfoPanel()
+        {
+            if (clonedInfoPanel == null)
+            {
+                clonedInfoPanel = Instantiate(ReplayEditorController.Instance.ReplayControlsPanel, ReplayEditorController.Instance.ReplayUI.transform);
+                clonedInfoPanel.gameObject.GetComponent<RectTransform>();
+                RectTransform rect = clonedInfoPanel.gameObject.GetComponent<RectTransform>();
+                rect.anchoredPosition = new Vector2(-1880, -38);
+                rect.pivot = new Vector2 (0, 1);
+                clonedInfoPanel.gameObject.GetComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            }
         }
         private void CreateCustomButtons()
         {
@@ -129,7 +147,9 @@ namespace ReplayFX.UI
             if (clonedMenu == null)
             {
                 clonedMenu = Instantiate(originalMenuPrefab);
-                clonedMenu.transform.SetParent(Main.ScriptManager.transform);
+                //clonedMenu.transform.SetParent(Main.ScriptManager.transform);
+                clonedMenu.transform.SetParent(ReplayEditorController.Instance.Menu.transform);
+                clonedMenu.gameObject.name = "Replay FX Settings";
                 SettingsMenuController originalController = clonedMenu.GetComponentInChildren<SettingsMenuController>();
                 if (originalController != null)
                 {
@@ -270,8 +290,6 @@ namespace ReplayFX.UI
             {
                 Name = name,
                 Panel = menuPage.gameObject,
-                //platforms = RuntimePlatformFlag.All,
-                //debugOnly = false
             };
             menuPage.transform.SetParent(settingsPageParent);
             if (index < 0)

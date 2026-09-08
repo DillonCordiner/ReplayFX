@@ -45,4 +45,5 @@ namespace ReplayFX.Patches
             return true;
         }
     }
+    
 }

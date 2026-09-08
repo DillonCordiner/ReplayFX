@@ -34,7 +34,7 @@ namespace ReplayFX
         private NoiseSettings blankProfile;
 
         public List<NoiseSettings> noiseSettings = new List<NoiseSettings>();
-
+        private bool lastEnableNoise;
         private const string none = "None";
         public string targetProfile = none;
         public string currentProfile { get; private set; } = "";
@@ -71,6 +71,7 @@ namespace ReplayFX
             if (noise == null)
                 return;
 
+            UpdateNoiseState();
             UpdateNoiseProfile();
             UpdateNoiseProfileValues();
             UpdatePivotOffset();
@@ -224,14 +225,47 @@ namespace ReplayFX
                 noise.m_PivotOffset.y != Main.settings.noise_offset_y ||
                 noise.m_PivotOffset.z != Main.settings.noise_offset_z)
             {
-                noise.m_PivotOffset.Set(Main.settings.noise_offset_x, Main.settings.noise_offset_y, Main.settings.noise_offset_z);
+                //noise.m_PivotOffset.Set(Main.settings.noise_offset_x, Main.settings.noise_offset_y, Main.settings.noise_offset_z);
+                noise.m_PivotOffset = new Vector3(Main.settings.noise_offset_x, Main.settings.noise_offset_y, Main.settings.noise_offset_z);
             }
         }
         public void GenerateNewSeed()
         {
             noise.ReSeed();
+        }  
+        public void ToggleNoise()
+        {
+            Main.settings.enableNoise = !Main.settings.enableNoise;
+        } 
+        private void UpdateNoiseState()
+        {
+            if (Main.settings.enableNoise != lastEnableNoise)
+            {
+                lastEnableNoise = Main.settings.enableNoise;
+                ApplyNoiseState(lastEnableNoise);
+            }
         }
-
+        private void ApplyNoiseState(bool isEnabled)
+        {
+            if (isEnabled)
+            {
+                if (targetProfile != Main.settings.savedProfile)
+                {
+                    targetProfile = Main.settings.savedProfile;
+                }
+            }
+            else
+            {
+                Main.settings.savedProfile = targetProfile;
+                targetProfile = none;
+            }
+            if (Main.replayfxMenu.cameraMenuPage != null)
+            {
+                Main.replayfxMenu.cameraMenuPage.SetVisible("camera_profile", isEnabled);
+                Main.replayfxMenu.cameraMenuPage.UpdatePage();
+            }
+        }
+        /*
         public void ToggleNoise()
         {
             //noise.enabled = Main.settings.enableNoise;
@@ -259,6 +293,7 @@ namespace ReplayFX
 
             }
         }
+        */
         public void GenerateImpluse()
         {
             impulseSource.GenerateImpulse(Main.settings.impulse_force);

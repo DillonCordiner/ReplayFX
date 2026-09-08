@@ -49,4 +49,5 @@ namespace ReplayFX.Patches
             //Main.Logger.Log("[DeleteCurveKeys] Patch Complete");
         }
     }
+    
 }

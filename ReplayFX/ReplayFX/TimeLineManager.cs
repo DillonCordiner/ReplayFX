@@ -68,6 +68,9 @@ namespace ReplayFX
 
         private void UpdateImpulsekeys(ReplayEditorController replayEditor, float currentTime)
         {
+            if (replayEditor.cameraController.keyFrames.Count <= 0)
+                return;
+
             if (Mathf.Abs(currentTime - lastPlaybackTime) > 0.5f)
             {
                 lastPlaybackTime = currentTime;
@@ -141,7 +144,7 @@ namespace ReplayFX
             List<KeyFrame> keyframes = replayEditor.cameraController.keyFrames;
             List<Slider> sliders = replayEditor.cameraController.keyframeUI.keyframeSliders;
 
-            if (keyframes.Count <= 0 || sliders.Count <= 0)
+            if (keyframes == null || sliders == null || keyframes.Count <= 0 || sliders.Count <= 0)
             {
                 return;
             }

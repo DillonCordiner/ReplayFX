@@ -40,6 +40,14 @@ namespace ReplayFX.Keyframes
                 {
                     //ReplayEditorController.Instance.cameraController.keyFrames.Remove(keyframes[i]);
                     cameraController.keyFrames.RemoveAt(i);
+                    try
+                    {
+                        cameraController.cameraCurve?.DeleteCurveKeys(i, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Main.Logger.Log($"[RemoveKeyFramesOfType] Failed to delete curve key at index {i}: {ex.Message}");
+                    }
                 }
             }
             //CurveUtil.Refresh();
