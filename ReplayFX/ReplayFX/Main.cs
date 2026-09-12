@@ -8,6 +8,7 @@ using Object = UnityEngine.Object;
 using System.Runtime;
 using ReplayFX.Utils;
 using ReplayFX.UI;
+using ReplayFX.Keyframes;
 
 namespace ReplayFX
 {
@@ -82,6 +83,13 @@ namespace ReplayFX
                     }
                 }
                 GUILayout.FlexibleSpace();
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            {
+                UIextensions.FlexableButton("Reload Custom Gear", XLGearModExtenstion.ReloadCustomGear, Color.white);
+                UIextensions.FlexableButton("Delete All Playback Keys", KeyFrameHelper.RemoveAllPlaybackKeys, Color.white);
+                UIextensions.FlexableButton("Delete All Impulse Keys", KeyFrameHelper.RemoveAllImpulseKeys, Color.white);
             }
             GUILayout.EndHorizontal();
         }

@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Cinemachine;
+using ModIO.UI;
+using System.Reflection;
 
 namespace ReplayFX.Utils
 {

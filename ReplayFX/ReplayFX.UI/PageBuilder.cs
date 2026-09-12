@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Rewired;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using TMPro;
 using ReplayFX.Keyframes;
 using ReplayFX.Utils;
@@ -15,6 +16,7 @@ namespace ReplayFX.UI
         public static readonly string cameraSettings = "Camera Settings";
         public static readonly string keyframeSettings = "Keyframe Settings";
         public static readonly string ColorSettings = "Color Settings";
+        public static readonly string OtherSettings = "Other Settings";
 
         public static MenuButton CreateButton(MenuButton originalButton, string label, UnityAction buttonAction)
         {
@@ -68,8 +70,6 @@ namespace ReplayFX.UI
                 Main.settings.noise_frequency = v / 10f;
             }, 0, 100, "{0}%", int.MaxValue);
 
-            await proceduralMenuPage.AddStringEnumSetting("replay_fps", "Recorded FPS", () => GetFPSItem(), (val) => SetFPSItem(val), Main.camController.recordedFPSarray);
-
             return proceduralMenuPage;
         }
         public static async Task<ProceduralMenuPage> BuildKeyframePageAsync()
@@ -101,6 +101,8 @@ namespace ReplayFX.UI
             {
                 Main.settings.impulse_source_decaytime = v / 100f;
             }, 0, 200, "{0}%", int.MaxValue);
+
+            await AddBoolButton(proceduralMenuPage, "impulse_test",  "Test Impulse", () => false, delegate (bool v) { TestImpulseButton(v); });
 
             //await proceduralMenuPage.AddButton("impulse_test", "Test Impulse", () => Main.camController.GenerateImpluse(), int.MaxValue);
 
@@ -140,6 +142,30 @@ namespace ReplayFX.UI
 
             return proceduralMenuPage;
         }
+        public static async Task<ProceduralMenuPage> BuildOtherPageAsync()
+        {
+            ProceduralMenuPage proceduralMenuPage = await Main.replayfxMenu.CreateSettingsPage(OtherSettings, -1);
+
+            await proceduralMenuPage.AddStringEnumSetting("replay_fps", "Recorded FPS", () => GetFPSItem(), (name) => SetFPSItem(name), Main.camController.recordedFPSarray);
+
+            //await proceduralMenuPage.AddBoolSetting("reload_gear", "Reload Custom Gear", () => GetTestBoolButton(), (val) => SetTestBoolButton(val), "", "", int.MaxValue);
+            //await AddBoolButton(proceduralMenuPage, "reload_gear", "Reload Custom Gear", () => GetReloadGearButton(), (val) => SetReloadGearButton(val));
+            await AddBoolButton(proceduralMenuPage, "reload_gear", "Reload Custom Gear", () => false, delegate (bool v) { ReloadGearButton(v); });
+            return proceduralMenuPage;
+        }
+        private static async Task<ProceduralMenuPage> AddBoolButton(ProceduralMenuPage page, string id, string label, Func<bool> getter, Action<bool> setter)
+        {
+            // The "" arguments natively remove the "On"/"Off" text visuals
+            var item = await page.AddBoolSetting(id, label, getter, setter, "", "", int.MaxValue);
+
+            ToggleItem toggleItem = item as ToggleItem;
+            if (toggleItem != null && toggleItem.selectable != null)
+            {
+                toggleItem.selectable.gameObject.AddComponent<ButtonMarker>();
+            }
+            return page;
+        }
+
         private static bool GetEnableNoise() => Main.settings.enableNoise;
         private static void SetEnableNoise(bool val)
         {
@@ -148,13 +174,21 @@ namespace ReplayFX.UI
                 Main.camController.ToggleNoise();
             }
         }
+        private static void ReloadGearButton(bool val)
+        {
+            XLGearModExtenstion.ReloadCustomGear();
+        }
+        private static void TestImpulseButton(bool val)
+        {
+            Main.camController.GenerateImpluse();
+        }
         private static string GetCameraProfileItem() => Main.camController.targetProfile;
         private static void SetCameraProfileItem(string name)
         {
             Main.camController.targetProfile = name;
             //Main.rfxSettings.cameraMenuPage.UpdateItem("camera_profile");
         }
-        private static string GetFPSItem() => Main.settings.replay_recorded_fps.ToString() + "FPS";
+        private static string GetFPSItem() => Main.settings.replay_recorded_fps.ToString();
         private static void SetFPSItem(string name)
         {
             int.TryParse(name, out Main.settings.replay_recorded_fps);
@@ -197,6 +231,7 @@ namespace ReplayFX.UI
         {
             Main.settings.impulse_color_value = ColorUtil.SetValueFromColor(Main.settings.isImpulseGreyscale, color);
         }
+      
         private static float GetTestSlider() => 0.5f;
         private static void SetTestSlider(float val)
         {

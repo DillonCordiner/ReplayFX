@@ -6,6 +6,9 @@ using ReplayFX.Keyframes;
 using System;
 using GameManagement;
 using Tayx.Graphy.Utils.NumString;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace ReplayFX.UI
 {
@@ -121,11 +124,10 @@ namespace ReplayFX.UI
             //ColorUI();
         }
         private void MainUI()
-        {          
+        {
             //GUILayout.Label($"ReplayFX");
             //GUILayout.Space(8f);
         }
-        
         private void SetPlayBackSpeedButton()
         {
             if (XXLModExtention.IsXXLModInstalled)
@@ -175,11 +177,11 @@ namespace ReplayFX.UI
                     Main.settings.noise_frequency = RGUI.SliderFloat(Main.settings.noise_frequency, 0.0f, 10.0f, 1.0f, 92, "Frequency");
                     GUILayout.Space(4f);
                     UIextensions.FlexableButton("Generate new seed", Main.camController.GenerateNewSeed, Color.white);
-                    GUILayout.Space(10f);
+                    GUILayout.Space(8f);
                     GUILayout.Label("Recorded FPS");
                     string fps = Main.settings.replay_recorded_fps.ToString();
                     int.TryParse(RGUI.SelectionPopup(fps, Main.camController.recordedFPSarray), out Main.settings.replay_recorded_fps);
-                    GUILayout.Space(8f);
+                    GUILayout.Space(6f);
                     GUILayout.Label("Pivot Offset");
                     GUILayout.BeginVertical("Box");
                     {

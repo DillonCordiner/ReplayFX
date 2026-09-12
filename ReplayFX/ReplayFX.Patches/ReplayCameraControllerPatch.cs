@@ -18,9 +18,9 @@ namespace ReplayFX.Patches
         {
             if (__instance.keyFrames == null || __instance.keyFrames.Count <= 0)
             {
-                CurveUtil.Refresh();
                 //Main.Logger.Log("[DeleteKeyFramesOutside] Refreshed and Skipped");
-                return false;
+                CurveUtil.Refresh();
+                return true;
             }
 
             for (int i = __instance.keyFrames.Count - 1; i >= 0; i--)

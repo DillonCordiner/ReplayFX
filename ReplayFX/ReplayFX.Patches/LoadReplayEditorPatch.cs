@@ -51,6 +51,7 @@ namespace ReplayFX.Patches
         private static async void OptimizedLoadReplayEditor( ReplayEditorController __instance)
         {
             GameStateMachine.Instance.StartLoading(false, null, "Loading");
+            Main.Logger.Log("[LoadReplayEditor] Start Loading ...");
 
             try
             {
@@ -67,33 +68,31 @@ namespace ReplayFX.Patches
                 bool isOnline = PhotonNetwork.IsConnected && PhotonNetwork.InRoom;
 
                 List<ReplayEditorController.OnlinePlayerReplayInfo> onlinePlayers = null;
+
+                List<Task> onlinePlayerLoadTasks = null;
                 if (isOnline)
                 {
-                    // SetupOnlinePlayers starts while local replay loading
                     await SetupOnlinePlayersDelegate(__instance);
 
-                    onlinePlayers = OnlinePlayersRef(__instance);
                     bool showOnline = ReplaySettings.Instance.showOnlinePlayers && !ReplaySettings.Instance.onlinePlayerLiveView;
-                    SetOnlinePlayerReplayVisibleDelegate( __instance, showOnline );
+                    onlinePlayers = OnlinePlayersRef(__instance);
 
-                    int onlineCount = showOnline && onlinePlayers != null? onlinePlayers.Count: 0;
-                    if (onlineCount > 0)
+                    if (showOnline && onlinePlayers != null && onlinePlayers.Count > 0)
                     {
-                        Task[] loadTasks = new Task[onlineCount + 1];
-
-                        loadTasks[0] = localReplayTask;
-
-                        for (int i = 0; i < onlineCount; i++)
+                        onlinePlayerLoadTasks = new List<Task>(onlinePlayers.Count);
+                        for (int i = 0; i < onlinePlayers.Count; i++)
                         {
-                            loadTasks[i + 1] = onlinePlayers[i].Load();
+                            onlinePlayerLoadTasks.Add(onlinePlayers[i].Load());
                         }
+                    }
 
-                        await Task.WhenAll(loadTasks);
-                    }
-                    else
-                    {
-                        await localReplayTask;
-                    }
+                    SetOnlinePlayerReplayVisibleDelegate(__instance, showOnline);
+                }
+                Main.Logger.Log("[LoadReplayEditor] awaiting load tasks...");
+                if (onlinePlayerLoadTasks != null)
+                {
+                    onlinePlayerLoadTasks.Add(localReplayTask);
+                    await Task.WhenAll(onlinePlayerLoadTasks);
                 }
                 else
                 {
@@ -101,7 +100,7 @@ namespace ReplayFX.Patches
                 }
 
                 cameraController.DeleteKeyFramesOutside(playbackController.ClipStartTime,playbackController.ClipEndTime);
-
+                Main.Logger.Log("[LoadReplayEditor] DeleteKeyFramesOutside complete...");
                 ResetClipValuesDelegate(__instance);
                 cameraController.CamFollowKeyFrames = false;
 
@@ -135,6 +134,7 @@ namespace ReplayFX.Patches
                         CameraCurveResult transformData = cameraCurve.Evaluate( playbackController.CurrentTime );
 
                         cameraController.ApplyGameplayCameraTransform( transformData );
+                        Main.Logger.Log("[LoadReplayEditor] ApplyGameplayCameraTransform complete...");
                     }
                     catch (Exception ex)
                     {
@@ -153,6 +153,7 @@ namespace ReplayFX.Patches
                 if (StartPlayingRef(__instance))
                 {
                     IsPlayingRef(__instance) = true;
+                    Main.Logger.Log("[LoadReplayEditor] isPlaying" + IsPlayingRef(__instance));
                 }
                 cameraController.OnReplayEditorStart();
             }
@@ -163,6 +164,7 @@ namespace ReplayFX.Patches
             finally
             {
                 GameStateMachine.Instance.StopLoading();
+                Main.Logger.Log("[LoadReplayEditor] Loading complete ...");
             }
         }
 
@@ -178,8 +180,7 @@ namespace ReplayFX.Patches
 
             for (int i = 0; i < onlinePlayers.Count; i++)
             {
-                ReplayEditorController.OnlinePlayerReplayInfo player =
-                    onlinePlayers[i];
+                ReplayEditorController.OnlinePlayerReplayInfo player = onlinePlayers[i];
 
                 if (player?.playbackController?.characterCustomizer?.IsLoading == true)
                 {

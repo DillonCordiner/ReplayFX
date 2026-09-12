@@ -222,10 +222,10 @@ namespace ReplayFX
         }
         public void UpdateRecordedFPS()
         {
-            if (ReplaySettings.Instance == null || recordedFPSarray == null || recordedFPSarray.Length <= 0)
+            if (ReplaySettings.Instance == null || recordedFPSarray == null && recordedFPSarray.Length <= 0)
                 return;
 
-            if (Main.settings.replay_recorded_fps != ReplaySettings.Instance.FPS)
+            if (ReplaySettings.Instance.FPS != Main.settings.replay_recorded_fps)
             {
                 ReplaySettings.Instance.FPS = Main.settings.replay_recorded_fps;
             }

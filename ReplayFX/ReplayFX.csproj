@@ -136,6 +136,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ReplayFX.Patches\MenuTogglePatch.cs" />
     <Compile Include="ReplayFX.Patches\LoadReplayEditorPatch.cs" />
     <Compile Include="ReplayFX.Patches\ColorSliderManager.cs" />
     <Compile Include="ReplayFX.Patches\ReplayMenuControllerPatch.cs" />
@@ -165,11 +166,13 @@
     <Compile Include="RapidGUI\Utilities\WarningLabelNoStyle.cs" />
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
     <Compile Include="ReplayFX.State\ReplayFXMenuState.cs" />
+    <Compile Include="ReplayFX.UI\ButtonMarker.cs" />
     <Compile Include="ReplayFX.UI\PageBuilder.cs" />
     <Compile Include="ReplayFX.Utils\AssetLoader.cs" />
     <Compile Include="ReplayFX.Utils\ColorUtil.cs" />
     <Compile Include="ReplayFX.Utils\PlayBackUtil.cs" />
     <Compile Include="ReplayFX.Utils\CurveUtil.cs" />
+    <Compile Include="ReplayFX.Utils\XLGearModExtenstion.cs" />
     <Compile Include="ReplayFX.Utils\XXLModExtention.cs" />
     <Compile Include="ReplayFX.Utils\ModCheckUtil.cs" />
     <Compile Include="ReplayFX.Utils\NoiseUtils.cs" />

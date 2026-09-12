@@ -35,6 +35,7 @@ namespace ReplayFX.UI
         public ProceduralMenuPage cameraMenuPage;
         public ProceduralMenuPage keyframeMenuPage;
         public ProceduralMenuPage colorMenuPage;
+        public ProceduralMenuPage otherMenuPage;
 
         //public ReorderableArray<SettingsMenuController.SettingsCategory> SettingsCategories;
         [Reorderable]
@@ -46,7 +47,7 @@ namespace ReplayFX.UI
         public ReplayFXMenuState rfxMenuState;
         public GameObject clonedMenu;
         private MenuButton replayMenuButton;
-        private MenuButton testImpulseButton;
+        //private MenuButton testImpulseButton;
         public GameObject clonedInfoPanel;
 
         private async void Start()
@@ -77,6 +78,7 @@ namespace ReplayFX.UI
             cameraMenuPage = await PageBuilder.BuildCameraPageAsync();
             keyframeMenuPage = await PageBuilder.BuildKeyframePageAsync();
             colorMenuPage = await PageBuilder.BuildColorPageAsync();
+            otherMenuPage = await PageBuilder.BuildOtherPageAsync();
             if (!Main.settings.enableNoise)
             {
                 cameraMenuPage.SetVisible("camera_profile", false);
@@ -85,6 +87,7 @@ namespace ReplayFX.UI
             cameraMenuPage.UpdatePage();
             keyframeMenuPage.UpdatePage();
             colorMenuPage.UpdatePage();
+            otherMenuPage.UpdatePage();
             pagesCreated = true;
         }
         private void OnDestroy()
@@ -126,12 +129,14 @@ namespace ReplayFX.UI
             {
                 ReplayEditorController.Instance.Menu.MainMenuPanel.GetComponent<FixFirstSelected>().selected = replayMenuButton.gameObject;
             }
+            /*
             testImpulseButton = PageBuilder.CreateButton(originalButton, "Test Impulse", Main.camController.GenerateImpluse);
             if (testImpulseButton)
             {
                 testImpulseButton.gameObject.transform.SetParent(keyframeMenuPage.itemParent.transform, false);
                 testImpulseButton.gameObject.transform.SetAsLastSibling();
             }
+            */
         }
         private void MenuButtonAction()
         {
