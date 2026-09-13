@@ -2,14 +2,10 @@
 using ModIO.UI;
 using SkaterXL.Data;
 using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using UnityEngine;
-using ReplayFX.Patches;
-using ReplayEditor;
 
 namespace ReplayFX.Utils
 { 
@@ -17,6 +13,19 @@ namespace ReplayFX.Utils
     {
         private static bool isWaiting;
         private static TaskCompletionSource<bool> pendingTask;
+        private static bool isReloadingGear;
+        public static string GetLastPlayer()
+        {
+            if (!ConsolePlayerPrefs.HasKey("LastPlayer"))
+            {
+                return null;
+            }
+            else
+            {
+                string lastPlayer = ConsolePlayerPrefs.GetString("LastPlayer");
+                return lastPlayer;
+            }
+        }
         public static async void ReloadOnStateExit()
         {
             if (isWaiting || pendingTask != null)
@@ -35,12 +44,85 @@ namespace ReplayFX.Utils
         }
         private static async void ReloadGear()
         {
+            if (isReloadingGear) return; // prevent overlapping reloads from racing on customizer state
+            isReloadingGear = true;
+
+            try
+            {
+                PlayerController playerController = PlayerController.Instance;
+
+                await Task.Yield();
+                string lastPlayer = GetLastPlayer();
+
+                GearDatabase.Instance.FetchCustomGear(); // needs to run for validation to work for some reason
+
+                CustomizedPlayerDataV2 data = await SaveManager.Instance.LoadCharacterCustomizations(lastPlayer);
+                if (data == null)
+                {
+                    SkaterInfo skater = GearDatabase.Instance.skaters.Count > 0 ? GearDatabase.Instance.skaters[0] : null;
+                    if (skater == null)
+                        throw new InvalidOperationException("No skaters available in GearDatabase to use as backup data");
+
+                    data = await SaveManager.Instance.LoadCharacterCustomizations(skater.CustomizationFileName);
+                    if (data == null)
+                        throw new InvalidOperationException("Backup skater data also failed to load");
+
+                    MessageSystem.QueueMessage(MessageDisplayData.Type.Warning, "[ReloadGear] Failed to Load LastPlayer; using backup Data", 2f);
+                }
+
+                await Task.Yield();
+                CustomizedPlayerDataV2 validatedData = await GearDatabase.Instance.ValidateCustomization(data, CustomizedPlayerDataV2.Default, GearValidationContext.LocalPlayer);
+                string validatedDataName = validatedData.ToString();
+                if (data.ToString() != validatedDataName)
+                {
+                    MessageSystem.QueueMessage(MessageDisplayData.Type.Warning, "[ReloadGear] Failed to Validate Data", 3f);
+                }
+
+                await playerController.characterCustomizer.RemoveAllGear();
+                playerController.characterCustomizer.RemovePreviews();
+                await Task.Yield();
+
+                List<GearInfo> gearInfos = validatedData.GetAllGearInfos().ToList();
+
+                foreach (GearInfo gearInfo in gearInfos){playerController.characterCustomizer.LoadGearAsync(gearInfo); }
+                while (playerController.characterCustomizer.IsLoading){await Task.Yield(); }
+                foreach (GearInfo gearInfo in gearInfos) { playerController.characterCustomizer.EquipGear(gearInfo); }
+
+                playerController.characterCustomizer.LoadCustomizations(validatedData);
+
+                string currentGearName = playerController.characterCustomizer.CurrentCustomizations.ToString();
+                string defaultGearName = CustomizedPlayerDataV2.Default.ToString();
+                if (currentGearName == defaultGearName)
+                {
+                    MessageSystem.QueueMessage(MessageDisplayData.Type.Error, "[ReloadGear] Failed to Load Custom Gear - Using Default", 3f);
+                }
+                else if (currentGearName == validatedDataName && validatedDataName != defaultGearName)
+                {
+                    MessageSystem.QueueMessage(MessageDisplayData.Type.Success, "[ReloadGear] Custom Gear Reloaded", 3f);
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = $"[ReloadGear] Could not load Player Gear Error: {ex.Message}";
+                Main.Logger.Log(errorMessage);
+                MessageSystem.QueueMessage(MessageDisplayData.Type.Error, errorMessage, 3f);
+            }
+            finally
+            {
+                isReloadingGear = false;
+            }
+        }
+        private static async void ReloadGear2()
+        {
             PlayerController playerController = PlayerController.Instance;
 
             await Task.Yield();
             string lastPlayer = GetLastPlayer();
+           
             try
             {
+                GearDatabase.Instance.FetchCustomGear(); // needs to run for validation to work for some reason
+
                 CustomizedPlayerDataV2 data;
                 data = await SaveManager.Instance.LoadCharacterCustomizations(lastPlayer);
                 if (data == null)
@@ -51,8 +133,6 @@ namespace ReplayFX.Utils
                 }
 
                 await Task.Yield();
-                GearDatabase.Instance.FetchCustomGear();
-
                 CustomizedPlayerDataV2 validatedData = await GearDatabase.Instance.ValidateCustomization(data, CustomizedPlayerDataV2.Default, GearValidationContext.LocalPlayer);
                 if (data.ToString() != validatedData.ToString())
                 {
@@ -61,17 +141,16 @@ namespace ReplayFX.Utils
 
                 await playerController.characterCustomizer.RemoveAllGear();
                 playerController.characterCustomizer.RemovePreviews();
+                await Task.Yield();
 
                 foreach (GearInfo gearinfo in validatedData.GetAllGearInfos()) { playerController.characterCustomizer.LoadGearAsync(gearinfo); }
                 foreach (GearInfo gearinfo in validatedData.GetAllGearInfos()) { playerController.characterCustomizer.EquipGear(gearinfo); }
 
-                await Task.Yield();
                 playerController.characterCustomizer.LoadCustomizations(validatedData);
 
                 string currentGearName = playerController.characterCustomizer.CurrentCustomizations.ToString();
                 string validatedDataName = validatedData.ToString();
                 string DefaultGearName = CustomizedPlayerDataV2.Default.ToString();
-
                 if (currentGearName == DefaultGearName)
                 {
                     MessageSystem.QueueMessage(MessageDisplayData.Type.Error,"[ReloadGear] Failed to Load Custom Gear - Using Default", 3f);
@@ -112,44 +191,5 @@ namespace ReplayFX.Utils
             GameStateMachine.Instance.OnGameStateChanged += OnStateChanged;
             return result.Task;
         }
-        public static string GetLastPlayer()
-        {
-            if (!ConsolePlayerPrefs.HasKey("LastPlayer"))
-            {
-                return null;
-            }
-            else
-            {
-                string lastPlayer = ConsolePlayerPrefs.GetString("LastPlayer");
-                return lastPlayer;
-            }
-        }
-        public static async Task CustomLoadLastPlayer(CharacterCustomizer customizer)
-        {
-            if (!ConsolePlayerPrefs.HasKey("LastPlayer"))
-            {
-                customizer.LoadCustomizations(CustomizedPlayerDataV2.Default);
-            }
-            else
-            {
-                await Task.Yield();
-                string lastPlayer = ConsolePlayerPrefs.GetString("LastPlayer");
-                try
-                {
-                    CustomizedPlayerDataV2 customizedPlayerDataV = await SaveManager.Instance.LoadCharacterCustomizations(lastPlayer);
-                    if (customizedPlayerDataV == null)
-                    {
-                        throw new Exception("Failed to load Customization");
-                    }
-                    customizer.LoadCustomizations(customizedPlayerDataV);
-                }
-                catch (Exception ex)
-                {
-                    Logging.gear.LogWarning(string.Concat(new object[] { "Could not load Player ", lastPlayer, " Error: ", ex }));
-                    customizer.LoadCustomizations(CustomizedPlayerDataV2.Default);
-                }
-            }
-        }
-
     }
 }

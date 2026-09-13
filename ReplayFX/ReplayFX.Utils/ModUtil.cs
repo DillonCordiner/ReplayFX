@@ -2,7 +2,7 @@
 
 namespace ReplayFX.Utils
 {
-    public static class ModCheckUtil
+    public static class ModUtil
     {
         public static bool CheckForMod(string modID)
         {

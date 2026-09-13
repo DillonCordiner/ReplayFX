@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using ModIO.UI;
 using ReplayEditor;
 using ReplayFX.Utils;
 using RootMotion;
@@ -10,23 +11,26 @@ namespace ReplayFX.Keyframes
     {
         public static void AddImpluseKeyFrame()
         {
-            CreateImpluseKeyFrame(Main.camController.impulseSource, ReplayEditorController.Instance.playbackController.CurrentTime);
+            CreateImpluseKeyFrame(Main.camController.impulseSource, ReplayEditorController.Instance.playbackController.CurrentTime);          
             //CurveUtil.Refresh();
         }
 
         public static void AddPlayBackKeyFrame()
         {
             CreatePlaybackKeyFrame(Main.settings.replay_playback_speed, ReplayEditorController.Instance.playbackController.CurrentTime);
+           
             //CurveUtil.Refresh();
         }
         public static void RemoveAllImpulseKeys()
         {
             RemoveKeyFramesOfType(typeof(ImpulseKeyFrame));
+            MessageSystem.QueueMessage(MessageDisplayData.Type.Warning, "All Impulse Keys Deleted", 1.5f);
             //CurveUtil.Refresh();
         }
         public static void RemoveAllPlaybackKeys()
         {
             RemoveKeyFramesOfType(typeof(PlaybackSpeedKeyFrame));
+            MessageSystem.QueueMessage(MessageDisplayData.Type.Warning, "All Playback Keys Deleted", 1.5f);
             //CurveUtil.Refresh();
         }
         private static void RemoveKeyFramesOfType(Type keyframeType)

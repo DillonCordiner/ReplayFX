@@ -13,7 +13,7 @@ using UnityEngine.UI;
 
 namespace ReplayFX.UI
 {
-    public class RFXMenuController : MonoBehaviour
+    public class RFXMenuManager : MonoBehaviour
     {
         [Serializable]
         public class SettingsCategoryArray : ReorderableArray<SettingsCategory>

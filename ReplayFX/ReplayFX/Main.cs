@@ -24,7 +24,7 @@ namespace ReplayFX
         public static InputListener inputListener;
         public static UIController uiController;
         public static TimelineManager timelineManager;
-        public static RFXMenuController replayfxMenu;
+        public static RFXMenuManager replayfxMenu;
 
         public static bool Load(UnityModManager.ModEntry modEntry)
         {
@@ -116,7 +116,7 @@ namespace ReplayFX
                     ScriptManager = new GameObject("ReplayFX");
                     camController = ScriptManager.AddComponent<RFXCameraController>();
                     timelineManager = ScriptManager.AddComponent<TimelineManager>();
-                    replayfxMenu = ScriptManager.AddComponent<RFXMenuController>();
+                    replayfxMenu = ScriptManager.AddComponent<RFXMenuManager>();
                     inputListener = ScriptManager.AddComponent<InputListener>();
                     uiController = ScriptManager.AddComponent<UIController>();
                     Object.DontDestroyOnLoad(ScriptManager);

@@ -21,7 +21,7 @@ namespace ReplayFX
 
         private void Start()
         {
-            if (ModCheckUtil.CheckForMod(XXLModExtention.XXLmodID))
+            if (ModUtil.CheckForMod(XXLModExtention.XXLmodID))
             {
                 XXLModExtention.IsXXLModInstalled = true;
                 XXLModExtention.GetXXLModSettings();

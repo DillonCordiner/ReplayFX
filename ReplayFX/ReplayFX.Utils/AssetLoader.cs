@@ -9,6 +9,7 @@ using UnityEngine;
 using Cinemachine;
 using ModIO.UI;
 using System.Reflection;
+using System.IO;
 
 namespace ReplayFX.Utils
 {
@@ -18,7 +19,18 @@ namespace ReplayFX.Utils
 
         //public static NoiseSettings[] noiseSettings = new NoiseSettings[8];
         public static List<NoiseSettings> noiseSettingsAssets = new List<NoiseSettings>();
+        public static byte[] GetResources(string filename)
+        {
+            using (Stream manifestResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(filename))
+            {
+                if (manifestResourceStream == null)
+                    return null;
 
+                byte[] buffer = new byte[manifestResourceStream.Length];
+                manifestResourceStream.Read(buffer, 0, buffer.Length);
+                return buffer;
+            }
+        }
         public static void LoadBundles()
         {
             // Check if a type from the Unity assembly has been loaded
@@ -35,7 +47,7 @@ namespace ReplayFX.Utils
         }
         private static IEnumerator LoadAssetBundle()
         {
-            byte[] assetBundleData = ResourceExtractor.GetResources("ReplayFX.Resources.noiseassets");
+            byte[] assetBundleData = GetResources("ReplayFX.Resources.noiseassets");
             if (assetBundleData == null)
             {
                 Main.Logger.Log("Failed to extract ReplayFX Asset Bundle");
