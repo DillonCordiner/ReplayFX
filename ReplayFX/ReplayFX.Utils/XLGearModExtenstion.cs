@@ -12,6 +12,7 @@ using ReplayFX.Patches;
 
 namespace ReplayFX.Utils
 {
+    /*
    
     public static class XLGearModExtenstion
     {
@@ -53,21 +54,30 @@ namespace ReplayFX.Utils
                 await WaitUntilExit<ReplayState>();
             }
 
-            /*
-            SkaterInfo skater = GearDatabase.Instance.skaters.FirstOrDefault();
-            CustomizedPlayerDataV2 customization = await SaveManager.Instance.LoadCharacterCustomizations(skater.CustomizationFileName);
-            if (PlayerController.Instance.characterCustomizer.CurrentCustomizations != customization)
-            {
-                PlayerController.Instance.characterCustomizer.LoadCustomizations(CustomizedPlayerDataV2.Default);
-                await PlayerController.Instance.characterCustomizer.LoadLastPlayer();
-            }
-            */
+            
+            //SkaterInfo skater = GearDatabase.Instance.skaters.FirstOrDefault();
+            //CustomizedPlayerDataV2 customization = await SaveManager.Instance.LoadCharacterCustomizations(skater.CustomizationFileName);
+            //if (PlayerController.Instance.characterCustomizer.CurrentCustomizations != customization)
+            //{
+            //    PlayerController.Instance.characterCustomizer.LoadCustomizations(CustomizedPlayerDataV2.Default);
+            //    await PlayerController.Instance.characterCustomizer.LoadLastPlayer();
+            //}
+            
 
             PlayerController.Instance.characterCustomizer.LoadCustomizations(CustomizedPlayerDataV2.Default);
-            await PlayerController.Instance.characterCustomizer.LoadLastPlayer();
+            //await PlayerController.Instance.characterCustomizer.LoadLastPlayer();
+
             //UnloadXLGMAssetPacks();
             Task task = (Task)loadBundlesMethod.Invoke(helper, null);
             await task;
+
+            SkaterInfo skater = GearDatabase.Instance.skaters.FirstOrDefault();
+            CustomizedPlayerDataV2 data = await SaveManager.Instance.LoadCharacterCustomizations(skater.CustomizationFileName);
+            await PlayerController.Instance.characterCustomizer.RemoveAllGear();
+            PlayerController.Instance.characterCustomizer.RemoveNotUsedCache();
+            PlayerController.Instance.characterCustomizer.LoadGearAsync(skater.customizations.body);
+            PlayerController.Instance.characterCustomizer.EquipGear(skater.customizations.body);
+            PlayerController.Instance.characterCustomizer.LoadCustomizations(data);
         }
 
         private static Task WaitUntilExit<TState>() where TState : GameState
@@ -125,4 +135,5 @@ namespace ReplayFX.Utils
             }
         }
     }
+    */
 }

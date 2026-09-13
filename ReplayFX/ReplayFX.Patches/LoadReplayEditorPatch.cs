@@ -159,7 +159,7 @@ namespace ReplayFX.Patches
             }
             catch (Exception ex)
             {
-                Main.Logger.Log("[LoadReplayEditor] ERROR: " + ex);
+                Main.Logger.Log($"[LoadReplayEditor] ERROR: { ex.Message}");           
             }
             finally
             {

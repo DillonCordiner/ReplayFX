@@ -178,7 +178,7 @@ namespace ReplayFX.UI
         }
         private static void ReloadGearButton(bool val)
         {
-            XLGearModExtenstion.ReloadCustomGear();
+            GearUtil.ReloadOnStateExit();
         }
         private static void TestImpulseButton(bool val)
         {

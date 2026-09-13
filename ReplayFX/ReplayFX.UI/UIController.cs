@@ -9,6 +9,10 @@ using Tayx.Graphy.Utils.NumString;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using SkaterXL.Data;
+using SkaterXL.Gear;
+using ModIO.UI;
+using SkaterXL.Core;
 
 namespace ReplayFX.UI
 {
@@ -118,16 +122,18 @@ namespace ReplayFX.UI
         {
             GUI.DragWindow(new Rect(0, 0, 10000, 20));
 
-            //MainUI();
+            MainUI();
             CameraUI();
             KeyFrameUI();
             //ColorUI();
         }
         private void MainUI()
         {
+            UIextensions.FlexableButton("Reload Gear", GearUtil.ReloadOnStateExit, Color.white);
             //GUILayout.Label($"ReplayFX");
             //GUILayout.Space(8f);
         }
+
         private void SetPlayBackSpeedButton()
         {
             if (XXLModExtention.IsXXLModInstalled)
