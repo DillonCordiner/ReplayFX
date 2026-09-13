@@ -85,6 +85,7 @@ namespace ReplayFX
                 GUILayout.FlexibleSpace();
             }
             GUILayout.EndHorizontal();
+            /*
             GUILayout.BeginHorizontal();
             {
                 UIextensions.FlexableButton("Reload Custom Gear", XLGearModExtenstion.ReloadCustomGear, Color.white);
@@ -92,6 +93,7 @@ namespace ReplayFX
                 UIextensions.FlexableButton("Delete All Impulse Keys", KeyFrameHelper.RemoveAllImpulseKeys, Color.white);
             }
             GUILayout.EndHorizontal();
+            */
         }
         private static void OnSaveGUI(UnityModManager.ModEntry modEntry)
         {

@@ -148,7 +148,9 @@ namespace ReplayFX.UI
 
             await proceduralMenuPage.AddStringEnumSetting("replay_fps", "Recorded FPS", () => GetFPSItem(), (name) => SetFPSItem(name), Main.camController.recordedFPSarray);
 
-            //await proceduralMenuPage.AddBoolSetting("reload_gear", "Reload Custom Gear", () => GetTestBoolButton(), (val) => SetTestBoolButton(val), "", "", int.MaxValue);
+            await AddBoolButton(proceduralMenuPage, "delete_playback", "Delete All Playback Keys", () => false, delegate (bool v) { DeleteAllPlaybackKeysButton(v); });
+            await AddBoolButton(proceduralMenuPage, "delete_impulse", "Delete All Impulse Keys", () => false, delegate (bool v) { DeleteAllImpulseKeysButton(v); });
+
             //await AddBoolButton(proceduralMenuPage, "reload_gear", "Reload Custom Gear", () => GetReloadGearButton(), (val) => SetReloadGearButton(val));
             await AddBoolButton(proceduralMenuPage, "reload_gear", "Reload Custom Gear", () => false, delegate (bool v) { ReloadGearButton(v); });
             return proceduralMenuPage;
@@ -181,6 +183,14 @@ namespace ReplayFX.UI
         private static void TestImpulseButton(bool val)
         {
             Main.camController.GenerateImpluse();
+        }
+        private static void DeleteAllPlaybackKeysButton(bool val)
+        {
+            KeyFrameHelper.RemoveAllPlaybackKeys();
+        }
+        private static void DeleteAllImpulseKeysButton(bool val)
+        {
+            KeyFrameHelper.RemoveAllImpulseKeys();
         }
         private static string GetCameraProfileItem() => Main.camController.targetProfile;
         private static void SetCameraProfileItem(string name)
