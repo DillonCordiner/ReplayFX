@@ -9,6 +9,7 @@ using ReplayFX.Keyframes;
 using Rewired.Integration.UnityUI;
 using UnityEngine.EventSystems;
 using ReplayFX.UI;
+using static Rewired.ComponentControls.Effects.RotateAroundAxis;
 
 namespace ReplayFX
 {
@@ -21,6 +22,8 @@ namespace ReplayFX
         public bool changeHotKey = false;
 
         public bool isBumperPressed = false;
+        private float holdDelayTimer = 0f;
+        private float InitialHoldDelay = 0.25f;
 
         private readonly KeyCode[] keyCodes = Enum.GetValues(typeof(KeyCode)).Cast<KeyCode>().Where(k => ((int)k < (int)KeyCode.Mouse0)).ToArray();
 
@@ -110,15 +113,37 @@ namespace ReplayFX
                 }
                 else if (player.GetButton("RB") && !Main.replayfxMenu.clonedMenu.gameObject.activeSelf)
                 {
-                    float speedChangeRate = 0.5f; // Adjusts speed by 0.5 per second
+                    float speedChangeRate = 0.5f;
 
-                    if (player.GetButton(67))
+                    if (player.GetButtonDown(67))
                     {
-                        Main.settings.replay_playback_speed += speedChangeRate * Time.unscaledDeltaTime;
+                        Main.settings.replay_playback_speed += 0.01f;
+                        holdDelayTimer = 0f;
+                    }
+                    else if (player.GetButton(67))
+                    {
+                        holdDelayTimer += Time.unscaledDeltaTime;
+                        if (holdDelayTimer > InitialHoldDelay)
+                        {
+                            Main.settings.replay_playback_speed += speedChangeRate * Time.unscaledDeltaTime;
+                        }
+                    }
+                    else if (player.GetButtonDown(68))
+                    {
+                        Main.settings.replay_playback_speed -= 0.01f;
+                        holdDelayTimer = 0f;
                     }
                     else if (player.GetButton(68))
                     {
-                        Main.settings.replay_playback_speed -= speedChangeRate * Time.unscaledDeltaTime;
+                        holdDelayTimer += Time.unscaledDeltaTime;
+                        if (holdDelayTimer > InitialHoldDelay)
+                        {
+                            Main.settings.replay_playback_speed -= speedChangeRate * Time.unscaledDeltaTime;
+                        }
+                    }
+                    else
+                    {
+                        holdDelayTimer = 0f;
                     }
 
                     Main.settings.replay_playback_speed = Mathf.Clamp(Main.settings.replay_playback_speed, 0.0f, 2.0f);
