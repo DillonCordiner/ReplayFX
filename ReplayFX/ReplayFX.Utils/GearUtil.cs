@@ -67,7 +67,7 @@ namespace ReplayFX.Utils
                     if (data == null)
                         throw new InvalidOperationException("Backup skater data also failed to load");
 
-                    MessageSystem.QueueMessage(MessageDisplayData.Type.Warning, "[ReloadGear] Failed to Load LastPlayer; using backup Data", 2f);
+                    MessageSystem.QueueMessage(MessageDisplayData.Type.Warning, "Failed to Load LastPlayer; using backup Data", 2f);
                 }
 
                 await Task.Yield();
@@ -75,7 +75,7 @@ namespace ReplayFX.Utils
                 string validatedDataName = validatedData.ToString();
                 if (data.ToString() != validatedDataName)
                 {
-                    MessageSystem.QueueMessage(MessageDisplayData.Type.Warning, "[ReloadGear] Failed to Validate Data", 3f);
+                    MessageSystem.QueueMessage(MessageDisplayData.Type.Warning, "Failed to Validate Gear Data", 3f);
                 }
 
                 await playerController.characterCustomizer.RemoveAllGear();
@@ -94,11 +94,11 @@ namespace ReplayFX.Utils
                 string defaultGearName = CustomizedPlayerDataV2.Default.ToString();
                 if (currentGearName == defaultGearName)
                 {
-                    MessageSystem.QueueMessage(MessageDisplayData.Type.Error, "[ReloadGear] Failed to Load Custom Gear - Using Default", 3f);
+                    MessageSystem.QueueMessage(MessageDisplayData.Type.Error, "Failed to Load Gear - Using Default", 3f);
                 }
                 else if (currentGearName == validatedDataName && validatedDataName != defaultGearName)
                 {
-                    MessageSystem.QueueMessage(MessageDisplayData.Type.Success, "[ReloadGear] Custom Gear Reloaded", 3f);
+                    MessageSystem.QueueMessage(MessageDisplayData.Type.Success, "Gear Reloaded", 3f);
                 }
             }
             catch (Exception ex)

@@ -62,14 +62,15 @@ namespace ReplayFX
             //Player player = ReInput.players.AllPlayers.FirstOrDefault();
             player = ReInput.players.GetPlayer(0);
         }
+        
         private void Update() 
         {
             playerFound = player != null;
             if (!playerFound)
                 return;
 
-            //if (GameStateMachine.Instance.CurrentState == null || !(GameStateMachine.Instance.CurrentState is ReplayFXSettingsState))
-            //return;
+            if (Main.replayfxMenu.clonedMenu == null || !Main.replayfxMenu.clonedMenu.gameObject.activeSelf)
+            return;
 
             if (player.GetButtonDown(7))
             {
@@ -80,6 +81,7 @@ namespace ReplayFX
                 Main.replayfxMenu.PreviousCategory();
             }
         }
+        
         private void LateUpdate()
         {
             playerFound = player != null;
@@ -98,13 +100,6 @@ namespace ReplayFX
             }
             if (currentState is ReplayState)
             {
-                isBumperPressed = player.GetButton("LB") || player.GetButton("RB");
-
-                //if (player.GetButton("LB") && player.GetButtonDown("A"))
-                //{
-                //    Main.camController.ToggleNoise();
-                //}
-
                 if (player.GetButton("RB") && player.GetButtonDown("A"))
                 {
                     KeyFrameHelper.AddPlayBackKeyFrame();
@@ -113,10 +108,21 @@ namespace ReplayFX
                 {
                     KeyFrameHelper.AddImpluseKeyFrame();
                 }
-            }
-            else if (isBumperPressed)
-            {
-                isBumperPressed = false;
+                else if (player.GetButton("RB") && !Main.replayfxMenu.clonedMenu.gameObject.activeSelf)
+                {
+                    float speedChangeRate = 0.5f; // Adjusts speed by 0.5 per second
+
+                    if (player.GetButton(67))
+                    {
+                        Main.settings.replay_playback_speed += speedChangeRate * Time.unscaledDeltaTime;
+                    }
+                    else if (player.GetButton(68))
+                    {
+                        Main.settings.replay_playback_speed -= speedChangeRate * Time.unscaledDeltaTime;
+                    }
+
+                    Main.settings.replay_playback_speed = Mathf.Clamp(Main.settings.replay_playback_speed, 0.0f, 2.0f);
+                }
             }
         }
         /*

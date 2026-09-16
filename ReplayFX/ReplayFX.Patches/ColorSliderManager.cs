@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using ReplayFX.Utils;
 
 namespace ReplayFX.Patches
-{
-    
+{ 
     public static class ColorSliderManager
     {
         // 1 = Playback, 2 = Impulse

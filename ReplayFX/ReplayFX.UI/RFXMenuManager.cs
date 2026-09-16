@@ -10,6 +10,9 @@ using ReplayFX;
 using ReplayEditor;
 using ReplayFX.State;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 
 namespace ReplayFX.UI
 {
@@ -28,7 +31,6 @@ namespace ReplayFX.UI
             //public RuntimePlatformFlag platforms;
             //public bool debugOnly;
         }
-
         public int currentCategoryIndex = 0;
         public bool pagesCreated = false;
 
@@ -44,11 +46,12 @@ namespace ReplayFX.UI
         public CategoryButton SettingsCategoryButton;
         public Transform settingsPageParent;
 
-        public ReplayFXMenuState rfxMenuState;
+        public RFXMenuState rfxMenuState;
         public GameObject clonedMenu;
         private MenuButton replayMenuButton;
         //private MenuButton testImpulseButton;
         public GameObject clonedInfoPanel;
+        private List<Transform> clonedInfoPanelItems = new List<Transform>();
 
         private async void Start()
         {
@@ -67,8 +70,7 @@ namespace ReplayFX.UI
 
             SetCurrentCategory(PageBuilder.cameraSettings);
             CreateCustomButtons();
-
-            SetupClonedInfoPanel(); // testing
+            SetupClonedInfoPanel();
         }
         
         public async Task InitializeMenuAsync()
@@ -113,7 +115,102 @@ namespace ReplayFX.UI
                 RectTransform rect = clonedInfoPanel.gameObject.GetComponent<RectTransform>();
                 rect.anchoredPosition = new Vector2(-1880, -38);
                 rect.pivot = new Vector2 (0, 1);
-                clonedInfoPanel.gameObject.GetComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+                rect.sizeDelta = new Vector2(480, rect.sizeDelta.y);
+                //clonedInfoPanel.gameObject.GetComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+                HashSet<int> indexesToKeep = new HashSet<int> { 1, 2, 9, 10 };
+                GetClonedPanelItems(clonedInfoPanel.transform, indexesToKeep);
+                //RemoveUnusedButtonItems(clonedInfoPanel.transform, 2);
+                RemoveUnusedPanelItems(clonedInfoPanel.transform, indexesToKeep);
+
+                SetClonePanelItemNames(clonedInfoPanelItems);
+                AddAdaptiveLabels(clonedInfoPanelItems, 0, "ReplayFX", "", "");
+                AddAdaptiveLabels(clonedInfoPanelItems, 1, "Playback Key Speed:", "<sprite name=XB1_RB> + <sprite name=d-pad-up>/<sprite name=d-pad-down>", "<sprite name=PS4_R2> + <sprite name=d-pad-up>/<sprite name=d-pad-down>");
+                AddAdaptiveLabels(clonedInfoPanelItems, 2, "Add Playback Key", "<sprite name=XB1_RB> + <sprite name=XB1_A>", "<sprite name=PS4_R2> + <sprite name=PS4_Cross_Button>");
+                AddAdaptiveLabels(clonedInfoPanelItems, 3, "Add Impulse Key", "<sprite name=XB1_RB> + <sprite name=XB1_Y>", "<sprite name=PS4_R2> + <sprite name=PS4_Triangle_Button>");
+            }
+        }
+        private void AddAdaptiveLabels(List<Transform> clonedPanelItems, int index, string mainLabel, string xboxLabel, string psLabel)
+        {
+            if (clonedPanelItems == null) return;
+
+            Transform item = clonedInfoPanelItems[index];
+            item.gameObject.AddComponent<AdaptiveLabels>().Setup(mainLabel, xboxLabel, psLabel);
+
+        }
+        private void GetClonedPanelItems(Transform cloneInfoPanel, HashSet<int> savedItemIndexes)
+        {
+            if (cloneInfoPanel == null)
+                return;
+
+            clonedInfoPanelItems.Clear();
+            for (int i = 0; i < cloneInfoPanel.childCount; i++)
+            {
+                if (savedItemIndexes.Contains(i))
+                {
+                    Transform child = cloneInfoPanel.GetChild(i);
+                    clonedInfoPanelItems.Add(child);
+                }
+            }
+        }
+        private void RemoveUnusedPanelItems(Transform parentTransform, HashSet<int> savedItemIndexes)
+        {
+            for (int i = parentTransform.childCount - 1; i >= 0; i--)
+            {
+                if (!savedItemIndexes.Contains(i))
+                {
+                    Transform child = parentTransform.GetChild(i);
+                    child.gameObject.SetActive(false);
+                    Destroy(child.gameObject);
+                }
+            }
+        }
+        private void RemoveUnusedButtonItems(Transform parentTransform, int index)
+        {
+            Transform child = parentTransform.GetChild(index);
+            //Transform buttonitem = child.Find("Button Label");
+            TMP_SubMeshUI buttonitem = child.gameObject.GetComponentInChildren<TMP_SubMeshUI>();
+            Destroy(buttonitem.transform.parent.gameObject);
+        }
+        private void RemoveUnusedButtonItems2(Transform parentTransform, HashSet<int> targetIndexs)
+        {
+            for (int i = 0; i < parentTransform.childCount; i++)
+            {
+                if (targetIndexs.Contains(i))
+                {
+                    Transform child = parentTransform.GetChild(i);
+                    Transform buttonitem = child.Find("Button Label");
+                    //Transform buttonitem = child.FindChildRecursively(buttonItemName);
+                    if (buttonitem != null)
+                    {
+                        buttonitem.gameObject.SetActive(false);
+                        Destroy(buttonitem.gameObject);
+                    }
+                }
+            }
+        }
+        private void SetClonePanelItemNames(List<Transform> clonedPanelItems)
+        {
+            if (clonedPanelItems == null)
+                return;
+
+            string[] newNames = new string[]
+            {
+                "Replay FX Label",
+                "Playback Speed Item",
+                "Add Playback Key Item",
+                "Add Impulse Key Item",
+            };
+
+            if (clonedPanelItems.Count != newNames.Length)
+                return;
+
+            for (int i = 0; i < clonedPanelItems.Count; i++)
+            {
+                if (i < newNames.Length && clonedPanelItems[i] != null)
+                {
+                    clonedPanelItems[i].gameObject.name = newNames[i];
+                }
             }
         }
         private void CreateCustomButtons()
@@ -262,7 +359,7 @@ namespace ReplayFX.UI
         {
             if (rfxMenuState == null)
             {
-                rfxMenuState = obj.AddComponent<ReplayFXMenuState>();
+                rfxMenuState = obj.AddComponent<RFXMenuState>();
                 RemoveOldStates(obj);
             }
             else

@@ -165,7 +165,8 @@
     <Compile Include="RapidGUI\Utilities\UnparsedStr.cs" />
     <Compile Include="RapidGUI\Utilities\WarningLabelNoStyle.cs" />
     <Compile Include="RapidGUI\Utilities\WindowInvoker.cs" />
-    <Compile Include="ReplayFX.State\ReplayFXMenuState.cs" />
+    <Compile Include="ReplayFX.State\RFXMenuState.cs" />
+    <Compile Include="ReplayFX.UI\AdaptiveLabels.cs" />
     <Compile Include="ReplayFX.UI\ButtonMarker.cs" />
     <Compile Include="ReplayFX.UI\PageBuilder.cs" />
     <Compile Include="ReplayFX.Utils\AssetLoader.cs" />

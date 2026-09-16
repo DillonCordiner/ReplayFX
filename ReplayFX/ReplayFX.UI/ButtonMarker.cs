@@ -1,2 +1,5 @@
 ﻿using UnityEngine;
-public class ButtonMarker : MonoBehaviour { }
+namespace ReplayFX.UI
+{
+    public class ButtonMarker : MonoBehaviour { }
+}

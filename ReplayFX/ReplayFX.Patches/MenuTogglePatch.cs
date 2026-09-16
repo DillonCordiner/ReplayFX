@@ -1,18 +1,22 @@
 ﻿using HarmonyLib;
+using ReplayFX.UI;
 using UnityEngine.EventSystems;
 
-[HarmonyPatch(typeof(MenuToggle), nameof(MenuToggle.OnMove))]
-public static class MenuTogglePatch
+namespace ReplayFX.Patches
 {
-    public static bool Prefix(MenuToggle __instance, AxisEventData eventData)
+    [HarmonyPatch(typeof(MenuToggle), nameof(MenuToggle.OnMove))]
+    public static class MenuTogglePatch
     {
-        if (__instance.GetComponent<ButtonMarker>() != null)
+        public static bool Prefix(MenuToggle __instance, AxisEventData eventData)
         {
-            if (eventData.moveDir == MoveDirection.Left || eventData.moveDir == MoveDirection.Right)
+            if (__instance.GetComponent<ButtonMarker>() != null)
             {
-                return false;
+                if (eventData.moveDir == MoveDirection.Left || eventData.moveDir == MoveDirection.Right)
+                {
+                    return false;
+                }
             }
+            return true;
         }
-        return true;
     }
 }

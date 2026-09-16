@@ -152,7 +152,7 @@ namespace ReplayFX.UI
             await AddBoolButton(proceduralMenuPage, "delete_impulse", "Delete All Impulse Keys", () => false, delegate (bool v) { DeleteAllImpulseKeysButton(v); });
 
             //await AddBoolButton(proceduralMenuPage, "reload_gear", "Reload Custom Gear", () => GetReloadGearButton(), (val) => SetReloadGearButton(val));
-            await AddBoolButton(proceduralMenuPage, "reload_gear", "Reload Custom Gear", () => false, delegate (bool v) { ReloadGearButton(v); });
+            await AddBoolButton(proceduralMenuPage, "reload_gear", "Reload Gear", () => false, delegate (bool v) { ReloadGearButton(v); });
             return proceduralMenuPage;
         }
         private static async Task<ProceduralMenuPage> AddBoolButton(ProceduralMenuPage page, string id, string label, Func<bool> getter, Action<bool> setter)
