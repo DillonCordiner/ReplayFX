@@ -139,8 +139,9 @@
     <Compile Include="ReplayFX.Patches\MenuTogglePatch.cs" />
     <Compile Include="ReplayFX.Patches\LoadReplayEditorPatch.cs" />
     <Compile Include="ReplayFX.Patches\ColorSliderManager.cs" />
+    <Compile Include="ReplayFX.Patches\ForceCameraPositionPatch.cs" />
     <Compile Include="ReplayFX.Patches\ReplayMenuControllerPatch.cs" />
-    <Compile Include="ReplayFX.Patches\ReplayCameraControllerPatch.cs" />
+    <Compile Include="ReplayFX.Patches\DeleteKeyFramesOutsidePatch.cs" />
     <Compile Include="ReplayFX.Patches\CameraCurvePatch.cs" />
     <Compile Include="RapidGUI\Button.cs" />
     <Compile Include="RapidGUI\Field.cs" />

@@ -9,7 +9,6 @@ using ReplayFX.Keyframes;
 using Rewired.Integration.UnityUI;
 using UnityEngine.EventSystems;
 using ReplayFX.UI;
-using static Rewired.ComponentControls.Effects.RotateAroundAxis;
 
 namespace ReplayFX
 {

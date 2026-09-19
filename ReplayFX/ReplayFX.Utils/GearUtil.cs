@@ -67,7 +67,7 @@ namespace ReplayFX.Utils
                     if (data == null)
                         throw new InvalidOperationException("Backup skater data also failed to load");
 
-                    MessageSystem.QueueMessage(MessageDisplayData.Type.Warning, "Failed to Load LastPlayer; using backup Data", 2f);
+                    MessageSystem.QueueMessage(MessageDisplayData.Type.Warning, "Failed to load gear; using default", 2f);
                 }
 
                 await Task.Yield();

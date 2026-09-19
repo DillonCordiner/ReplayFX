@@ -4,6 +4,7 @@ using ReplayEditor;
 using ReplayFX.Utils;
 using RootMotion;
 using System;
+using UnityEngine;
 
 namespace ReplayFX.Keyframes
 {
@@ -63,7 +64,6 @@ namespace ReplayFX.Keyframes
 
             keyFrame = new PlaybackSpeedKeyFrame(playbackspeed, time);
             keyFrame.AddKeyframes(ReplayEditorController.Instance.cameraController.cameraCurve);
-            //keyFrame.AddKeyframes(Main.camNoiseController.customCurve);
             ReplayEditorController.Instance.cameraController.keyFrames.Insert(index, keyFrame);
 
             //Main.Logger.Log("PlayBack KeyFrame added at: " + time);
@@ -80,37 +80,35 @@ namespace ReplayFX.Keyframes
 
             //Main.Logger.Log("Impulse KeyFrame added at: " + time);
         }
-        private static int FindKeyFrameInsertIndex(float time)
+        private static int FindKeyFrameInsertIndex2(float time)
         {
             var keyFrames = ReplayEditorController.Instance.cameraController.keyFrames;
             int index = keyFrames.FindIndex(k => k.time > time);
             return index == -1 ? keyFrames.Count : index;
         }
-
-        /*
         private static int FindKeyFrameInsertIndex(float time)
         {
-            if (ReplayEditorController.Instance.cameraController.keyFrames.Count == 0)
+            var keyFrames = ReplayEditorController.Instance.cameraController.keyFrames;
+            if (keyFrames.Count == 0)
             {
                 return 0;
             }
-            if (time < ReplayEditorController.Instance.cameraController.keyFrames[0].time)
+            if (time < keyFrames[0].time)
             {
                 return 0;
             }
-            if (ReplayEditorController.Instance.cameraController.keyFrames.Count == 1)
+            if (keyFrames.Count == 1)
             {
                 return 1;
             }
-            for (int i = 0; i < ReplayEditorController.Instance.cameraController.keyFrames.Count - 1; i++)
+            for (int i = 0; i < keyFrames.Count - 1; i++)
             {
-                if (time > ReplayEditorController.Instance.cameraController.keyFrames[i].time && time < ReplayEditorController.Instance.cameraController.keyFrames[i + 1].time)
+                if (time > keyFrames[i].time && time < keyFrames[i + 1].time)
                 {
                     return i + 1;
                 }
             }
-            return ReplayEditorController.Instance.cameraController.keyFrames.Count;
+            return keyFrames.Count;
         }
-        */
     }
 }

@@ -13,7 +13,9 @@ using SmoothKeyframeCurves;
 
 namespace ReplayFX.Patches
 {
+    
     [HarmonyPatch(typeof(ReplayEditorController), "LoadReplayEditor")]
+    
     public static class LoadReplayEditorPatch
     {
         private static readonly AccessTools.FieldRef<ReplayEditorController, List<ReplayEditorController.OnlinePlayerReplayInfo>> 
@@ -40,6 +42,7 @@ namespace ReplayFX.Patches
         private static readonly Action<ReplayEditorController, float, bool> 
             SetPlaybackTimeDelegate = AccessTools.MethodDelegate<Action<ReplayEditorController, float, bool>>( AccessTools.Method(typeof(ReplayEditorController), "SetPlaybackTime", new[] { typeof(float), typeof(bool) }));
 
+        
         [HarmonyPrefix]
         public static bool Prefix(ReplayEditorController __instance)
         {
@@ -47,23 +50,19 @@ namespace ReplayFX.Patches
             //Main.Logger.Log("[LoadReplayEditor] Patch Run");
             return false; // Skip
         }
+        
 
         private static async void CustomLoadReplayEditor( ReplayEditorController __instance)
         {
             GameStateMachine.Instance.StartLoading(false, null, "Loading");
-            Main.Logger.Log("[LoadReplayEditor] Start Loading ...");
+            //Main.Logger.Log("[LoadReplayEditor] Start Loading ...");
 
             try
             {
                 ReplayPlaybackController playbackController = __instance.playbackController;
                 ReplayCameraController cameraController = __instance.cameraController;
 
-                Task localReplayTask = playbackController.LoadReplay(
-                    ReplayRecorder.Instance.LocalPlayerFrames,
-                    ReplayRecorder.Instance.gamePlayEvents,
-                    PlayerController.Instance.characterCustomizer.CurrentCustomizations,
-                    false
-                );
+                Task localReplayTask = playbackController.LoadReplay(ReplayRecorder.Instance.LocalPlayerFrames, ReplayRecorder.Instance.gamePlayEvents, PlayerController.Instance.characterCustomizer.CurrentCustomizations, false);
 
                 bool isOnline = PhotonNetwork.IsConnected && PhotonNetwork.InRoom;
 
@@ -88,7 +87,7 @@ namespace ReplayFX.Patches
 
                     SetOnlinePlayerReplayVisibleDelegate(__instance, showOnline);
                 }
-                Main.Logger.Log("[LoadReplayEditor] awaiting load tasks...");
+                //Main.Logger.Log("[LoadReplayEditor] awaiting load tasks...");
                 if (onlinePlayerLoadTasks != null)
                 {
                     onlinePlayerLoadTasks.Add(localReplayTask);
@@ -100,7 +99,7 @@ namespace ReplayFX.Patches
                 }
 
                 cameraController.DeleteKeyFramesOutside(playbackController.ClipStartTime,playbackController.ClipEndTime);
-                Main.Logger.Log("[LoadReplayEditor] DeleteKeyFramesOutside complete...");
+                //Main.Logger.Log("[LoadReplayEditor] DeleteKeyFramesOutside complete...");
                 ResetClipValuesDelegate(__instance);
                 cameraController.CamFollowKeyFrames = false;
 
@@ -108,8 +107,7 @@ namespace ReplayFX.Patches
                 {
                     float targetTime = 0f;
 
-                    List<GPEvent> events =
-                        playbackController.gameplayEvents;
+                    List<GPEvent> events = playbackController.gameplayEvents;
 
                     if (events != null)
                     {
@@ -132,13 +130,13 @@ namespace ReplayFX.Patches
                     try
                     {
                         CameraCurveResult transformData = cameraCurve.Evaluate( playbackController.CurrentTime );
-
+                        cameraController.VirtualCamera.UpdateCameraState(Vector3.up, playbackController.CurrentTime);
                         cameraController.ApplyGameplayCameraTransform( transformData );
-                        Main.Logger.Log("[LoadReplayEditor] ApplyGameplayCameraTransform complete...");
+                        //Main.Logger.Log("[LoadReplayEditor] ApplyGameplayCameraTransform complete...");
                     }
                     catch (Exception ex)
                     {
-                        Main.Logger.Log( "[LoadReplayEditor] Camera evaluation failed: " + ex);
+                        Main.Logger.Log( $"[LoadReplayEditor] Camera evaluation failed: {ex.Message}");
                     }
                 }
 
@@ -153,18 +151,19 @@ namespace ReplayFX.Patches
                 if (StartPlayingRef(__instance))
                 {
                     IsPlayingRef(__instance) = true;
-                    Main.Logger.Log("[LoadReplayEditor] isPlaying" + IsPlayingRef(__instance));
+                    //Main.Logger.Log("[LoadReplayEditor] isPlaying" + IsPlayingRef(__instance));
                 }
                 cameraController.OnReplayEditorStart();
             }
             catch (Exception ex)
             {
-                Main.Logger.Log($"[LoadReplayEditor] error: { ex.Message}");           
+                GameStateMachine.Instance.RequestPreviousState();
+                Main.Logger.Log($"[LoadReplayEditor] Failed to load Replay Editor: { ex.Message}");           
             }
             finally
             {
                 GameStateMachine.Instance.StopLoading();
-                Main.Logger.Log("[LoadReplayEditor] Loading complete ...");
+                //Main.Logger.Log("[LoadReplayEditor] Loading complete ...");
             }
         }
 
@@ -190,4 +189,5 @@ namespace ReplayFX.Patches
             return false;
         }
     }
+    
 }
