@@ -130,10 +130,17 @@ namespace ReplayFX.UI
         private void MainUI()
         {
             UIextensions.FlexableButton("Reload Gear", GearUtil.ReloadOnStateExit, Color.white);
+            GUILayout.Space(6f);
+            UIextensions.FlexableButton("RandomGear", TestRandomGearButton, Color.white);
             //GUILayout.Label($"ReplayFX");
             //GUILayout.Space(8f);
         }
-
+        private void TestRandomGearButton()
+        {
+            //CustomizedPlayerDataV2 data = GearUtil.RandomizeGear(CustomizedPlayerDataV2.Default, GearUtil.storedData);
+            CustomizedPlayerDataV2 data = GearUtil.RandomizeGear(CustomizedPlayerDataV2.Default);
+            PlayerController.Instance.characterCustomizer.LoadCustomizations(data);
+        }
         private void SetPlayBackSpeedButton()
         {
             if (XXLModExtention.IsXXLModInstalled)

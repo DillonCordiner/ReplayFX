@@ -1,11 +1,13 @@
 ﻿using GameManagement;
 using ModIO.UI;
+using ReplayEditor;
 using SkaterXL.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace ReplayFX.Utils
 { 
@@ -90,8 +92,11 @@ namespace ReplayFX.Utils
 
                 playerController.characterCustomizer.LoadCustomizations(validatedData);
 
-                string currentGearName = playerController.characterCustomizer.CurrentCustomizations.ToString();
-                string defaultGearName = CustomizedPlayerDataV2.Default.ToString();
+                //string currentGearName = playerController.characterCustomizer.CurrentCustomizations.ToString();
+                //string defaultGearName = CustomizedPlayerDataV2.Default.ToString();
+                string currentGearName = JsonUtility.ToJson(playerController.characterCustomizer.CurrentCustomizations);
+                string defaultGearName = JsonUtility.ToJson(CustomizedPlayerDataV2.Default);
+
                 if (currentGearName == defaultGearName)
                 {
                     MessageSystem.QueueMessage(MessageDisplayData.Type.Error, "Failed to Load Gear - Using Default", 3f);
@@ -112,7 +117,7 @@ namespace ReplayFX.Utils
                 isReloadingGear = false;
             }
         }
-        private static async void ReloadGear2()
+        private static async void ReloadGearold()
         {
             PlayerController playerController = PlayerController.Instance;
 
@@ -190,6 +195,33 @@ namespace ReplayFX.Utils
 
             GameStateMachine.Instance.OnGameStateChanged += OnStateChanged;
             return result.Task;
+        }
+        public static CustomizedPlayerDataV2 RandomizeGear(CustomizedPlayerDataV2 customization)
+        {
+            CharacterBodyInfo[] array = GearDatabase.Instance.bodyGear.Where((CharacterBodyInfo b) => b.type.ToLower() == customization.body.type.ToLower()).ToArray();
+            if (array.Length != 0)
+            {
+                customization.body = array[UnityEngine.Random.Range(0, array.Length)];
+            }
+            int num;
+            for (num = 0; num < customization.boardGear.Length; num++)
+            {
+                BoardGearInfo[] array3 = GearDatabase.Instance.boardGear.Where((BoardGearInfo b) => b.type.ToLower() == customization.boardGear[num].type.ToLower()).ToArray();
+                if (array3.Length != 0)
+                {
+                    customization.boardGear[num] = array3[UnityEngine.Random.Range(0, array3.Length)];
+                }
+            }      
+            int num2;
+            for (num2 = 0; num2 < customization.clothingGear.Length; num2++)
+            {
+                CharacterGearInfo[] array2 = GearDatabase.Instance.clothingGear.Where((CharacterGearInfo b) => b.type.ToLower() == customization.clothingGear[num2].type.ToLower()).ToArray();
+                if (array2.Length != 0)
+                {
+                    customization.clothingGear[num2] = array2[UnityEngine.Random.Range(0, array2.Length)];
+                }
+            }            
+            return customization;
         }
     }
 }
