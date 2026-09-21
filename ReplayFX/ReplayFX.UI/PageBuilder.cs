@@ -153,6 +153,7 @@ namespace ReplayFX.UI
 
             //await AddBoolButton(proceduralMenuPage, "reload_gear", "Reload Custom Gear", () => GetReloadGearButton(), (val) => SetReloadGearButton(val));
             await AddBoolButton(proceduralMenuPage, "reload_gear", "Reload Gear", () => false, delegate (bool v) { ReloadGearButton(v); });
+            await proceduralMenuPage.AddBoolSetting("random_danny", "Default Danny", () => GetIsRandomDanny(), (val) => SetIsRandomDanny(val), "Random", "Default", int.MaxValue);
             return proceduralMenuPage;
         }
         private static async Task<ProceduralMenuPage> AddBoolButton(ProceduralMenuPage page, string id, string label, Func<bool> getter, Action<bool> setter)
@@ -221,6 +222,16 @@ namespace ReplayFX.UI
             if (Main.replayfxMenu.colorMenuPage != null)
             {
                 Main.replayfxMenu.colorMenuPage.UpdatePage();
+            }
+        }
+        private static bool GetIsRandomDanny() => Main.settings.useRandomDefaultDanny;
+        private static void SetIsRandomDanny(bool val)
+        {
+            Main.settings.useRandomDefaultDanny = val;
+
+            if (Main.replayfxMenu.otherMenuPage != null)
+            {
+                Main.replayfxMenu.otherMenuPage.UpdatePage();
             }
         }
         private static Color GetPlaybackColorItem()

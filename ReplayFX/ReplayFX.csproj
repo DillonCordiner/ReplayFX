@@ -144,6 +144,7 @@
     <Compile Include="ReplayFX.Patches\LoadReplayEditorPatch.cs" />
     <Compile Include="ReplayFX.Patches\ColorSliderManager.cs" />
     <Compile Include="ReplayFX.Patches\ForceCameraPositionPatch.cs" />
+    <Compile Include="ReplayFX.Patches\ValidateCustomizationPatch.cs" />
     <Compile Include="ReplayFX.Patches\NetworkCustomizationPatch.cs" />
     <Compile Include="ReplayFX.Patches\ReplayMenuControllerPatch.cs" />
     <Compile Include="ReplayFX.Patches\DeleteKeyFramesOutsidePatch.cs" />

@@ -37,6 +37,8 @@ namespace ReplayFX
 
         public string savedProfile = "";
 
+        public bool useRandomDefaultDanny = true;
+
         //public bool useAssetBundleProfiles = true;
 
         public override void Save(UnityModManager.ModEntry modEntry)

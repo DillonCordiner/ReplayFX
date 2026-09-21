@@ -92,10 +92,8 @@ namespace ReplayFX.Utils
 
                 playerController.characterCustomizer.LoadCustomizations(validatedData);
 
-                //string currentGearName = playerController.characterCustomizer.CurrentCustomizations.ToString();
-                //string defaultGearName = CustomizedPlayerDataV2.Default.ToString();
-                string currentGearName = JsonUtility.ToJson(playerController.characterCustomizer.CurrentCustomizations);
-                string defaultGearName = JsonUtility.ToJson(CustomizedPlayerDataV2.Default);
+                string currentGearName = playerController.characterCustomizer.CurrentCustomizations.ToString();
+                string defaultGearName = CustomizedPlayerDataV2.Default.ToString();
 
                 if (currentGearName == defaultGearName)
                 {
