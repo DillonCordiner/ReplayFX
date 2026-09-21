@@ -181,6 +181,7 @@
     <Compile Include="ReplayFX.Utils\PlayBackUtil.cs" />
     <Compile Include="ReplayFX.Utils\CurveUtil.cs" />
     <Compile Include="ReplayFX.Utils\GearUtil.cs" />
+    <Compile Include="ReplayFX.Utils\PostLateUpdateHook.cs" />
     <Compile Include="ReplayFX.Utils\XLGearModExtenstion.cs" />
     <Compile Include="ReplayFX.Utils\XXLModExtention.cs" />
     <Compile Include="ReplayFX.Utils\ModUtil.cs" />

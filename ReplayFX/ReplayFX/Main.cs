@@ -122,6 +122,8 @@ namespace ReplayFX
                     Object.DontDestroyOnLoad(ScriptManager);
 
                     AssetLoader.LoadBundles();
+
+                    PostLateUpdateHook.Install();
                 }
                 catch (Exception ex)
                 {
@@ -143,6 +145,7 @@ namespace ReplayFX
             try
             {
                 harmonyInstance?.UnpatchAll(harmonyInstance.Id);
+                PostLateUpdateHook.Uninstall();
 
                 if (ScriptManager != null)
                 {

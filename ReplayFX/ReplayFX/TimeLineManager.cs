@@ -20,7 +20,8 @@ namespace ReplayFX
         private Color playback_key_color = Color.gray;
 
         private void Start()
-        {
+        {     
+            /*
             if (ModUtil.CheckForMod(XXLModExtention.XXLmodID))
             {
                 XXLModExtention.IsXXLModInstalled = true;
@@ -31,11 +32,13 @@ namespace ReplayFX
             {
                 XXLModExtention.IsXXLModInstalled = false;
             }
+            */
         }
         private void LateUpdate()
         {
-            ReplayEditorController replayEditor = ReplayEditorController.Instance;
+            if (!(GameStateMachine.Instance?.CurrentState is ReplayState)) { return; }
 
+            ReplayEditorController replayEditor = ReplayEditorController.Instance;
             if (replayEditor == null || replayEditor.cameraController == null)
                 return;
 
@@ -49,11 +52,18 @@ namespace ReplayFX
             }
 
             float currentTime = replayEditor.PlaybackTime;
-
-            UpdatePlayBackSpeed(currentTime);
+            //UpdatePlayBackSpeed(currentTime); // use only if xllmod overwrite is active
             UpdateImpulsekeys(replayEditor, currentTime);
         }
+        public void LaterUpdate()
+        {
+            if (!(GameStateMachine.Instance?.CurrentState is ReplayState)) { return; }
 
+            ReplayEditorController replayEditor = ReplayEditorController.Instance;
+            if (replayEditor == null || !replayEditor.cameraController.CamFollowKeyFrames) return;
+
+            UpdatePlayBackSpeed(replayEditor.PlaybackTime);
+        }
         private void RefreshOnKeyChange(ReplayEditorController replayEditor)
         {
             int currentCount = replayEditor.cameraController.keyFrames.Count;
@@ -88,7 +98,7 @@ namespace ReplayFX
             lastPlaybackTime = currentTime;
         }
 
-        private void UpdatePlayBackSpeed(float currentTime)
+        public void UpdatePlayBackSpeed(float currentTime)
         {
             if (CurveUtil.HasPlayBackKeys())
             {
@@ -104,6 +114,7 @@ namespace ReplayFX
         {
             if (PlaybackOverwritten)
             {
+                /*
                 if (XXLModExtention.IsXXLModInstalled)
                 {
                     XXLModExtention.RestoreOriginalSpeed();
@@ -113,7 +124,8 @@ namespace ReplayFX
                     //Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(1.0f);
                     PlayBackUtil.SetPlayBackSpeedValue(1.0f);
                 }
-                //KeyFrameHelper.RemoveAllPlaybackKeys();
+                */
+                PlayBackUtil.SetPlayBackSpeedValue(1.0f);
                 PlaybackOverwritten = false;
             }
         }
@@ -124,7 +136,9 @@ namespace ReplayFX
             {
                 //float interpolatedSpeed = CurveUtil.playbackSpeedCurve.Evaluate(currentTime);
                 float interpolatedSpeed = CurveUtil.EvaluatePlaybackSpeed(currentTime);
+                PlayBackUtil.SetPlayBackSpeedValue(interpolatedSpeed);
 
+                /*
                 if (XXLModExtention.IsXXLModInstalled)
                 {
                     XXLModExtention.SetXXLSpeed(interpolatedSpeed);
@@ -134,6 +148,7 @@ namespace ReplayFX
                     //Traverse.Create(ReplayEditorController.Instance).Field("playbackSpeed").SetValue(interpolatedSpeed);
                     PlayBackUtil.SetPlayBackSpeedValue(interpolatedSpeed);
                 }
+                */
             }
         }
 

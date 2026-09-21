@@ -143,6 +143,9 @@ namespace ReplayFX.UI
         }
         private void SetPlayBackSpeedButton()
         {
+            PlayBackUtil.SetPlayBackSpeedValue(Main.settings.replay_playback_speed);
+
+            /*
             if (XXLModExtention.IsXXLModInstalled)
             {
                 XXLModExtention.SetXXLSpeed(Main.settings.replay_playback_speed);
@@ -151,6 +154,7 @@ namespace ReplayFX.UI
             {
                 PlayBackUtil.SetPlayBackSpeedValue(Main.settings.replay_playback_speed);
             }
+            */
         }
         private void CameraUI()
         {

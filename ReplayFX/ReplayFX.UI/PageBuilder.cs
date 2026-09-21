@@ -145,13 +145,14 @@ namespace ReplayFX.UI
         public static async Task<ProceduralMenuPage> BuildOtherPageAsync()
         {
             ProceduralMenuPage proceduralMenuPage = await Main.replayfxMenu.CreateSettingsPage(OtherSettings, -1);
-            await AddBoolButton(proceduralMenuPage, "delete_playback", "Delete All Playback Keys", () => false, delegate (bool v) { DeleteAllPlaybackKeysButton(v); });
-            await AddBoolButton(proceduralMenuPage, "delete_impulse", "Delete All Impulse Keys", () => false, delegate (bool v) { DeleteAllImpulseKeysButton(v); });
-            await proceduralMenuPage.AddStringEnumSetting("replay_fps", "Recorded FPS", () => GetFPSItem(), (name) => SetFPSItem(name), Main.camController.recordedFPSarray);
-            //await AddBoolButton(proceduralMenuPage, "reload_gear", "Reload Custom Gear", () => GetReloadGearButton(), (val) => SetReloadGearButton(val));
-            await proceduralMenuPage.AddBoolSetting("random_danny", "Default Danny", () => GetIsRandomDanny(), (val) => SetIsRandomDanny(val), "Random", "Default", int.MaxValue);
-            await AddBoolButton(proceduralMenuPage, "reload_gear", "Reload Gear", () => false, delegate (bool v) { ReloadGearButton(v); });
            
+            await AddBoolButton(proceduralMenuPage, "delete_playback", "Delete All Playback Keys", () => false, delegate (bool v) { DeleteAllPlaybackKeysButton(v); });
+            await AddBoolButton(proceduralMenuPage, "delete_impulse", "Delete All Impulse Keys", () => false, delegate (bool v) { DeleteAllImpulseKeysButton(v); });         
+            await proceduralMenuPage.AddBoolSetting("random_danny", "Default Danny", () => GetIsRandomDanny(), (val) => SetIsRandomDanny(val), "Random", "Default", int.MaxValue);
+            //await AddBoolButton(proceduralMenuPage, "reload_gear", "Reload Custom Gear", () => GetReloadGearButton(), (val) => SetReloadGearButton(val));
+            await AddBoolButton(proceduralMenuPage, "reload_gear", "Reload Gear", () => false, delegate (bool v) { ReloadGearButton(v); });
+            await proceduralMenuPage.AddStringEnumSetting("replay_fps", "Recorded FPS", () => GetFPSItem(), (name) => SetFPSItem(name), Main.camController.recordedFPSarray);
+
 
             return proceduralMenuPage;
         }

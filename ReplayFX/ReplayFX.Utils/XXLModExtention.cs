@@ -4,6 +4,7 @@ using System.Reflection;
 
 namespace ReplayFX.Utils
 {
+    /*
     public static class XXLModExtention
     {
         public static readonly string XXLmodID = "XXLMod3";
@@ -97,4 +98,5 @@ namespace ReplayFX.Utils
             //Main.Logger.Log("[XXLModExtention] Restored original ReplayPlaybackSpeed setting in XXLMod3.");
         }
     }
+    */
 }
