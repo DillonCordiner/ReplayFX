@@ -362,6 +362,7 @@ namespace ReplayFX.UI
         }
         private void AddSettingsState(GameObject obj)
         {
+            
             if (rfxMenuState == null)
             {
                 rfxMenuState = obj.AddComponent<RFXMenuState>();
@@ -371,6 +372,7 @@ namespace ReplayFX.UI
             {
                 Main.Logger.Log("[ReplayFXSettingsState] ReplayFXSettingsState Already Exists");
             }
+            
         }
         private void RemoveOldStates(GameObject obj)
         {
