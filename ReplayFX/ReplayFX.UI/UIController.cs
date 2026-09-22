@@ -139,7 +139,7 @@ namespace ReplayFX.UI
         {
             //CustomizedPlayerDataV2 data = GearUtil.RandomizeGear(CustomizedPlayerDataV2.Default, GearUtil.storedData);
             CustomizedPlayerDataV2 data = GearUtil.RandomizeGear(CustomizedPlayerDataV2.Default);
-            PlayerController.Instance.characterCustomizer.LoadCustomizations(data);
+            PlayerController.Main.characterCustomizer.LoadCustomizations(data);
         }
         private void SetPlayBackSpeedButton()
         {

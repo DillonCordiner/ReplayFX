@@ -51,7 +51,7 @@ namespace ReplayFX.Utils
 
             try
             {
-                PlayerController playerController = PlayerController.Instance;
+                PlayerController playerController = PlayerController.Main;
 
                 await Task.Yield();
                 string lastPlayer = GetLastPlayer();
@@ -117,7 +117,7 @@ namespace ReplayFX.Utils
         }
         private static async void ReloadGearold()
         {
-            PlayerController playerController = PlayerController.Instance;
+            PlayerController playerController = PlayerController.Main;
 
             await Task.Yield();
             string lastPlayer = GetLastPlayer();

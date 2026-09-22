@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ReplayFX</RootNamespace>
     <AssemblyName>ReplayFX</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,8 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="0Harmony">
       <HintPath>D:\SteamLibrary\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityModManager\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -151,8 +151,7 @@
     <Reference Include="UnityEngine.UIModule">
       <HintPath>..\..\..\..\..\..\Games\Skater XL 1.2.2.8\SkaterXL_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityModManager, Version=0.25.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnityModManager">
       <HintPath>D:\SteamLibrary\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityModManager\UnityModManager.dll</HintPath>
     </Reference>
   </ItemGroup>

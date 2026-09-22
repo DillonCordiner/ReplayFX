@@ -62,7 +62,7 @@ namespace ReplayFX.Patches
                 ReplayPlaybackController playbackController = __instance.playbackController;
                 ReplayCameraController cameraController = __instance.cameraController;
 
-                Task localReplayTask = playbackController.LoadReplay(ReplayRecorder.Instance.LocalPlayerFrames, ReplayRecorder.Instance.gamePlayEvents, PlayerController.Instance.characterCustomizer.CurrentCustomizations, false);
+                Task localReplayTask = playbackController.LoadReplay(PlayerController.Main.recorder.LocalPlayerFrames, PlayerController.Main.recorder.gamePlayEvents, PlayerController.Main.characterCustomizer.CurrentCustomizations, false);
 
                 bool isOnline = PhotonNetwork.IsConnected && PhotonNetwork.InRoom;
 

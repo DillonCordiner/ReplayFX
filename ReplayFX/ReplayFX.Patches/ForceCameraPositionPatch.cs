@@ -2,7 +2,6 @@
 using UnityEngine;
 using HarmonyLib;
 using ReplayEditor;
-using static RootMotion.FinalIK.AimPoser;
 
 namespace ReplayFX.Patches
 {

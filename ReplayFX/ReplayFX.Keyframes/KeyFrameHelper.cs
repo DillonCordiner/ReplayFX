@@ -2,7 +2,6 @@
 using ModIO.UI;
 using ReplayEditor;
 using ReplayFX.Utils;
-using RootMotion;
 using System;
 using UnityEngine;
 
