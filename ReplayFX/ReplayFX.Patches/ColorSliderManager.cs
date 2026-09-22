@@ -14,7 +14,6 @@ namespace ReplayFX.Patches
     [HarmonyPatch(typeof(ColorSliderItem), nameof(ColorSliderItem.UpdateItem))]
     public static class ColorSliderItem_UpdateItem_Patch
     {
-        // Prefix so registration happens BEFORE UpdateItem() evaluates GetValue()
         [HarmonyPrefix]
         public static void Prefix(ColorSliderItem __instance)
         {
@@ -28,7 +27,6 @@ namespace ReplayFX.Patches
                 ColorSliderManager.SliderModes[floatToColor.GetInstanceID()] = 2;
         }
 
-        // force the visual color block to refresh after layouting
         [HarmonyPostfix]
         public static void Postfix(ColorSliderItem __instance)
         {

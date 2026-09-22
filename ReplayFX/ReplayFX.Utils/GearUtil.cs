@@ -46,7 +46,7 @@ namespace ReplayFX.Utils
         }
         private static async void ReloadGear()
         {
-            if (isReloadingGear) return; // prevent overlapping reloads from racing on customizer state
+            if (isReloadingGear) return;
             isReloadingGear = true;
 
             try
@@ -56,7 +56,7 @@ namespace ReplayFX.Utils
                 await Task.Yield();
                 string lastPlayer = GetLastPlayer();
 
-                GearDatabase.Instance.FetchCustomGear(); // needs to run for validation to work for some reason
+                GearDatabase.Instance.FetchCustomGear(); // needs to run for validation to work
 
                 CustomizedPlayerDataV2 data = await SaveManager.Instance.LoadCharacterCustomizations(lastPlayer);
                 if (data == null)

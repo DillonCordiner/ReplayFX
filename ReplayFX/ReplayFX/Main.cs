@@ -128,7 +128,7 @@ namespace ReplayFX
                 catch (Exception ex)
                 {
                     Logger.Error($"Error during {modEntry} initialization: {ex.Message}");
-                    enabled = false; // Rollback enabling if an error occurs
+                    enabled = false;
                     return false;
                 }
             }

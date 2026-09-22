@@ -13,7 +13,7 @@ namespace ReplayFX.Utils
 
         public static void Install()
         {
-            if (_installed) return; // guard against double-install if your mod's Load/OnToggle fires more than once
+            if (_installed) return;
 
             PlayerLoopSystem rootLoop = PlayerLoop.GetCurrentPlayerLoop();
 
