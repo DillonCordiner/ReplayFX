@@ -2,91 +2,115 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using Cinemachine;
-using ModIO.UI;
-using System.Reflection;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using Cinemachine;
+using UnityEngine;
 
 namespace ReplayFX.Utils
 {
     public static class AssetLoader
-    {  
+    {
         public static AssetBundle assetBundle;
-
-        //public static NoiseSettings[] noiseSettings = new NoiseSettings[8];
         public static List<NoiseSettings> noiseSettingsAssets = new List<NoiseSettings>();
-        public static byte[] GetResources(string filename)
-        {
-            using (Stream manifestResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(filename))
-            {
-                if (manifestResourceStream == null)
-                    return null;
 
-                byte[] buffer = new byte[manifestResourceStream.Length];
-                manifestResourceStream.Read(buffer, 0, buffer.Length);
-                return buffer;
-            }
-        }
+        private static readonly string[] NoiseSettingNames =
+        {
+            "Shake",
+            "Normal_extreme",
+            "Normal_mild",
+            "Normal_strong",
+            "Tele_mild",
+            "Tele_strong",
+            "Wideangle_mild",
+            "Wideangle_strong"
+        };
+
+        private static bool _loading;
+
         public static void LoadBundles()
         {
-            // Check if a type from the Unity assembly has been loaded
+            if (_loading || assetBundle != null) return;
+
             Type unityObjectType = Type.GetType("UnityEngine.Object, UnityEngine");
 
             if (unityObjectType != null && GameStateMachine.Instance != null)
             {
+                _loading = true;
                 GameStateMachine.Instance.StartCoroutine(LoadAssetBundle());
             }
             else
             {
-                Main.Logger.Log("Unable to start LoadAssetBundle Routine");
+                Main.Logger.Log("[AssetLoader] Unable to start LoadAssetBundle Routine");
             }
         }
+
         private static IEnumerator LoadAssetBundle()
         {
-            byte[] assetBundleData = GetResources("ReplayFX.Resources.noiseassets");
-            if (assetBundleData == null)
+            try
             {
-                Main.Logger.Log("Failed to extract ReplayFX Asset Bundle");
-                yield break;
-            }
-            AssetBundleCreateRequest abCreateRequest = AssetBundle.LoadFromMemoryAsync(assetBundleData);
-            yield return abCreateRequest;
+                Task<byte[]> readTask = Task.Run(() => GetResources("ReplayFX.Resources.noiseassets"));
+                yield return new WaitUntil(() => readTask.IsCompleted);
 
-            assetBundle = abCreateRequest.assetBundle;
-            if (assetBundle == null)
-            {
-                Main.Logger.Log("Failed to load ReplayFX Asset Bundle Request");
-                yield break;
+                byte[] assetBundleData = readTask.Result;
+                if (assetBundleData == null)
+                {
+                    Main.Logger.Log("[AssetLoader] Failed to extract ReplayFX Asset Bundle");
+                    yield break;
+                }
+
+                AssetBundleCreateRequest abCreateRequest = AssetBundle.LoadFromMemoryAsync(assetBundleData);
+                yield return abCreateRequest;
+
+                assetBundle = abCreateRequest.assetBundle;
+                if (assetBundle == null)
+                {
+                    Main.Logger.Log("[AssetLoader] Failed to load ReplayFX Asset Bundle Request");
+                    yield break;
+                }
+
+                yield return GameStateMachine.Instance.StartCoroutine(LoadAssetFromBundle());
             }
-            yield return GameStateMachine.Instance.StartCoroutine(LoadAssetFromBundle());
+            finally
+            {
+                _loading = false;
+            }
         }
+
         private static IEnumerator LoadAssetFromBundle()
         {
-            /*
-            noiseSettings[0] = assetBundle.LoadAsset<NoiseSettings>("Shake");
-            noiseSettings[1] = assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_extreme");
-            noiseSettings[2] = assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_mild");
-            noiseSettings[3] = assetBundle.LoadAsset<NoiseSettings>("Handheld_normal_strong");
-            noiseSettings[4] = assetBundle.LoadAsset<NoiseSettings>("Handheld_tele_mild");
-            noiseSettings[5] = assetBundle.LoadAsset<NoiseSettings>("Handheld_tele_strong");
-            noiseSettings[6] = assetBundle.LoadAsset<NoiseSettings>("Handheld_wideangle_mild");
-            noiseSettings[7] = assetBundle.LoadAsset<NoiseSettings>("Handheld_wideangle_strong");
-            */
+            AssetBundleRequest request = assetBundle.LoadAllAssetsAsync<NoiseSettings>();
+            yield return request;
 
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Shake"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Normal_extreme"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Normal_mild"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Normal_strong"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Tele_mild"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Tele_strong"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Wideangle_mild"));
-            noiseSettingsAssets.Add(assetBundle.LoadAsset<NoiseSettings>("Wideangle_strong"));
+            Dictionary<string, NoiseSettings> noiseName = request.allAssets.Cast<NoiseSettings>().Where(a => a != null).ToDictionary(a => a.name, a => a);
 
-            yield return null;
+            noiseSettingsAssets.Clear();
+            foreach (string name in NoiseSettingNames)
+            {
+                if (noiseName.TryGetValue(name, out NoiseSettings asset))
+                {
+                    noiseSettingsAssets.Add(asset);
+                }
+                else
+                {
+                    Main.Logger.Log($"[AssetLoader] Missing noise asset: {name}");
+                }
+            }
+        }
+        public static byte[] GetResources(string filename)
+        {
+            using (Stream manifestResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(filename))
+            {
+                if (manifestResourceStream == null) return null;
+
+                using (MemoryStream memoryStream = new MemoryStream((int)manifestResourceStream.Length))
+                {
+                    manifestResourceStream.CopyTo(memoryStream);
+                    return memoryStream.ToArray();
+                }
+            }
         }
         public static void UnloadAssetBundle()
         {
@@ -95,11 +119,7 @@ namespace ReplayFX.Utils
                 assetBundle.Unload(true);
                 assetBundle = null;
             }
+            noiseSettingsAssets.Clear();
         }
-        private static void OnDestroy()
-        {
-            UnloadAssetBundle();
-        }
-        
     }
 }
