@@ -52,7 +52,7 @@ namespace ReplayFX
             }
 
             float currentTime = replayEditor.PlaybackTime;
-            //UpdatePlayBackSpeed(currentTime); // use only if xllmod overwrite is active
+            //UpdatePlayBackSpeed(currentTime); // use only if xllmodextension is active
             UpdateImpulsekeys(replayEditor, currentTime);
         }
         public void LaterUpdate()

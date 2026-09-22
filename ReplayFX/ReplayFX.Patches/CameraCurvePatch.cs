@@ -36,6 +36,7 @@ namespace ReplayFX.Patches
         }
     }
 
+    /*
     [HarmonyPatch(typeof(CameraCurve), "DeleteCurveKeys")]
     public static class CameraCurveDeleteCurvePatch
     {
@@ -49,5 +50,5 @@ namespace ReplayFX.Patches
             //Main.Logger.Log("[DeleteCurveKeys] Patch Complete");
         }
     }
-    
+    */
 }
