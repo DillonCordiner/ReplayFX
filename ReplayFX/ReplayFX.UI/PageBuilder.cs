@@ -159,15 +159,24 @@ namespace ReplayFX.UI
         }
         private static async Task<ProceduralMenuPage> AddBoolButton(ProceduralMenuPage page, string id, string label, Func<bool> getter, Action<bool> setter)
         {
-            // The "" arguments natively remove the "On"/"Off" text visuals
-            var item = await page.AddBoolSetting(id, label, getter, setter, "", "", int.MaxValue);
-
+            MenuPageItemBase item = await page.AddBoolSetting(id, label, getter, setter, "", "", int.MaxValue);
             ToggleItem toggleItem = item as ToggleItem;
             if (toggleItem != null && toggleItem.selectable != null)
             {
                 toggleItem.selectable.gameObject.AddComponent<ButtonMarker>();
+                toggleItem.selectable.stateText.gameObject.SetActive(false);
             }
             return page;
+            /*
+            MenuPageItemBase item = await page.AddBoolSetting(id, label, getter, setter, "", "", int.MaxValue);
+            ToggleItem toggleItem = item as ToggleItem;
+            if (toggleItem != null && toggleItem.selectable != null)
+            {
+                toggleItem.selectable.gameObject.AddComponent<ButtonMarker>();
+                toggleItem.gameObject.SetActive(false);
+            }
+            return page;
+            */
         }
 
         private static bool GetEnableNoise() => Main.settings.enableNoise;

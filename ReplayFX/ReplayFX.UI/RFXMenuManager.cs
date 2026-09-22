@@ -274,6 +274,11 @@ namespace ReplayFX.UI
             {
                 settingsPageParent = pageParent;
             }
+            BuildInfosUI buildinfo = clonedMenu.GetComponentInChildren<BuildInfosUI>();
+            if (buildinfo != null)
+            {
+                buildinfo.gameObject.SetActive(false);
+            }
         }
         public void UpdateUI()
         {

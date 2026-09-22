@@ -16,6 +16,7 @@ using SkaterXL.Core;
 
 namespace ReplayFX.UI
 {
+    /*
     public class UItab
     {
         public bool isClosed;
@@ -145,16 +146,16 @@ namespace ReplayFX.UI
         {
             PlayBackUtil.SetPlayBackSpeedValue(Main.settings.replay_playback_speed);
 
-            /*
-            if (XXLModExtention.IsXXLModInstalled)
-            {
-                XXLModExtention.SetXXLSpeed(Main.settings.replay_playback_speed);
-            }
-            else
-            {
-                PlayBackUtil.SetPlayBackSpeedValue(Main.settings.replay_playback_speed);
-            }
-            */
+            
+            //if (XXLModExtention.IsXXLModInstalled)
+            //{
+            //    XXLModExtention.SetXXLSpeed(Main.settings.replay_playback_speed);
+            //}
+            //else
+            //{
+            //    PlayBackUtil.SetPlayBackSpeedValue(Main.settings.replay_playback_speed);
+            //}
+            
         }
         private void CameraUI()
         {
@@ -181,13 +182,13 @@ namespace ReplayFX.UI
                     {
                         GUILayout.Label("<b><color=#171717> Disabled </color></b>");
                     }
-                    /*
+                    
                     // Test Button
-                    if (RGUI.Button(Main.settings.useAssetBundleProfiles, "Use Asset Bundle Profiles - " + Main.settings.useAssetBundleProfiles))
-                    {
-                        Main.settings.useAssetBundleProfiles = !Main.settings.useAssetBundleProfiles;
-                    }
-                    */
+                    //if (RGUI.Button(Main.settings.useAssetBundleProfiles, "Use Asset Bundle Profiles - " + Main.settings.useAssetBundleProfiles))
+                    //{
+                    //    Main.settings.useAssetBundleProfiles = !Main.settings.useAssetBundleProfiles;
+                    //}
+                    
                     GUILayout.Space(6f);
                     Main.settings.noise_amplitude = RGUI.SliderFloat(Main.settings.noise_amplitude, 0.0f, 10.0f, 1.0f, 92, "Amplitude");
                     GUILayout.Space(4f);
@@ -300,5 +301,5 @@ namespace ReplayFX.UI
             }
             GUILayout.EndHorizontal();     
         }
-    }
+    */
 }
