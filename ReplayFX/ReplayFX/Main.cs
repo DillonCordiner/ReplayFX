@@ -48,12 +48,22 @@ namespace ReplayFX
         }
         private static void OnGUI(UnityModManager.ModEntry modEntry)
         {
-            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical();
             {
-                GUILayout.Label("<b>Most settings can be changed in the replay pause menu</b>");
-                GUILayout.FlexibleSpace();
+                GUILayout.BeginHorizontal();
+                {
+                    GUILayout.Label($"Skater XL Version: <b>{Application.version}</b>");
+                    GUILayout.FlexibleSpace();
+                }
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                {
+                    GUILayout.Label("<b>Most settings can be changed in the replay pause menu</b>");
+                    GUILayout.FlexibleSpace();
+                }
+                GUILayout.EndHorizontal();
             }
-            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
             GUILayout.BeginHorizontal();
             {
                 GUILayout.Label("[Ctrl + " + settings.noiseHotkey.keyCode.ToString("") + "] for Keyboard/mouse UI");
