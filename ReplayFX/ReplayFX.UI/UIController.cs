@@ -79,7 +79,7 @@ namespace ReplayFX.UI
 
         private void InputSwitch()
         {
-            if ((Input.GetKey(KeyCode.LeftControl) | Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(Main.settings.noiseHotkey.keyCode))
+            if ((Input.GetKey(KeyCode.LeftControl) | Input.GetKey(KeyCode.RightControl)) || (Input.GetKey(KeyCode.LeftAlt) | Input.GetKey(KeyCode.RightAlt) && Input.GetKeyDown(Main.settings.noiseHotkey.keyCode))
             {
                 ToggleUI();
             }

@@ -58,7 +58,7 @@ namespace ReplayFX
                 GUILayout.EndHorizontal();
                 GUILayout.BeginHorizontal();
                 {
-                    GUILayout.Label("<b>Most settings can be changed in the replay pause menu</b>");
+                    GUILayout.Label("<b>Settings can be changed in the Replay Pause Menu</b>");
                     GUILayout.FlexibleSpace();
                 }
                 GUILayout.EndHorizontal();
@@ -66,7 +66,7 @@ namespace ReplayFX
             GUILayout.EndVertical();
             GUILayout.BeginHorizontal();
             {
-                GUILayout.Label("[Ctrl + " + settings.noiseHotkey.keyCode.ToString("") + "] for Keyboard/mouse UI");
+                GUILayout.Label($"[Ctrl + {settings.noiseHotkey.keyCode}] to Toggle Camera Shake. Current Profile: {settings.savedProfile}");
                 GUILayout.FlexibleSpace();
             }
             GUILayout.EndHorizontal();
