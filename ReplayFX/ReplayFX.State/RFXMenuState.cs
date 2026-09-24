@@ -26,6 +26,7 @@ namespace ReplayFX.State
 
         public override void OnUpdate()
         {
+            /*
             Player player = Main.inputListener.player;
             if(player == null)
                 return;
@@ -38,6 +39,7 @@ namespace ReplayFX.State
             {
                 Main.replayfxMenu.PreviousCategory();
             }
+            */
         }
 
     }

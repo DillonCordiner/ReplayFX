@@ -166,6 +166,7 @@ namespace ReplayFX.UI
             if (toggleItem != null && toggleItem.selectable != null)
             {
                 toggleItem.selectable.gameObject.AddComponent<ButtonMarker>();
+                toggleItem.selectable.stateText.gameObject.SetActive(false);
             }
             return page;
         }

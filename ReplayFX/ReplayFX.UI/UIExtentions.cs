@@ -4,6 +4,7 @@ using System;
 
 namespace ReplayFX.UI
 {
+    /*
     public static class UIextensions
     {
         private const string white = "#e6ebe8";
@@ -77,4 +78,5 @@ namespace ReplayFX.UI
             GUILayout.EndHorizontal();
         }
     }
+    */
 }

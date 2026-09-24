@@ -92,16 +92,14 @@ namespace ReplayFX
 
             GameState currentState = GameStateMachine.Instance.CurrentState;
 
-            if ((currentState is ReplayState) || (currentState is PlayState))
+            if (currentState is ReplayState)
             {
                 bool isControlPressed = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
-                if (!isControlPressed && Input.GetKeyDown(Main.settings.noiseHotkey.keyCode))
+                if (isControlPressed && Input.GetKeyDown(Main.settings.noiseHotkey.keyCode))
                 {
                     Main.camController.ToggleNoise();
                 }
-            }
-            if (currentState is ReplayState)
-            {
+
                 if (player.GetButton("RB") && player.GetButtonDown("A"))
                 {
                     KeyFrameHelper.AddPlayBackKeyFrame();
