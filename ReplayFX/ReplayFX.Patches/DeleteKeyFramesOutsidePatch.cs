@@ -10,9 +10,9 @@ using System.Xml.Linq;
 
 namespace ReplayFX.Patches
 {
-    
+    /*
     [HarmonyPatch(typeof(ReplayCameraController), "DeleteKeyFramesOutside")]
-    public static class DeleteKeyFramesOutsidePatch
+    public static class DeleteKeyFramesOutside_Patch
     {
         
         [HarmonyPrefix]
@@ -48,5 +48,5 @@ namespace ReplayFX.Patches
         }
         
     }
-    
+    */
 }

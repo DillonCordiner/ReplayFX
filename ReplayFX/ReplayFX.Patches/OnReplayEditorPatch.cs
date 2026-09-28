@@ -16,7 +16,7 @@ namespace ReplayFX.Patches
 {
     
     [HarmonyPatch(typeof(ReplayCameraController), nameof(ReplayCameraController.OnReplayEditorStart))]
-    public static class OnReplayEditorStartPatch
+    public static class OnReplayEditorStart_Patch
     {
         /*
         [HarmonyPrefix]

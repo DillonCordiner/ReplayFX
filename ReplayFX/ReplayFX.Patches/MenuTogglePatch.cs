@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 namespace ReplayFX.Patches
 {
     [HarmonyPatch(typeof(MenuToggle), nameof(MenuToggle.OnMove))]
-    public static class MenuTogglePatch
+    public static class MenuToggle_Patch
     {
         public static bool Prefix(MenuToggle __instance, AxisEventData eventData)
         {

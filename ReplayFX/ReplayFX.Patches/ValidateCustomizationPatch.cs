@@ -15,7 +15,7 @@ namespace ReplayFX.Patches
 {
     [HarmonyPatch(typeof(GearDatabase), nameof(GearDatabase.ValidateCustomization),
     new[] { typeof(CustomizedPlayerDataV2), typeof(CustomizedPlayerDataV2), typeof(GearValidationContext) })]
-    public static class ValidateCustomizationPatch
+    public static class ValidateCustomization_Patch
     {
         [HarmonyPostfix]
         static void Postfix(ref Task<CustomizedPlayerDataV2> __result, GearValidationContext context)

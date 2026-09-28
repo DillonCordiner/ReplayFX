@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using ModIO;
 using Newtonsoft.Json;
 using ReplayEditor;
 using ReplayFX.Utils;
@@ -84,6 +85,26 @@ namespace ReplayFX.Keyframes
             catch (Exception ex)
             {
                 Main.Logger.Error($"[ReplayFX] Failed to save sidecar JSON: {ex.Message}");
+            }
+        }
+        public static void DeleteFile(string replayFilePath) 
+        {
+            string jsonPath = GetSidecarPath(replayFilePath);
+
+            if (string.IsNullOrEmpty(jsonPath)) return;
+
+            if (!File.Exists(jsonPath))
+            {
+                Main.Logger.Log("Can't delete File at path: " + jsonPath + ": File doesn't exist!");
+            }
+            try
+            {
+                File.Delete(jsonPath);
+                Main.Logger.Log("Successfully deleted File at " + jsonPath);
+            }
+            catch (Exception ex)
+            {
+                Main.Logger.Error("Failed to delete File at path " + jsonPath + ": " + ex.Message);
             }
         }
         public static List<KeyFrame> Load(string replayFilePath)

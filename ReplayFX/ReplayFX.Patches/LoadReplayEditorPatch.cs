@@ -18,7 +18,7 @@ namespace ReplayFX.Patches
     
     [HarmonyPatch(typeof(ReplayEditorController), "LoadReplayEditor")]
     
-    public static class LoadReplayEditorPatch
+    public static class LoadReplayEditor_Patch
     {
         private static readonly AccessTools.FieldRef<ReplayEditorController, List<ReplayEditorController.OnlinePlayerReplayInfo>> 
             OnlinePlayersRef = AccessTools.FieldRefAccess<ReplayEditorController, List<ReplayEditorController.OnlinePlayerReplayInfo>>("onlinePlayers");
