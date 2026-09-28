@@ -20,7 +20,7 @@ namespace ReplayFX
         private Color playback_key_color = Color.gray;
 
         private void Start()
-        {     
+        {   
             /*
             if (ModUtil.CheckForMod(XXLModExtention.XXLmodID))
             {
@@ -73,7 +73,6 @@ namespace ReplayFX
                 lastKeyframeCount = currentCount;
             }
         }
-
         private void UpdateImpulsekeys(ReplayEditorController replayEditor, float currentTime)
         {
             if (replayEditor.cameraController.keyFrames.Count <= 0)

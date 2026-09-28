@@ -1,4 +1,6 @@
-﻿using ReplayEditor;
+﻿using Cinemachine;
+using ReplayEditor;
+using ReplayFX.Keyframes;
 using SmoothKeyframeCurves;
 using System.Security.Cryptography;
 using UnityEngine;
@@ -7,6 +9,8 @@ namespace ReplayFX.Utils
 {
     public static class CurveUtil
     {
+
+
         public static FloatCurve playbackSpeedCurve = new FloatCurve();
 
         public static bool HasPlayBackKeys()
@@ -79,14 +83,12 @@ namespace ReplayFX.Utils
             }
             return curve.Evaluate(time);
         }
-
         public static void Refresh()
         {
-            //ReplayEditorController.Instance.cameraController.cameraCurve.Clear();
             ReplayEditorController.Instance.cameraController.cameraCurve.Refresh(ReplayEditorController.Instance.cameraController.keyFrames);
             ReplayEditorController.Instance.cameraController.keyframeUI.UpdateKeyframes(ReplayEditorController.Instance.cameraController.keyFrames);
-            //Main.Logger.Log("[CurveUtil] Refreshed");
 
+            //Main.Logger.Log("[CurveUtil] Refreshed");
         }
     }
 }

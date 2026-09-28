@@ -4,7 +4,9 @@ using ReplayEditor;
 using ReplayFX.Utils;
 using RootMotion;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 namespace ReplayFX.Keyframes
 {
@@ -12,7 +14,11 @@ namespace ReplayFX.Keyframes
     {
         public static void AddImpluseKeyFrame()
         {
-            CreateImpluseKeyFrame(Main.camController.impulseSource, ReplayEditorController.Instance.playbackController.CurrentTime);          
+            CreateImpluseKeyFrame(Main.camController.impulseSource, ReplayEditorController.Instance.playbackController.CurrentTime, 
+                Main.settings.impulse_force,
+                Main.settings.impulse_source_amplitude, 
+                Main.settings.impulse_source_frequency,
+                Main.settings.impulse_source_decaytime);          
             //CurveUtil.Refresh();
         }
 
@@ -22,6 +28,7 @@ namespace ReplayFX.Keyframes
            
             //CurveUtil.Refresh();
         }
+
         public static void RemoveAllImpulseKeys()
         {
             RemoveKeyFramesOfType(typeof(ImpulseKeyFrame));
@@ -45,17 +52,35 @@ namespace ReplayFX.Keyframes
                 {
                     //ReplayEditorController.Instance.cameraController.keyFrames.Remove(keyframes[i]);
                     cameraController.keyFrames.RemoveAt(i);
-                    try
-                    {
-                        cameraController.cameraCurve?.DeleteCurveKeys(i, false);
-                    }
-                    catch (Exception ex)
-                    {
-                        Main.Logger.Log($"[RemoveKeyFramesOfType] Failed to delete curve key at index {i}: {ex.Message}");
-                    }
                 }
             }
             //CurveUtil.Refresh();
+        }
+        public static void RemoveAllCustomKeyFrames(ReplayCameraController cameraController)
+        {
+            if (cameraController?.keyFrames == null) return;
+
+            for (int i = cameraController.keyFrames.Count - 1; i >= 0; i--)
+            {
+                if (cameraController.keyFrames[i] is PlaybackSpeedKeyFrame || cameraController.keyFrames[i] is ImpulseKeyFrame)
+                {
+                    cameraController.keyFrames.RemoveAt(i);
+                }
+            }
+        }
+        public static List<KeyFrame> GetAllKeyFramesOfType(Type keyframeType)
+        {
+            List<KeyFrame> keyFrameList = new List<KeyFrame>();
+
+            ReplayCameraController cameraController = ReplayEditorController.Instance.cameraController;
+            for (int i = cameraController.keyFrames.Count - 1; i >= 0; i--)
+            {
+                if (cameraController.keyFrames[i].GetType() == keyframeType)
+                {
+                    keyFrameList.Add(cameraController.keyFrames[i]);
+                }
+            }
+            return keyFrameList;
         }
         public static void CreatePlaybackKeyFrame(float playbackspeed, float time)
         {
@@ -68,13 +93,20 @@ namespace ReplayFX.Keyframes
 
             //Main.Logger.Log("PlayBack KeyFrame added at: " + time);
         }
+        public static void CreateImpluseKeyFrame(CinemachineImpulseSource impulseSource, float time, float force, float amplitude, float frequency, float decay)
+        {
+            int index = FindKeyFrameInsertIndex(time);
+            ImpulseKeyFrame keyFrame = new ImpulseKeyFrame(impulseSource, time, force, amplitude, frequency, decay);
+            keyFrame.ApplyTo(ReplayEditorController.Instance.cameraController.VirtualCamera);
+            ReplayEditorController.Instance.cameraController.keyFrames.Insert(index, keyFrame);
 
-        public static void CreateImpluseKeyFrame(CinemachineImpulseSource impulseSource, float time)
+        }
+        public static void CreateImpluseKeyFrame_old(CinemachineImpulseSource impulseSource, float time, float force, float amplitude, float frequency, float decay)
         {
             int index = FindKeyFrameInsertIndex(time);
             KeyFrame keyFrame;
 
-            keyFrame = new ImpulseKeyFrame(impulseSource, time, Main.settings.impulse_force, Main.settings.impulse_source_amplitude, Main.settings.impulse_source_frequency, Main.settings.impulse_source_decaytime);
+            keyFrame = new ImpulseKeyFrame(impulseSource, time, force, amplitude, frequency, decay);
             keyFrame.ApplyTo(ReplayEditorController.Instance.cameraController.VirtualCamera);
             ReplayEditorController.Instance.cameraController.keyFrames.Insert(index, keyFrame);
 

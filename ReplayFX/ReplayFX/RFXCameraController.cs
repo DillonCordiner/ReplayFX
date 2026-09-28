@@ -34,7 +34,7 @@ namespace ReplayFX
         private NoiseSettings blankProfile;
 
         public List<NoiseSettings> noiseSettings = new List<NoiseSettings>();
-        private bool lastEnableNoise;
+        //private bool lastEnableNoise;
         private const string none = "None";
         public string targetProfile = none;
         public string currentProfile { get; private set; } = "";

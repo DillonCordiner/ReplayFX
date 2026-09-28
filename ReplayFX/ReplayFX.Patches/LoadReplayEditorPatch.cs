@@ -10,6 +10,8 @@ using System.Collections;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Photon.Pun;
 using SmoothKeyframeCurves;
+using ReplayFX.Utils;
+using ReplayFX.Keyframes;
 
 namespace ReplayFX.Patches
 {
@@ -52,15 +54,18 @@ namespace ReplayFX.Patches
         }
         
 
-        private static async void CustomLoadReplayEditor( ReplayEditorController __instance)
+        private static async void CustomLoadReplayEditor(ReplayEditorController __instance)
         {
             GameStateMachine.Instance.StartLoading(false, null, "Loading");
-            //Main.Logger.Log("[LoadReplayEditor] Start Loading ...");
+            Main.Logger.Log("[LoadReplayEditor] Start Loading ...");
 
             try
             {
+
                 ReplayPlaybackController playbackController = __instance.playbackController;
                 ReplayCameraController cameraController = __instance.cameraController;
+
+                CurveUtil.Refresh(); // tesing maybe remove
 
                 Task localReplayTask = playbackController.LoadReplay(ReplayRecorder.Instance.LocalPlayerFrames, ReplayRecorder.Instance.gamePlayEvents, PlayerController.Instance.characterCustomizer.CurrentCustomizations, false);
 
@@ -99,7 +104,7 @@ namespace ReplayFX.Patches
                 }
 
                 cameraController.DeleteKeyFramesOutside(playbackController.ClipStartTime,playbackController.ClipEndTime);
-                //Main.Logger.Log("[LoadReplayEditor] DeleteKeyFramesOutside complete...");
+                Main.Logger.Log("[LoadReplayEditor] DeleteKeyFramesOutside complete...");
                 ResetClipValuesDelegate(__instance);
                 cameraController.CamFollowKeyFrames = false;
 
@@ -132,7 +137,7 @@ namespace ReplayFX.Patches
                         CameraCurveResult transformData = cameraCurve.Evaluate( playbackController.CurrentTime );
                         cameraController.VirtualCamera.UpdateCameraState(Vector3.up, playbackController.CurrentTime);
                         cameraController.ApplyGameplayCameraTransform( transformData );
-                        //Main.Logger.Log("[LoadReplayEditor] ApplyGameplayCameraTransform complete...");
+                        Main.Logger.Log("[LoadReplayEditor] ApplyGameplayCameraTransform complete...");
                     }
                     catch (Exception ex)
                     {
@@ -153,6 +158,7 @@ namespace ReplayFX.Patches
                     IsPlayingRef(__instance) = true;
                     //Main.Logger.Log("[LoadReplayEditor] isPlaying" + IsPlayingRef(__instance));
                 }
+
                 cameraController.OnReplayEditorStart();
             }
             catch (Exception ex)
@@ -163,7 +169,7 @@ namespace ReplayFX.Patches
             finally
             {
                 GameStateMachine.Instance.StopLoading();
-                //Main.Logger.Log("[LoadReplayEditor] Loading complete ...");
+                Main.Logger.Log("[LoadReplayEditor] Loading complete ...");
             }
         }
 
