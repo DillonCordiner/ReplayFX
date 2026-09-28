@@ -32,6 +32,7 @@ namespace ReplayFX.Patches
                     try
                     {
                         __instance.keyFrames.RemoveAt(i);
+
                         keysDeleted = true;
                     }
                     catch (Exception ex)

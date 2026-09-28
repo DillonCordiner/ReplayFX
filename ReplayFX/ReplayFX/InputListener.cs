@@ -9,6 +9,7 @@ using ReplayFX.Keyframes;
 using Rewired.Integration.UnityUI;
 using UnityEngine.EventSystems;
 using ReplayFX.UI;
+using static Rewired.ComponentControls.Effects.RotateAroundAxis;
 
 namespace ReplayFX
 {
@@ -115,6 +116,7 @@ namespace ReplayFX
                     if (player.GetButtonDown(67))
                     {
                         Main.settings.replay_playback_speed += 0.01f;
+                        Main.settings.replay_playback_speed = (float)Math.Round(Main.settings.replay_playback_speed, 2);
                         holdDelayTimer = 0f;
                     }
                     else if (player.GetButton(67))
@@ -125,9 +127,14 @@ namespace ReplayFX
                             Main.settings.replay_playback_speed += speedChangeRate * Time.unscaledDeltaTime;
                         }
                     }
+                    else if (player.GetButtonUp(67))
+                    {
+                        Main.settings.replay_playback_speed = (float)Math.Round(Main.settings.replay_playback_speed, 2);
+                    }
                     else if (player.GetButtonDown(68))
                     {
                         Main.settings.replay_playback_speed -= 0.01f;
+                        Main.settings.replay_playback_speed = (float)Math.Round(Main.settings.replay_playback_speed, 2);
                         holdDelayTimer = 0f;
                     }
                     else if (player.GetButton(68))
@@ -137,6 +144,10 @@ namespace ReplayFX
                         {
                             Main.settings.replay_playback_speed -= speedChangeRate * Time.unscaledDeltaTime;
                         }
+                    }
+                    else if (player.GetButtonUp(68))
+                    {
+                        Main.settings.replay_playback_speed = (float)Math.Round(Main.settings.replay_playback_speed, 2);
                     }
                     else
                     {
